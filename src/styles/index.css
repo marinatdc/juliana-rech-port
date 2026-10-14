@@ -1,0 +1,210 @@
+:root {
+  /* Cores da identidade visual */
+  --color-background: #fcf9fa;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f9edef;
+  --color-surface-muted: #f4e5e8;
+  --color-text: #342923;
+  --color-text-strong: #351923;
+  --color-text-muted: #806c72;
+  --color-primary: #6e263f;
+  --color-nav-link: #9b646a;
+  --color-heading-highlight: #c18b89;
+  --color-glow-strong: rgb(193 139 137 / 20%);
+  --color-glow-soft: rgb(193 139 137 / 10%);
+  --color-primary-hover: #541b30;
+  --color-primary-soft: #f2dce3;
+  --color-accent: #c58a4a;
+  --color-accent-soft: #f8eddf;
+  --color-border: #ead9dd;
+  --color-border-strong: #d9bdc5;
+  --color-success: #52715d;
+  --color-error: #a0444b;
+
+  /* Fontes: serif editorial nos títulos e sans-serif legível no corpo */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+  /* Escala tipográfica */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: clamp(2.5rem, 5vw, 4.5rem);
+  --text-display: clamp(2.8rem, 7vw, 6.4rem);
+  --font-weight-medium: 500;
+  --leading-tight: 1.08;
+  --leading-heading: 1.2;
+  --leading-body: 1.7;
+
+  /* Espaçamento, cantos e elevação */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-pill: 999px;
+  --shadow-card: 0 8px 24px rgb(74 34 48 / 8%);
+  --shadow-raised: 0 14px 36px rgb(74 34 48 / 12%);
+
+  --content-width: 72rem;
+  --page-gutter: 4.5rem;
+  --transition-base: 180ms ease;
+
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: var(--leading-body);
+  font-weight: 400;
+  color: var(--color-text);
+  background: var(--color-background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  color-scheme: light;
+  font-optical-sizing: auto;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body);
+}
+
+button,
+input,
+textarea,
+select {
+  font-size: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  color: inherit;
+}
+
+a {
+  color: var(--color-primary);
+  text-underline-offset: 0.2em;
+}
+
+img,
+picture,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  color: var(--color-text-strong);
+  font-family: var(--font-heading);
+  font-weight: 500;
+  line-height: var(--leading-heading);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-4xl);
+  letter-spacing: -0.035em;
+  line-height: var(--leading-tight);
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  letter-spacing: -0.025em;
+}
+
+h3 {
+  font-size: var(--text-2xl);
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+small {
+  font-size: var(--text-sm);
+}
+
+.text-highlight {
+  color: var(--color-heading-highlight);
+}
+
+::selection {
+  color: var(--color-text-strong);
+  background: var(--color-primary-soft);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --page-gutter: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
