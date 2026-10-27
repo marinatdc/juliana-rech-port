@@ -1,48 +1,108 @@
-import { useState } from 'react'
-import fotoJuliana from '../assets/foto-juliana-heading-recortada.png'
-import logo from '../assets/logo-comp-s-fundo.png'
-import mandala from '../assets/logo-mandala-recortada.png'
+import { useEffect, useState, type MouseEvent } from 'react'
+import fotoJuliana from '../assets/foto-juliana-heading-recortada.webp'
+import logo from '../assets/logo-comp-s-fundo.webp'
+import mandala from '../assets/logo-mandala-recortada.webp'
+import AboutSection from '../components/AboutSection'
+import BookingSection from '../components/BookingSection'
+import CareCard, { type CareCardProps } from '../components/CareCard'
+import DomiciliarySection from '../components/DomiciliarySection'
+import ProcedureCard from '../components/ProcedureCard'
+import ReviewCard from '../components/ReviewCard'
+import SiteFooter from '../components/SiteFooter'
+import { procedures } from '../data/procedures'
+import { reviews } from '../data/reviews'
+import useScrollReveal from '../hooks/useScrollReveal'
 import './Home.css'
 
-const treatments = [
+const careAreas: CareCardProps[] = [
   {
-    number: '01',
-    title: 'Pré e pós-operatório',
-    text: 'Acompanhamento individualizado para cada fase da preparação e da recuperação cirúrgica.',
+    icon: 'scissors',
+    title: 'Cirurgias Plásticas (Pré e Pós)',
+    description: 'Para quem realizou ou realizará uma cirurgia plástica e busca um acompanhamento especializado, cuidadoso e individualizado em cada etapa da recuperação.',
+    outcome: 'Recuperação Acelerada',
   },
   {
-    number: '02',
-    title: 'Linfedema e lipedema',
-    text: 'Cuidado especializado para auxiliar no manejo dos sintomas, da mobilidade e do conforto.',
+    icon: 'shield',
+    title: 'Intercorrências Pós-Cirúrgicas',
+    description: 'Para pessoas que, após procedimento estético ou cirúrgico, percebem que a recuperação não está acontecendo como esperavam e apresentam fibroses, edema persistente, dor, cicatrizes e aumento de volume.',
+    outcome: 'Reparação Tecidual Precisa',
   },
   {
-    number: '03',
-    title: 'Gestação e pós-parto',
-    text: 'Fisioterapia adaptada às transformações e necessidades de cada etapa da maternidade.',
+    icon: 'maternity',
+    title: 'Gestantes e Pós-Parto',
+    description: 'Para mulheres que desejam cuidar do corpo em cada fase da maternidade, encontrando mais conforto durante a gestação e favorecendo a recuperação do corpo e da funcionalidade no pós-parto.',
+    outcome: 'Cuidado especializado à mulher na gestação e no pós-parto',
   },
   {
-    number: '04',
-    title: 'Dor e movimento',
-    text: 'Uma abordagem que considera a dor, a rotina e a funcionalidade de cada pessoa.',
+    icon: 'care',
+    title: 'Pessoas que Convivem com a Dor',
+    description: 'Para quem busca aliviar dores e desconfortos crônicos, recuperar movimentos e voltar a realizar suas atividades com mais liberdade e bem-estar.',
+    outcome: 'Alívio e Mobilidade',
   },
   {
-    number: '05',
-    title: 'Dermatofuncional',
-    text: 'Cuidados para a pele e os tecidos com avaliação e indicação individualizadas.',
+    icon: 'leaf',
+    title: 'Fisioterapia Dermatofuncional',
+    description: 'Para quem busca cuidar da pele e do corpo de forma individualizada, promovendo saúde, funcionalidade, bem-estar e autoestima em cada fase da vida.',
+    outcome: 'Saúde e Estética Integrada',
   },
   {
-    number: '06',
-    title: 'Intercorrências',
-    text: 'Avaliação fisioterapêutica de alterações que podem surgir após procedimentos.',
+    icon: 'drop',
+    title: 'Linfedema e Lipedema',
+    description: 'Para pessoas com linfedema ou lipedema que buscam um cuidado fisioterapêutico individualizado para favorecer o fluxo linfático, controlar o edema, aliviar desconfortos e proporcionar mais leveza.',
+    outcome: 'Conforto Linfático e Leveza',
   },
 ]
 
 function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isProceduresOpen, setIsProceduresOpen] = useState(false)
+  const [isReviewsStarSpinning, setIsReviewsStarSpinning] = useState(false)
+  useScrollReveal()
 
   function closeMenu() {
     setIsMenuOpen(false)
+    setIsProceduresOpen(false)
   }
+
+  function scrollToSection(section: HTMLElement) {
+    const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height ?? 0
+    const { top, height } = section.getBoundingClientRect()
+    const availableHeight = window.innerHeight - headerHeight - 48
+    const centeredTop = top + window.scrollY - (window.innerHeight - height) / 2
+    const topAligned = top + window.scrollY - headerHeight - 24
+    const scrollTop = section.id !== 'sobre' && height <= availableHeight ? centeredTop : topAligned
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    window.scrollTo({
+      top: Math.max(0, scrollTop),
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    })
+  }
+
+  function handleSectionNavigation(event: MouseEvent<HTMLAnchorElement>) {
+    closeMenu()
+    const href = event.currentTarget.getAttribute('href')
+    if (!href?.startsWith('#')) return
+
+    const section = document.getElementById(decodeURIComponent(href.slice(1)))
+    if (!section) return
+
+    event.preventDefault()
+    window.history.pushState(null, '', href)
+    scrollToSection(section)
+  }
+
+  useEffect(() => {
+    const hash = window.location.hash
+    if (!hash) return
+
+    const frame = window.requestAnimationFrame(() => {
+      const section = document.getElementById(decodeURIComponent(hash.slice(1)))
+      if (section) scrollToSection(section)
+    })
+
+    return () => window.cancelAnimationFrame(frame)
+  }, [])
 
   return (
     <>
@@ -67,22 +127,48 @@ function Home() {
           id="site-navigation"
           aria-label="Navegação principal"
         >
-          <a href="#sobre" onClick={closeMenu}>Quem sou</a>
-          <a href="#sobre" onClick={closeMenu}>Para quem</a>
-          <a href="#como-funciona" onClick={closeMenu}>Como funciona</a>
-          <a href="#tratamentos" onClick={closeMenu}>Tratamentos</a>
-          <a href="#contato" onClick={closeMenu}>Avaliações</a>
+          <a href="#sobre" onClick={handleSectionNavigation}>Quem sou</a>
+          <a href="#para-quem" onClick={handleSectionNavigation}>Para quem</a>
+          <a href="#como-funciona" onClick={handleSectionNavigation}>Como funciona</a>
+          <div className={`site-nav__dropdown${isProceduresOpen ? ' is-open' : ''}`}>
+            <div className="site-nav__procedure-controls">
+              <a className="site-nav__procedure-link" href="#tratamentos" onClick={handleSectionNavigation}>Procedimentos</a>
+              <button
+                className="site-nav__trigger"
+                type="button"
+                aria-label={isProceduresOpen ? 'Fechar lista de procedimentos' : 'Abrir lista de procedimentos'}
+                aria-expanded={isProceduresOpen}
+                aria-controls="home-procedures-menu"
+                onClick={() => setIsProceduresOpen((open) => !open)}
+              >
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="m2.5 4.5 3.5 3 3.5-3" /></svg>
+              </button>
+            </div>
+            <div className="site-nav__submenu" id="home-procedures-menu" hidden={!isProceduresOpen}>
+              <a href="#tratamentos" onClick={handleSectionNavigation}>Todos os procedimentos</a>
+              {procedures.map((procedure) => (
+                <a href={`/tratamentos/${procedure.slug}`} key={procedure.slug} onClick={closeMenu}>
+                  {procedure.title}
+                </a>
+              ))}
+            </div>
+          </div>
+          <a href="#avaliacoes" onClick={handleSectionNavigation}>Avaliações</a>
+          <a href="#atendimento-domiciliar" onClick={handleSectionNavigation}>Atendimento domiciliar</a>
+          <a className="site-nav__cta" href="#contato" onClick={handleSectionNavigation}>
+            Agendar avaliação <span aria-hidden="true">→</span>
+          </a>
         </nav>
       </header>
 
       <main>
         <section className="hero-section" id="inicio">
-          <div className="hero-section__content">
+          <div className="hero-section__content" data-reveal="up">
             <p className="eyebrow">FISIOTERAPEUTA - CREFITO 5/46886-F</p>
             <h1>
               Cuidando de quem sente<br />
               dor e restaurando o<br />
-              <span className="text-highlight">bem-estar</span>
+              <span className="text-highlight">bem-estar </span><br />
               há mais de <span className="text-highlight">25 anos</span> .
             </h1>
             <p className="hero-section__lead">
@@ -91,7 +177,7 @@ function Home() {
               vive no próprio corpo.
             </p>
           </div>
-          <div className="hero-art">
+          <div className="hero-art" data-reveal="right">
             <img
               className="hero-art__mandala"
               src={mandala}
@@ -103,6 +189,7 @@ function Home() {
             />
             <img
               className="hero-art__portrait"
+              fetchPriority="high"
               src={fotoJuliana}
               alt="Juliana Rech, fisioterapeuta"
               draggable={false}
@@ -112,73 +199,112 @@ function Home() {
           </div>
         </section>
 
-        <section className="intro-section section-wrap" id="sobre">
-          <p className="eyebrow">Um cuidado que começa pela escuta</p>
-          <div className="intro-section__grid">
-            <h2>O teu corpo tem uma história. O tratamento também deve considerar isso.</h2>
-            <div className="intro-section__copy">
-              <p>
-                Cada pessoa vive suas necessidades de um jeito. Por isso, o
-                acompanhamento começa com uma avaliação cuidadosa e um plano
-                pensado para a tua rotina, teus objetivos e teu momento.
-              </p>
-              <a className="text-link" href="#como-funciona">Como funciona o atendimento <span aria-hidden="true">→</span></a>
-            </div>
-          </div>
-        </section>
+        <AboutSection />
 
-        <section className="treatments-section" id="tratamentos">
+        <section className="care-section" id="para-quem">
           <div className="section-wrap">
-            <div className="section-heading">
-              <div>
-                <p className="eyebrow">Áreas de cuidado</p>
-                <h2>Tratamentos com atenção ao que importa para ti.</h2>
-              </div>
-              <p>Uma abordagem individualizada, guiada por avaliação e pelas necessidades de cada pessoa.</p>
+            <div className="care-section__heading" data-reveal="up">
+              <p className="eyebrow">Cada fase da vida</p>
+              <h2>Cuidados pensados para <span>cada fase da vida</span></h2>
+              <p>Abordagem clínica atenta e acolhedora, respeitando o momento biológico e funcional de cada paciente.</p>
             </div>
-            <div className="treatment-grid">
-              {treatments.map((treatment) => (
-                <article className="treatment-card" key={treatment.number}>
-                  <span className="treatment-card__number">{treatment.number}</span>
-                  <h3>{treatment.title}</h3>
-                  <p>{treatment.text}</p>
-                  <span className="treatment-card__arrow" aria-hidden="true">↗</span>
-                </article>
+            <div className="care-grid">
+              {careAreas.map((area) => (
+                <CareCard key={area.title} {...area} />
               ))}
             </div>
           </div>
         </section>
 
-        <section className="process-section section-wrap" id="como-funciona">
-          <div className="process-section__heading">
-            <p className="eyebrow">Como funciona</p>
-            <h2>Um caminho construído junto contigo.</h2>
-          </div>
-          <div className="process-steps">
-            <article><span>01</span><h3>Escuta e avaliação</h3><p>Conversamos sobre tua história, tua rotina e o que te trouxe até aqui.</p></article>
-            <article><span>02</span><h3>Plano individual</h3><p>Definimos objetivos e recursos de cuidado de acordo com a avaliação.</p></article>
-            <article><span>03</span><h3>Acompanhamento</h3><p>A evolução é acompanhada e o cuidado pode ser ajustado ao longo do processo.</p></article>
+        <section className="process-section" id="como-funciona" aria-labelledby="process-title">
+          <div className="section-wrap">
+            <div className="process-section__heading" data-reveal="up">
+              <p className="eyebrow">Jornada do paciente</p>
+              <h2 id="process-title">Como funciona o <span>seu</span> atendimento</h2>
+              <p>Sem fórmulas prontas ou tratamentos padronizados. Uma metodologia de três etapas com foco total no seu objetivo.</p>
+            </div>
+            <div className="process-steps">
+              <article data-reveal="up">
+                <span className="process-step__number">01</span>
+                <h3>Avaliação Individual &amp; Detalhada</h3>
+                <p>Análise aprofundada do histórico clínico, dor, tônus muscular e hábitos. Entendemos a raiz do incômodo com exame minucioso.</p>
+              </article>
+              <article className="process-step--featured" data-reveal="up">
+                <span className="process-step__number">02</span>
+                <h3>Protocolo Personalizado Exclusivo</h3>
+                <p>Um plano terapêutico individualizado, que combina as técnicas e os recursos mais adequados para ti, como Dry Needling, Taping, tecnologias dermatofuncionais e drenagem linfática, com etapas bem definidas e acompanhamento profissional em cada fase do tratamento.</p>
+              </article>
+              <article data-reveal="up">
+                <span className="process-step__number">03</span>
+                <h3>Acompanhamento e Conforto</h3>
+                <p>Monitoramento de cada sessão, mensuração de resultados e ajustes em tempo real para devolver sua qualidade de vida com tranquilidade e autonomia.</p>
+              </article>
+            </div>
           </div>
         </section>
 
-        <section className="contact-section" id="contato">
-          <div className="contact-section__inner">
-            <p className="eyebrow">Vamos conversar?</p>
-            <h2>O próximo passo começa com uma conversa.</h2>
-            <p>Encontre o melhor canal para entrar em contato e saber mais sobre o atendimento.</p>
-            <p className="contact-section__prompt">Entre em contato para conversar sobre o atendimento.</p>
+        <section className="procedures-section" id="tratamentos">
+          <div className="section-wrap">
+            <div className="procedures-section__heading">
+              <div data-reveal="up">
+                <p className="eyebrow">Quais tratamentos trabalho</p>
+                <h2>Procedimentos</h2>
+              </div>
+              <a
+                className="procedures-section__instagram"
+                data-reveal="up"
+                href="https://www.instagram.com/fisiojulianarech?cplk=c2Y5d2R0bnR0MHFy"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.8" r="0.8" />
+                </svg>
+                Acompanhar no Instagram
+              </a>
+            </div>
+            <div className="procedures-grid">
+              {procedures.map((procedure) => (
+                <ProcedureCard key={procedure.slug} procedure={procedure} />
+              ))}
+            </div>
           </div>
         </section>
+
+        <section className="reviews-section" id="avaliacoes" aria-labelledby="reviews-title">
+          <div className="section-wrap">
+            <div className="reviews-section__heading" data-reveal="up">
+              <p className="eyebrow">Resultados &amp; confiança</p>
+              <h2 id="reviews-title">O que dizem os pacientes atendidos</h2>
+              <p>Histórias reais de recuperação física, alívio da dor crônica e satisfação estética.</p>
+              <a
+                className={`reviews-section__more${isReviewsStarSpinning ? ' is-spinning' : ''}`}
+                href="https://www.google.com/maps/place/Dra.+Juliana+Rech+-+Fisioterapia+Dermatofuncional,+Acupuntura+Dry+Needling+%26+Est%C3%A9tica,+Taping/@-30.1122752,-51.2598625,17z/data=!4m18!1m9!3m8!1s0x9519684f6dba270f:0x7d58ed3dad2c8d84!2sDra.+Juliana+Rech+-+Fisioterapia+Dermatofuncional,+Acupuntura+Dry+Needling+%26+Est%C3%A9tica,+Taping!8m2!3d-30.1122799!4d-51.2549916!9m1!1b1!16s%2Fg%2F11h06vb6w!3m7!1s0x9519684f6dba270f:0x7d58ed3dad2c8d84!8m2!3d-30.1122799!4d-51.2549916!9m1!1b1!16s%2Fg%2F11h06vb6w?entry=ttu&g_ep=EgoyMDI2MTAxNC4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => {
+                  setIsReviewsStarSpinning(true)
+                  window.setTimeout(() => setIsReviewsStarSpinning(false), 700)
+                }}
+              >
+                <span aria-hidden="true">★</span> Ver mais avaliações <span aria-hidden="true">→</span>
+              </a>
+            </div>
+            <div className="reviews-grid">
+              {reviews.map((review) => (
+                <ReviewCard key={review.name} review={review} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <DomiciliarySection />
+        <BookingSection />
       </main>
 
-      <footer className="site-footer">
-        <a className="brand" href="#inicio">
-          <span className="brand__name">Juliana Rech</span>
-          <span className="brand__descriptor">Fisioterapia especializada</span>
-        </a>
-        <span>© {new Date().getFullYear()} Juliana Rech</span>
-        <a href="#inicio">Voltar ao início ↑</a>
-      </footer>
+      <SiteFooter />
     </>
   )
 }

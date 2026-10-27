@@ -61,7 +61,8 @@
   --shadow-raised: 0 14px 36px rgb(74 34 48 / 12%);
 
   --content-width: 72rem;
-  --page-gutter: 4.5rem;
+  --page-gutter: clamp(1.25rem, calc(50vw - 460px), 13rem);
+  --hero-horizontal-padding: var(--page-gutter);
   --transition-base: 180ms ease;
 
   font-family: var(--font-body);
@@ -88,7 +89,67 @@
 html {
   min-width: 320px;
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: clamp(7rem, 22vh, 12rem);
+}
+
+html.scroll-reveal-ready [data-reveal]:not(.is-revealed) {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+}
+
+html.scroll-reveal-ready [data-reveal='left']:not(.is-revealed) {
+  transform: translate3d(-30px, 0, 0);
+}
+
+html.scroll-reveal-ready [data-reveal='right']:not(.is-revealed) {
+  transform: translate3d(30px, 0, 0);
+}
+
+html.scroll-reveal-ready [data-reveal].is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 650ms ease, transform 650ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Pequenos atrasos dão entrada sequencial aos cards sem alongar a rolagem. */
+.care-grid [data-reveal]:nth-child(3n + 2),
+.procedures-grid [data-reveal]:nth-child(3n + 2),
+.reviews-grid [data-reveal]:nth-child(4n + 2),
+.locations-grid [data-reveal]:nth-child(even) {
+  transition-delay: 90ms;
+}
+
+.care-grid [data-reveal]:nth-child(3n),
+.procedures-grid [data-reveal]:nth-child(3n),
+.reviews-grid [data-reveal]:nth-child(4n + 3) {
+  transition-delay: 170ms;
+}
+
+.process-steps [data-reveal]:nth-child(2) {
+  transition-delay: 90ms;
+}
+
+.process-steps [data-reveal]:nth-child(3) {
+  transition-delay: 170ms;
+}
+
+.reviews-grid [data-reveal]:nth-child(4n) {
+  transition-delay: 250ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.scroll-reveal-ready [data-reveal],
+  html.scroll-reveal-ready [data-reveal]:not(.is-revealed),
+  html.scroll-reveal-ready [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero-section__content > *,
+  .hero-art__portrait {
+    animation: none;
+  }
 }
 
 body {
@@ -115,6 +176,19 @@ select {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button {
+  transition: transform var(--transition-base);
+}
+
+html body a:active,
+html body button:active,
+html.scroll-reveal-ready body a[data-reveal].is-revealed:active,
+html.scroll-reveal-ready body button[data-reveal].is-revealed:active {
+  transform: scale(0.92);
+  transition: transform 120ms ease;
 }
 
 button {
@@ -190,12 +264,6 @@ small {
 :focus-visible {
   outline: 3px solid var(--color-accent);
   outline-offset: 3px;
-}
-
-@media (max-width: 767px) {
-  :root {
-    --page-gutter: 1.25rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
