@@ -3,13 +3,13 @@ import { BsBuilding, BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs'
 import './SiteFooter.css'
 
 const navigation = [
-  ['Quem sou', '/#sobre'],
-  ['Para quem', '/#para-quem'],
-  ['Como funciona', '/#como-funciona'],
-  ['Procedimentos', '/#tratamentos'],
-  ['Avaliações', '/#avaliacoes'],
-  ['Atendimento domiciliar', '/#atendimento-domiciliar'],
-  ['Contatos', '/#contato'],
+  ['Quem sou', `${import.meta.env.BASE_URL}#sobre`],
+  ['Para quem', `${import.meta.env.BASE_URL}#para-quem`],
+  ['Como funciona', `${import.meta.env.BASE_URL}#como-funciona`],
+  ['Procedimentos', `${import.meta.env.BASE_URL}#tratamentos`],
+  ['Avaliações', `${import.meta.env.BASE_URL}#avaliacoes`],
+  ['Atendimento domiciliar', `${import.meta.env.BASE_URL}#atendimento-domiciliar`],
+  ['Contatos', `${import.meta.env.BASE_URL}#contato`],
 ]
 
 function SiteFooter() {
@@ -17,7 +17,7 @@ function SiteFooter() {
     <footer className="global-footer">
       <div className="global-footer__content">
         <section className="global-footer__about" data-reveal="up" aria-label="Sobre a Dra. Juliana Rech">
-          <a className="global-footer__brand" href="/#inicio" aria-label="Dra. Juliana Rech, início">
+          <a className="global-footer__brand" href={`${import.meta.env.BASE_URL}#inicio`} aria-label="Dra. Juliana Rech, início">
             <img src={logo} alt="Dra. Juliana Rech" />
             <span><strong>Dra. Juliana Rech</strong><small>CREFITO 5/46886-F</small></span>
           </a>
@@ -67,7 +67,7 @@ function SiteFooter() {
 
       <div className="global-footer__legal">
         <p>© {new Date().getFullYear()} Dra. Juliana Rech Fisioterapia. Todos os direitos reservados. CREFITO 5/46886-F.</p>
-        <div><a href="/#contato">Privacidade &amp; Termos</a><span aria-hidden="true">•</span><a href="/#contato">Ética Médica</a></div>
+        <div><a href={`${import.meta.env.BASE_URL}#contato`}>Privacidade &amp; Termos</a><span aria-hidden="true">•</span><a href={`${import.meta.env.BASE_URL}#contato`}>Ética Médica</a></div>
       </div>
     </footer>
   )

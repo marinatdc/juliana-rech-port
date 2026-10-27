@@ -28,6 +28,8 @@ O build gera HTML completo para a página inicial e os seis tratamentos, além d
 
 Antes do build de produção, configure `VITE_SITE_URL` com a origem HTTPS do domínio oficial, sem caminho (copie `.env.example` para `.env.local` ou defina a variável na hospedagem). O build usa esse valor para gerar URLs canônicas, `sitemap.xml` e a indicação do sitemap em `robots.txt`. Sem domínio, o build avisa e não inventa URLs públicas.
 
+O workflow `.github/workflows/deploy.yml` executa lint, build e validação SEO e publica no GitHub Pages a cada push na branch `develop` (também pode ser iniciado manualmente). Para este projeto, ele configura `VITE_SITE_URL=https://marinatdc.github.io` e o caminho-base `/juliana-rech-port/`, correspondente à URL do repositório. Em **Settings → Pages → Build and deployment**, selecione **GitHub Actions** como origem de publicação para habilitar esse workflow.
+
 Publique **todo o conteúdo de `dist`**, preservando as pastas dos tratamentos. Configure a hospedagem para servir o `index.html` de cada pasta e devolver `404.html` com status HTTP 404 para URLs inexistentes. Não use um redirecionamento global de todas as URLs para a página inicial. Escolha um único domínio (com ou sem www) e redirecione as variantes para ele com HTTP 301.
 
 Após publicar:

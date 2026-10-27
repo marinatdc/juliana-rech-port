@@ -19,5 +19,5 @@ export function SiteRoutes() {
 }
 
 export default function AppRoutes() {
-  return <BrowserRouter><SiteRoutes /></BrowserRouter>
+  return <BrowserRouter basename={import.meta.env.BASE_URL}><SiteRoutes /></BrowserRouter>
 }

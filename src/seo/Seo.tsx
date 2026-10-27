@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom'
 import socialImage from '../assets/logo-comp-s-fundo.png'
 import { procedures } from '../data/procedures'
 
-import { siteUrl } from './site'
+import { siteBasePath, siteRootUrl, siteUrl } from './site'
 
 const descriptions: Record<string, string> = {
   'pre-e-pos-operatorio': 'Fisioterapia pré e pós-operatória de cirurgias plásticas em Porto Alegre. Juliana Rech: cuidado individualizado para edema, cicatrizes e recuperação funcional.',
@@ -15,19 +15,23 @@ const descriptions: Record<string, string> = {
 
 export default function Seo() {
   const { pathname } = useLocation()
-  const path = pathname.replace(/\/$/, '') || '/'
+  const basePrefix = siteBasePath === '/' ? '' : siteBasePath.replace(/\/$/, '')
+  const routePath = basePrefix && (pathname === basePrefix || pathname.startsWith(`${basePrefix}/`))
+    ? pathname.slice(basePrefix.length)
+    : pathname
+  const path = routePath.replace(/\/$/, '') || '/'
   const procedure = procedures.find((item) => path === `/tratamentos/${item.slug}`)
   const home = path === '/'
   const found = home || !!procedure
   const title = home ? 'Juliana Rech | Fisioterapia em Porto Alegre' : procedure
     ? `${procedure.title} em Porto Alegre | Juliana Rech` : 'Página não encontrada | Juliana Rech'
   const description = procedure ? descriptions[procedure.slug] : 'Fisioterapeuta Juliana Rech em Porto Alegre: dermatofuncional, pré e pós-operatório, linfedema, lipedema e tratamento da dor. Consultórios na Tristeza e Menino Deus.'
-  const url = siteUrl ? `${siteUrl}${path === '/' ? '/' : path}` : undefined
+  const url = siteUrl ? `${siteRootUrl}${path === '/' ? '' : path.slice(1)}` : undefined
   const imageUrl = siteUrl ? `${siteUrl}${socialImage}` : undefined
   const provider = {
     '@type': 'MedicalBusiness',
     name: 'Juliana Rech — Fisioterapia',
-    ...(siteUrl ? { '@id': `${siteUrl}/#consultorio`, url: `${siteUrl}/` } : {}),
+    ...(siteUrl ? { '@id': `${siteRootUrl}#consultorio`, url: siteRootUrl } : {}),
     telephone: '+555185107415',
     ...(imageUrl ? { image: imageUrl, logo: imageUrl } : {}),
     areaServed: { '@type': 'City', name: 'Porto Alegre' },
@@ -40,9 +44,9 @@ export default function Seo() {
   const graph: object[] = [provider]
   if (url) graph.push({ '@type': 'WebPage', '@id': `${url}#pagina`, url, name: title, description, inLanguage: 'pt-BR', ...(imageUrl ? { primaryImageOfPage: imageUrl } : {}) })
   if (procedure && url) graph.push(
-    { '@type': 'Service', name: procedure.title, description, areaServed: 'Porto Alegre', provider: { '@id': `${siteUrl}/#consultorio` }, url },
+    { '@type': 'Service', name: procedure.title, description, areaServed: 'Porto Alegre', provider: { '@id': `${siteRootUrl}#consultorio` }, url },
     { '@type': 'BreadcrumbList', itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Início', item: `${siteUrl}/` },
+      { '@type': 'ListItem', position: 1, name: 'Início', item: siteRootUrl },
       { '@type': 'ListItem', position: 2, name: procedure.title, item: url },
     ] },
   )

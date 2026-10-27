@@ -147,7 +147,7 @@ function Home() {
             <div className="site-nav__submenu" id="home-procedures-menu" hidden={!isProceduresOpen}>
               <a href="#tratamentos" onClick={handleSectionNavigation}>Todos os procedimentos</a>
               {procedures.map((procedure) => (
-                <a href={`/tratamentos/${procedure.slug}`} key={procedure.slug} onClick={closeMenu}>
+                <a href={`${import.meta.env.BASE_URL}tratamentos/${procedure.slug}`} key={procedure.slug} onClick={closeMenu}>
                   {procedure.title}
                 </a>
               ))}

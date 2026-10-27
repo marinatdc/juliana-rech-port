@@ -1,6 +1,6 @@
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
-import { paths, render, siteUrl } from '../dist-ssr/entry-server.js'
+import { paths, render, siteBasePath, siteUrl } from '../dist-ssr/entry-server.js'
 
 if (siteUrl) {
   const parsed = new URL(siteUrl)
@@ -22,9 +22,10 @@ for (const path of [...paths, '/404']) {
 }
 if (siteUrl) {
   const escape = (value) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;')
-  await writeFile('dist/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${paths.map((path) => `<url><loc>${escape(siteUrl + path)}</loc></url>`).join('')}</urlset>\n`)
+  const pageUrl = (path) => `${siteUrl}${siteBasePath}${path === '/' ? '' : path.slice(1)}`
+  await writeFile('dist/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${paths.map((path) => `<url><loc>${escape(pageUrl(path))}</loc></url>`).join('')}</urlset>\n`)
 }
-await writeFile('dist/robots.txt', `User-agent: *\nAllow: /\n${siteUrl ? `\nSitemap: ${siteUrl}/sitemap.xml\n` : ''}`)
+await writeFile('dist/robots.txt', `User-agent: *\nAllow: /\n${siteUrl ? `\nSitemap: ${siteUrl}${siteBasePath}sitemap.xml\n` : ''}`)
 if (!siteUrl) console.warn('SEO: configure VITE_SITE_URL para gerar sitemap e URLs canônicas do domínio oficial.')
 await rm('dist-ssr', { recursive: true, force: true })
 console.log(`HTML completo gerado para ${paths.length} páginas e uma página 404.`)

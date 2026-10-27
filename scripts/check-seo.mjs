@@ -4,6 +4,9 @@ import { readFile, readdir } from 'node:fs/promises'
 
 const routes = await readdir('dist/tratamentos', { withFileTypes: true })
 const files = ['dist/index.html', ...routes.filter((entry) => entry.isDirectory()).map((entry) => `dist/tratamentos/${entry.name}/index.html`)]
+const basePath = process.env.VITE_BASE_PATH || '/'
+const basePrefix = basePath.endsWith('/') ? basePath : `${basePath}/`
+const assetPrefix = `${basePrefix}assets/`
 const titles = new Set()
 const descriptions = new Set()
 for (const file of files) {
@@ -20,13 +23,13 @@ for (const file of files) {
   descriptions.add(description[0][1])
   assert.match(html, /<h1\b/, `${file}: conteúdo principal deve existir sem JavaScript`)
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1, `${file}: deve haver um único H1`)
-  assert.match(html, /<a[^>]+href="\/tratamentos\//, `${file}: links rastreáveis para tratamentos`)
+  assert.ok(html.includes(`href="${basePrefix}tratamentos/`), `${file}: links rastreáveis para tratamentos`)
   for (const [, json] of html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)) {
     assert.equal(JSON.parse(json)['@context'], 'https://schema.org')
   }
   assert.match(html, /application\/ld\+json/, `${file}: dados estruturados ausentes`)
-  for (const [, asset] of html.matchAll(/(?:src|href)="(\/assets\/[^"#?]+)"/g)) {
-    assert.ok(existsSync(`dist${asset}`), `${file}: arquivo ausente ${asset}`)
+  for (const [, asset] of html.matchAll(new RegExp(`(?:src|href)="(${assetPrefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[^"#?]+)"`, 'g'))) {
+    assert.ok(existsSync(`dist${asset.slice(basePrefix.length - 1)}`), `${file}: arquivo ausente ${asset}`)
   }
   assert.doesNotMatch(html, /(?:src|href)="\/src\//, `${file}: não deve referenciar assets de desenvolvimento`)
 }

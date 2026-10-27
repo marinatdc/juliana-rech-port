@@ -105,9 +105,9 @@ function ProcedureDetail() {
           <span /><span /><span />
         </button>
         <nav className={`procedure-header__nav${menuOpen ? ' is-open' : ''}`} id="procedure-navigation" aria-label="Navegação principal">
-          <a href="/#sobre" onClick={closeMenu}>Quem sou</a>
-          <a href="/#para-quem" onClick={closeMenu}>Para quem</a>
-          <a href="/#como-funciona" onClick={closeMenu}>Como funciona</a>
+          <a href={`${import.meta.env.BASE_URL}#sobre`} onClick={closeMenu}>Quem sou</a>
+          <a href={`${import.meta.env.BASE_URL}#para-quem`} onClick={closeMenu}>Para quem</a>
+          <a href={`${import.meta.env.BASE_URL}#como-funciona`} onClick={closeMenu}>Como funciona</a>
           <div className={`procedure-header__dropdown${proceduresOpen ? ' is-open' : ''}`}>
             <button
               className="procedure-header__trigger"
@@ -120,15 +120,15 @@ function ProcedureDetail() {
               <svg viewBox="0 0 12 12" aria-hidden="true"><path d="m2.5 4.5 3.5 3 3.5-3" /></svg>
             </button>
             <div className="procedure-header__submenu" id="detail-procedures-menu" hidden={!proceduresOpen}>
-              <a href="/#tratamentos" onClick={closeMenu}>Todos os procedimentos</a>
+              <a href={`${import.meta.env.BASE_URL}#tratamentos`} onClick={closeMenu}>Todos os procedimentos</a>
               {procedures.map((item) => (
-                <a href={`/tratamentos/${item.slug}`} key={item.slug} onClick={closeMenu}>{item.title}</a>
+                <a href={`${import.meta.env.BASE_URL}tratamentos/${item.slug}`} key={item.slug} onClick={closeMenu}>{item.title}</a>
               ))}
             </div>
           </div>
-          <a href="/#avaliacoes" onClick={closeMenu}>Avaliações</a>
-          <a href="/#atendimento-domiciliar" onClick={closeMenu}>Atendimento domiciliar</a>
-          <a className="procedure-header__cta" href="/#contato" onClick={closeMenu}>
+          <a href={`${import.meta.env.BASE_URL}#avaliacoes`} onClick={closeMenu}>Avaliações</a>
+          <a href={`${import.meta.env.BASE_URL}#atendimento-domiciliar`} onClick={closeMenu}>Atendimento domiciliar</a>
+          <a className="procedure-header__cta" href={`${import.meta.env.BASE_URL}#contato`} onClick={closeMenu}>
             Agendar avaliação <span aria-hidden="true">→</span>
           </a>
         </nav>
