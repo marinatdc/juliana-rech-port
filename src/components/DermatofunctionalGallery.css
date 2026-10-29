@@ -1,5 +1,5 @@
 .dermato-gallery {
-  padding: clamp(3.5rem, 7vw, 6rem) var(--page-gutter);
+  padding: clamp(1.25rem, 4vw, 2.5rem) var(--page-gutter);
   background: linear-gradient(180deg, #fff9f9 0%, #f8eeef 100%);
 }
 
@@ -8,62 +8,147 @@
   margin-inline: auto;
 }
 
-.dermato-gallery__heading {
-  max-width: 48rem;
-  margin: 0 auto 2.25rem;
-  text-align: center;
+.dermato-gallery__controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
 }
 
-.dermato-gallery__eyebrow {
-  color: #bf9454;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.dermato-gallery__arrow,
+.dermato-gallery__close {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #dfc7cb;
+  border-radius: 50%;
+  color: #6e263f;
+  background: #fff;
+  cursor: pointer;
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, opacity 180ms ease, transform 180ms ease;
 }
 
-.dermato-gallery__heading h2 {
-  margin-top: 0.55rem;
-  color: #421425;
-  font-size: clamp(1.9rem, 3.5vw, 2.7rem);
-  line-height: 1.2;
+.dermato-gallery__arrow:hover:not(:disabled),
+.dermato-gallery__close:hover {
+  border-color: #6e263f;
+  color: #fff;
+  background: #6e263f;
+  transform: translateY(-1px);
 }
 
-.dermato-gallery__heading > p:last-child {
-  max-width: 42rem;
-  margin: 0.75rem auto 0;
-  color: #6b555d;
-  font-size: 0.92rem;
-  line-height: 1.7;
+.dermato-gallery__arrow:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.dermato-gallery__arrow svg,
+.dermato-gallery__close svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
 .dermato-gallery__grid {
-  columns: 3;
-  column-gap: 1.1rem;
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.2rem 0.15rem 0.9rem;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0.15rem;
+  scrollbar-color: #c9969d #f3e5e7;
+  scrollbar-width: thin;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dermato-gallery__grid:focus-visible {
+  border-radius: 0.8rem;
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .dermato-gallery__item {
-  display: inline-block;
-  width: 100%;
-  margin: 0 0 1.1rem;
+  flex: 0 0 clamp(15rem, 28vw, 22rem);
+  min-width: 0;
+  margin: 0;
   overflow: hidden;
-  break-inside: avoid;
+  scroll-snap-align: start;
   border: 1px solid rgb(217 189 197 / 58%);
   border-radius: 1rem;
   background: #fffdfd;
   box-shadow: 0 8px 22px rgb(74 34 48 / 7%);
 }
 
-.dermato-gallery__item img {
+.dermato-gallery__open {
+  position: relative;
   display: block;
   width: 100%;
-  height: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
   background: #f5eeee;
+  cursor: zoom-in;
+}
+
+.dermato-gallery__photo-frame {
+  display: grid;
+  height: clamp(12rem, 24vw, 18rem);
+  place-items: center;
+  padding: 0.5rem;
+}
+
+.dermato-gallery__photo-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.dermato-gallery__zoom {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: inline-flex;
+  min-height: 2rem;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid rgb(255 255 255 / 65%);
+  border-radius: 999px;
+  color: #54182d;
+  background: rgb(255 255 255 / 94%);
+  font-size: 0.7rem;
+  font-weight: 600;
+  opacity: 0.9;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.dermato-gallery__zoom svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.dermato-gallery__open:hover .dermato-gallery__zoom,
+.dermato-gallery__open:focus-visible .dermato-gallery__zoom {
+  opacity: 1;
+  transform: translateY(-2px);
 }
 
 .dermato-gallery__item figcaption {
   display: flex;
-  min-height: 2.8rem;
+  min-height: 2.75rem;
   align-items: center;
   gap: 0.6rem;
   padding: 0.6rem 0.85rem;
@@ -79,20 +164,95 @@
   letter-spacing: 0.06em;
 }
 
-.dermato-gallery__note {
-  margin-top: 0.5rem;
-  color: #806c72;
-  font-size: 0.72rem;
-  line-height: 1.55;
+.dermato-gallery__dialog {
+  width: min(92vw, 72rem);
+  max-width: 92vw;
+  max-height: 92dvh;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 1rem;
+  color: #342923;
+  background: transparent;
+}
+
+.dermato-gallery__dialog::backdrop {
+  background: rgb(35 19 25 / 82%);
+  backdrop-filter: blur(4px);
+}
+
+.dermato-gallery__lightbox {
+  position: relative;
+  display: grid;
+  max-height: 92dvh;
+  justify-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 1rem;
+  background: #fffafa;
+  box-shadow: 0 20px 70px rgb(0 0 0 / 28%);
+}
+
+.dermato-gallery__lightbox > img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(92dvh - 4.5rem);
+  object-fit: contain;
+  border-radius: 0.55rem;
+}
+
+.dermato-gallery__lightbox > p {
+  color: #634c54;
+  font-size: 0.8rem;
   text-align: center;
 }
 
-@media (max-width: 900px) {
-  .dermato-gallery__grid { columns: 2; }
+.dermato-gallery__close {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  z-index: 1;
+  border-color: rgb(255 255 255 / 75%);
+  box-shadow: 0 2px 10px rgb(35 19 25 / 16%);
 }
 
-@media (max-width: 480px) {
-  .dermato-gallery__grid { columns: 1; }
-  .dermato-gallery__heading { margin-bottom: 1.5rem; text-align: left; }
-  .dermato-gallery__heading > p:last-child { margin-inline: 0; }
+@media (max-width: 900px) {
+  .dermato-gallery__item {
+    flex-basis: min(18rem, 42vw);
+  }
+}
+
+@media (max-width: 560px) {
+  .dermato-gallery {
+    padding-block: 1.5rem;
+  }
+
+  .dermato-gallery__item {
+    flex-basis: min(78vw, 23rem);
+  }
+
+  .dermato-gallery__photo-frame {
+    height: min(66vw, 17rem);
+  }
+
+  .dermato-gallery__arrow {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .dermato-gallery__close {
+    top: 0.65rem;
+    right: 0.65rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dermato-gallery__arrow,
+  .dermato-gallery__close,
+  .dermato-gallery__zoom {
+    transition: none;
+  }
 }
