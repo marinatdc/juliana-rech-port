@@ -105,6 +105,14 @@ html.scroll-reveal-ready [data-reveal='right']:not(.is-revealed) {
   transform: translate3d(30px, 0, 0);
 }
 
+/* Lateral reveal transforms expand the mobile scroll area before elements enter view. */
+@media (max-width: 800px) {
+  html.scroll-reveal-ready [data-reveal='left']:not(.is-revealed),
+  html.scroll-reveal-ready [data-reveal='right']:not(.is-revealed) {
+    transform: translate3d(0, 24px, 0);
+  }
+}
+
 html.scroll-reveal-ready [data-reveal].is-revealed {
   opacity: 1;
   transform: translate3d(0, 0, 0);
