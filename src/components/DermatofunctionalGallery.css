@@ -1,0 +1,98 @@
+.dermato-gallery {
+  padding: clamp(3.5rem, 7vw, 6rem) var(--page-gutter);
+  background: linear-gradient(180deg, #fff9f9 0%, #f8eeef 100%);
+}
+
+.dermato-gallery__inner {
+  width: min(100%, var(--content-width));
+  margin-inline: auto;
+}
+
+.dermato-gallery__heading {
+  max-width: 48rem;
+  margin: 0 auto 2.25rem;
+  text-align: center;
+}
+
+.dermato-gallery__eyebrow {
+  color: #bf9454;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dermato-gallery__heading h2 {
+  margin-top: 0.55rem;
+  color: #421425;
+  font-size: clamp(1.9rem, 3.5vw, 2.7rem);
+  line-height: 1.2;
+}
+
+.dermato-gallery__heading > p:last-child {
+  max-width: 42rem;
+  margin: 0.75rem auto 0;
+  color: #6b555d;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.dermato-gallery__grid {
+  columns: 3;
+  column-gap: 1.1rem;
+}
+
+.dermato-gallery__item {
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 1.1rem;
+  overflow: hidden;
+  break-inside: avoid;
+  border: 1px solid rgb(217 189 197 / 58%);
+  border-radius: 1rem;
+  background: #fffdfd;
+  box-shadow: 0 8px 22px rgb(74 34 48 / 7%);
+}
+
+.dermato-gallery__item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #f5eeee;
+}
+
+.dermato-gallery__item figcaption {
+  display: flex;
+  min-height: 2.8rem;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.85rem;
+  color: #634c54;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.dermato-gallery__item figcaption span {
+  color: #bd8f4a;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.dermato-gallery__note {
+  margin-top: 0.5rem;
+  color: #806c72;
+  font-size: 0.72rem;
+  line-height: 1.55;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .dermato-gallery__grid { columns: 2; }
+}
+
+@media (max-width: 480px) {
+  .dermato-gallery__grid { columns: 1; }
+  .dermato-gallery__heading { margin-bottom: 1.5rem; text-align: left; }
+  .dermato-gallery__heading > p:last-child { margin-inline: 0; }
+}

@@ -33,6 +33,7 @@ import logo from '../assets/logo-comp-s-fundo.webp'
 import mandala from '../assets/logo-mandala-recortada.webp'
 import SectionBadge from '../components/SectionBadge'
 import ProcedureClosingSection from '../components/ProcedureClosingSection'
+import DermatofunctionalGallery from '../components/DermatofunctionalGallery'
 import SiteFooter from '../components/SiteFooter'
 import { procedureDetails } from '../data/procedureDetails'
 import { procedures } from '../data/procedures'
@@ -345,6 +346,8 @@ function ProcedureDetail() {
             </div>
           </section>
         )})}
+
+        {isDermato && <DermatofunctionalGallery />}
 
         <ProcedureClosingSection
           eyebrow={detail.closingEyebrow}
