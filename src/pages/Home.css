@@ -832,11 +832,16 @@
   }
 
   .reviews-section__more {
+    position: absolute;
     top: auto;
     right: 50%;
     bottom: 0;
     transform: translateX(50%);
     white-space: nowrap;
+  }
+
+  .reviews-section__more:hover {
+    transform: translate(50%, -2px);
   }
 
   .reviews-grid {

@@ -5,9 +5,9 @@ import './BookingSection.css'
 
 function BookingSection() {
   const [copyNotice, setCopyNotice] = useState('')
-  const phoneNumber = '+55 51 8510-7415'
-  const displayPhoneNumber = '(51) 8510-7415'
-  const phoneDigits = '555185107415'
+  const phoneNumber = '+55 51 98510-7415'
+  const displayPhoneNumber = '(51) 98510-7415'
+  const phoneDigits = '5551985107415'
 
   async function copyPhoneNumber() {
     try {
@@ -72,7 +72,7 @@ function BookingSection() {
 
             <a
               className="booking-action booking-action--phone"
-              href={`tel:${phoneDigits}`}
+              href={`tel:+${phoneDigits}`}
               onClick={handlePhoneClick}
               aria-label={`Ligar para ${phoneNumber} ou copiar o número no computador`}
             >

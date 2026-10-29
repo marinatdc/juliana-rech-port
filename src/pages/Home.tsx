@@ -23,7 +23,7 @@ const careAreas: CareCardProps[] = [
   },
   {
     icon: 'shield',
-    title: 'Intercorrências Pós-Cirúrgicas',
+    title: 'Intercorrências Pós-Cirúrgicas e Estéticas',
     description: 'Para pessoas que, após procedimento estético ou cirúrgico, percebem que a recuperação não está acontecendo como esperavam e apresentam fibroses, edema persistente, dor, cicatrizes e aumento de volume.',
     outcome: 'Reparação Tecidual Precisa',
   },

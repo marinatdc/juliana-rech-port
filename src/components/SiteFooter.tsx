@@ -29,7 +29,7 @@ function SiteFooter() {
             <a className="global-footer__social-facebook" href="https://www.facebook.com/JulianaRechFisioterapiaDermatofuncional/" target="_blank" rel="noreferrer" aria-label="Facebook">
               <BsFacebook aria-hidden="true" />
             </a>
-            <a className="global-footer__social-whatsapp" href={`https://wa.me/555185107415?text=${encodeURIComponent('Olá, gostaria de mais informações sobre o atendimento.')}`} target="_blank" rel="noreferrer" aria-label="WhatsApp">
+            <a className="global-footer__social-whatsapp" href={`https://wa.me/5551985107415?text=${encodeURIComponent('Olá, gostaria de mais informações sobre o atendimento.')}`} target="_blank" rel="noreferrer" aria-label="WhatsApp">
               <BsWhatsapp aria-hidden="true" />
             </a>
           </nav>
@@ -41,7 +41,7 @@ function SiteFooter() {
         </nav>
 
         <section className="global-footer__offices" data-reveal="up" aria-label="Consultórios e horários">
-          <h2>Onde atender</h2>
+          <h2>Onde atendo</h2>
           <h3><BsBuilding aria-hidden="true" />Ed. Business</h3>
           <p>Av. Wenceslau Escobar, 2800<br />Sala 603 - Tristeza<br />Porto Alegre - RS<br />CEP 91900-000</p>
           <h3><BsBuilding aria-hidden="true" />Ed. Comendador Luigi Gerace</h3>
@@ -58,7 +58,7 @@ function SiteFooter() {
           <p className="global-footer__contact-description">Dúvidas sobre protocolos pré e pós-operatórios ou agendamento de avaliações clínicas individualizadas.</p>
           <a
             className="global-footer__contact-button"
-            href={`https://wa.me/555185107415?text=${encodeURIComponent('Olá, gostaria de mais informações sobre o atendimento.')}`}
+            href={`https://wa.me/5551985107415?text=${encodeURIComponent('Olá, gostaria de mais informações sobre o atendimento.')}`}
             target="_blank"
             rel="noreferrer"
           >Agendar <span aria-hidden="true">➤</span></a>

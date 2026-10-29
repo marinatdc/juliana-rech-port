@@ -32,7 +32,7 @@ export default function Seo() {
     '@type': 'MedicalBusiness',
     name: 'Juliana Rech — Fisioterapia',
     ...(siteUrl ? { '@id': `${siteRootUrl}#consultorio`, url: siteRootUrl } : {}),
-    telephone: '+555185107415',
+    telephone: '+5551985107415',
     ...(imageUrl ? { image: imageUrl, logo: imageUrl } : {}),
     areaServed: { '@type': 'City', name: 'Porto Alegre' },
     address: [

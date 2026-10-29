@@ -2,7 +2,6 @@ import { useState } from 'react'
 import './LocationsSection.css'
 
 interface Location {
-  type: string
   title: string
   district: string
   address: string
@@ -14,7 +13,6 @@ interface Location {
 
 const locations: Location[] = [
   {
-    type: 'Consultório principal',
     title: 'Ed. Business',
     district: 'Bairro Tristeza, Zona Sul',
     address: 'Av. Wenceslau Escobar, 2800',
@@ -24,7 +22,6 @@ const locations: Location[] = [
     mapUrl: 'https://www.google.com/maps?q=-30.1122799,-51.2549916&z=16&output=embed',
   },
   {
-    type: 'Consultório secundário',
     title: 'Ed. Comendador Luigi Gerace',
     district: 'Menino Deus, Porto Alegre',
     address: 'R. José de Alencar, 386',
@@ -46,7 +43,7 @@ function LocationsSection({ compact = false }: { compact?: boolean }) {
 
     try {
       await navigator.clipboard.writeText(fullAddress)
-      setCopiedAddress(location.type)
+      setCopiedAddress(location.title)
       window.setTimeout(() => setCopiedAddress(null), 2000)
     } catch {
       setCopiedAddress(null)
@@ -70,14 +67,14 @@ function LocationsSection({ compact = false }: { compact?: boolean }) {
 
         <div className="locations-grid">
           {locations.map((location) => (
-            <article className="location-card" data-reveal="up" key={location.type}>
+            <article className="location-card" data-reveal="up" key={location.title}>
               <div className="location-card__map">
                 {location.mapUrl ? (
                   <>
-                    {mapStates[location.type] !== 'loaded' && (
+                    {mapStates[location.title] !== 'loaded' && (
                       <div className="location-card__map-skeleton" aria-hidden="true" />
                     )}
-                    {mapStates[location.type] === 'error' && (
+                    {mapStates[location.title] === 'error' && (
                       <div className="location-card__map-error" role="status">
                         <span>Não foi possível carregar o mapa.</span>
                         <a
@@ -90,31 +87,24 @@ function LocationsSection({ compact = false }: { compact?: boolean }) {
                       </div>
                     )}
                     <iframe
-                      className={mapStates[location.type] === 'loaded' ? 'is-loaded' : ''}
+                      className={mapStates[location.title] === 'loaded' ? 'is-loaded' : ''}
                       src={location.mapUrl}
                       title={`Mapa de ${location.title}, ${location.address}`}
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
                       allowFullScreen
-                      onLoad={() => setMapStates((maps) => ({ ...maps, [location.type]: 'loaded' }))}
-                      onError={() => setMapStates((maps) => ({ ...maps, [location.type]: 'error' }))}
+                      onLoad={() => setMapStates((maps) => ({ ...maps, [location.title]: 'loaded' }))}
+                      onError={() => setMapStates((maps) => ({ ...maps, [location.title]: 'error' }))}
                     />
                   </>
                 ) : (
-                  <span role="img" aria-label={`Mapa de ${location.type}, aguardando endereço`}>
+                  <span role="img" aria-label={`Mapa de ${location.title}, aguardando endereço`}>
                     Mapa a configurar
                   </span>
                 )}
               </div>
 
               <div className="location-card__details">
-                <span className="location-card__type">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 22s8-7.2 8-13a8 8 0 1 0-16 0c0 5.8 8 13 8 13Z" />
-                    <circle cx="12" cy="9" r="2.6" />
-                  </svg>
-                  {location.type}
-                </span>
                 <h3>{location.title}</h3>
                 <p className="location-card__district">{location.district}</p>
 
@@ -132,7 +122,7 @@ function LocationsSection({ compact = false }: { compact?: boolean }) {
                     <span className="location-card__address-content">
                       <span className="location-card__address-main">{location.address}</span>
                       <span className="location-card__address-details">{location.addressDetails ?? location.district}</span>
-                      {copiedAddress === location.type && (
+                      {copiedAddress === location.title && (
                         <span className="location-card__copy-status" role="status">Endereço copiado</span>
                       )}
                     </span>

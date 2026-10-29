@@ -7,7 +7,7 @@ function WhatsAppFloat() {
   return (
     <a
       className="whatsapp-float"
-      href={`https://wa.me/555185107415?text=${message}`}
+      href={`https://wa.me/5551985107415?text=${message}`}
       target="_blank"
       rel="noreferrer"
       aria-label="Conversar pelo WhatsApp com Juliana Rech"

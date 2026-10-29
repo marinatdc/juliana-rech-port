@@ -36,7 +36,7 @@ function DomiciliarySection() {
           <p className="domiciliary-section__promise">Cuidado, conforto e acolhimento</p>
           <a
             className="domiciliary-section__cta"
-            href={`https://wa.me/555185107415?text=${encodeURIComponent('Olá, gostaria de solicitar uma avaliação domiciliar.')}`}
+            href={`https://wa.me/5551985107415?text=${encodeURIComponent('Olá, gostaria de solicitar uma avaliação domiciliar.')}`}
             target="_blank"
             rel="noreferrer"
           >
