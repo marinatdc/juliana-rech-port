@@ -166,6 +166,9 @@ function ProcedureDetail() {
           return (
           <section
             className={`procedure-detail__section${sectionIndex % 2 === 0 ? ' is-soft' : ''}${isPrePost ? ` procedure-detail__section--pre-post-${sectionIndex + 1}` : ''}${isIntercorrencias ? ` procedure-detail__section--intercorrencias-${sectionIndex + 1}` : ''}${isMaternity ? ` procedure-detail__section--maternity-${sectionIndex + 1}` : ''}${isPain ? ` procedure-detail__section--pain-${sectionIndex + 1}` : ''}${isDermato ? ` procedure-detail__section--dermato-${sectionIndex + 1}` : ''}${isLymphedema ? ` procedure-detail__section--${sectionIndex + 1}` : ''}`}
+            style={isPrePost && sectionIndex === 1 ? {
+              backgroundImage: `linear-gradient(100deg, rgb(255 250 250 / 94%) 0%, rgb(248 237 239 / 86%) 48%, rgb(248 237 239 / 72%) 100%), url("${maternityLymphatic960}")`,
+            } : undefined}
             key={section.title}
           >
             <div className="procedure-detail__section-inner">

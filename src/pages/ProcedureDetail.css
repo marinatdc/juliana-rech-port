@@ -834,6 +834,8 @@
 
 .procedure-detail--pre-post .procedure-detail__section--pre-post-2 {
   background: #f8edef;
+  background-position: center 42%;
+  background-size: cover;
 }
 
 .procedure-detail--pre-post .procedure-detail__section--pre-post-2 .procedure-detail__cards {
