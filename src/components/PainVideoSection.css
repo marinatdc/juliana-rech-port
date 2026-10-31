@@ -56,6 +56,7 @@
   width: min(100%, 15rem);
   margin-inline: auto;
   overflow: hidden;
+  isolation: isolate;
   border-radius: 0.85rem;
   background: #2c2226;
   aspect-ratio: 9 / 16;
@@ -67,19 +68,139 @@
   height: 100%;
   object-fit: cover;
   background: #2c2226;
+  cursor: pointer;
+}
+
+.pain-videos__player-wrap::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(31 23 27 / 30%) 0%, transparent 22%, transparent 58%, rgb(31 23 27 / 62%) 100%);
+  content: '';
+  pointer-events: none;
+}
+
+.pain-videos__label {
+  position: absolute;
+  z-index: 2;
+  top: 0.65rem;
+  left: 0.65rem;
+  display: inline-flex;
+  max-width: calc(100% - 3.8rem);
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.5rem;
+  overflow: hidden;
+  border-radius: 999px;
+  color: #5a1c2f;
+  background: rgb(255 250 249 / 92%);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.pain-videos__label svg {
+  width: 0.72rem;
+  height: 0.72rem;
+  flex: 0 0 auto;
+  color: #bf914d;
 }
 
 .pain-videos__duration {
   position: absolute;
+  z-index: 2;
   top: 0.65rem;
   right: 0.65rem;
-  padding: 0.2rem 0.45rem;
-  border-radius: 0.35rem;
+  padding: 0.25rem 0.4rem;
+  border-radius: 999px;
   color: #fff;
   background: rgb(31 23 27 / 72%);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-variant-numeric: tabular-nums;
   pointer-events: none;
+}
+
+.pain-videos__play {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 3.25rem;
+  height: 3.25rem;
+  place-items: center;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgb(255 255 255 / 75%);
+  border-radius: 50%;
+  color: #5a1c2f;
+  background: rgb(255 250 249 / 92%);
+  box-shadow: 0 6px 20px rgb(31 23 27 / 22%);
+  cursor: pointer;
+  transition: opacity 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.pain-videos__play svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+  stroke-width: 1.8;
+}
+
+.pain-videos__play:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+  background: #fff;
+}
+
+.pain-videos__play:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+}
+
+.pain-videos__player-wrap.is-playing .pain-videos__play {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pain-videos__player-wrap.is-playing .pain-videos__play:hover,
+.pain-videos__player-wrap.is-playing .pain-videos__play:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pain-videos__meta {
+  position: absolute;
+  z-index: 2;
+  right: 0.7rem;
+  bottom: 0.7rem;
+  left: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: #fffaf9;
+  font-size: 0.58rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-shadow: 0 1px 5px rgb(31 23 27 / 40%);
+  pointer-events: none;
+}
+
+.pain-videos__meta span {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.pain-videos__meta svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex: 0 0 auto;
 }
 
 .pain-videos__caption {
@@ -135,7 +256,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pain-videos__player-wrap video {
-    scroll-behavior: auto;
+  .pain-videos__play {
+    transition: none;
   }
 }
