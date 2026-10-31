@@ -25,9 +25,11 @@ const treatmentVideos: TreatmentVideo[] = [
 interface PainVideoPlayerProps {
   item: TreatmentVideo
   featured?: boolean
+  explanatory?: boolean
+  activity?: string
 }
 
-function PainVideoPlayer({ item, featured = false }: PainVideoPlayerProps) {
+function PainVideoPlayer({ item, featured = false, explanatory = false, activity = 'Exercício & Ajuste' }: PainVideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
@@ -44,7 +46,7 @@ function PainVideoPlayer({ item, featured = false }: PainVideoPlayerProps) {
   }
 
   return (
-    <div className={`pain-videos__player-wrap${featured ? ' pain-videos__player-wrap--featured' : ''}${isPlaying ? ' is-playing' : ''}`}>
+    <div className={`pain-videos__player-wrap${featured ? ' pain-videos__player-wrap--featured' : ''}${explanatory ? ' pain-videos__player-wrap--explanatory' : ''}${isPlaying ? ' is-playing' : ''}`}>
       <video
         ref={videoRef}
         muted
@@ -66,11 +68,12 @@ function PainVideoPlayer({ item, featured = false }: PainVideoPlayerProps) {
         <source src={item.src} type="video/mp4" />
         Seu navegador não oferece reprodução de vídeo.
       </video>
-      <span className="pain-videos__label">
-        <FiActivity aria-hidden="true" />
-        Demonstração prática
+      <span className={`pain-videos__label${explanatory ? ' pain-videos__label--explanatory' : ''}`}>
+        {!explanatory && <FiActivity aria-hidden="true" />}
+        {explanatory ? 'Vídeo explicativo' : 'Demonstração prática'}
       </span>
-      <span className="pain-videos__duration" aria-label={'Duração: ' + item.duration}>{item.duration}</span>
+      {explanatory && <span className="pain-videos__activity">{activity}</span>}
+      <span className={`pain-videos__duration${explanatory ? ' pain-videos__duration--lower' : ''}`} aria-label={'Duração: ' + item.duration}>{item.duration}</span>
       <button
         className="pain-videos__play"
         type="button"
@@ -105,6 +108,20 @@ export function PainNeedlingVideo() {
   if (!item) return null
 
   return <PainVideoPlayer item={item} featured />
+}
+
+export function PainManualVideo() {
+  const item = treatmentVideos[0]
+  if (!item) return null
+
+  return <PainVideoPlayer item={item} explanatory />
+}
+
+export function PainTherapeuticVideo() {
+  const item = treatmentVideos[1]
+  if (!item) return null
+
+  return <PainVideoPlayer item={item} explanatory activity="Recurso terapêutico" />
 }
 
 function PainVideoSection() {
