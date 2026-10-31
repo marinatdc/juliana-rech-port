@@ -1131,13 +1131,13 @@
 }
 
 .procedure-detail--pre-post .procedure-detail__cards--rehab {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.7rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
 }
 
 .procedure-detail--pre-post .procedure-detail__card--rehab {
   min-height: 32.5rem;
-  padding: clamp(2.6rem, 3.5vw, 3.25rem);
+  padding: clamp(1.5rem, 2.2vw, 2rem);
   padding-bottom: 1.75rem;
   border: 1px solid rgb(234 217 221 / 35%);
   border-radius: 1.15rem;
@@ -1147,6 +1147,96 @@
 
 .procedure-detail--pre-post .procedure-detail__card--rehab:nth-child(2) {
   background: #fcf2f4;
+}
+
+.procedure-detail--pre-post .procedure-detail__card--rehab-photo {
+  position: relative;
+  min-height: 32.5rem;
+  overflow: hidden;
+  padding: 0.8rem;
+  border-color: rgb(234 217 221 / 45%);
+  background: #fff;
+}
+
+.procedure-detail__rehab-photo-frame {
+  position: relative;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+  border-radius: 0.8rem;
+  background: #f6e9ec;
+}
+
+.procedure-detail__rehab-photo-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  animation: rehab-photo-enter 420ms ease both;
+}
+
+.procedure-detail__rehab-photo-count {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.7rem;
+  padding: 0.32rem 0.55rem;
+  border-radius: 999px;
+  color: #fff;
+  background: rgb(50 21 31 / 72%);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+
+.procedure-detail__rehab-photo-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  padding: 0.6rem 0.25rem 0.05rem;
+}
+
+.procedure-detail__rehab-photo-controls > button {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #ead9dd;
+  border-radius: 50%;
+  color: #54182d;
+  background: #fffafa;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.procedure-detail__rehab-photo-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.procedure-detail__rehab-photo-dots button {
+  width: 0.48rem;
+  height: 0.48rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #d9b8c0;
+  cursor: pointer;
+}
+
+.procedure-detail__rehab-photo-dots button[aria-current="true"] {
+  background: #a96875;
+  box-shadow: 0 0 0 3px #f6e8eb;
+}
+
+@keyframes rehab-photo-enter {
+  from { opacity: 0.45; }
+  to { opacity: 1; }
 }
 
 .procedure-detail--pre-post .procedure-detail__rehab-label {
@@ -1214,6 +1304,28 @@
   background: #fbf1f3;
   font-size: 0.7rem;
   font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .procedure-detail--pre-post .procedure-detail__cards--rehab {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .procedure-detail--pre-post .procedure-detail__card--rehab-photo {
+    grid-column: 1 / -1;
+    min-height: 25rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .procedure-detail--pre-post .procedure-detail__cards--rehab {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .procedure-detail--pre-post .procedure-detail__card--rehab-photo {
+    grid-column: auto;
+    min-height: 28rem;
+  }
 }
 
 html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-detail__card--tissue[data-reveal].is-revealed,
@@ -2620,10 +2732,9 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 }
 
 .procedure-detail--dermato .procedure-detail__section--dermato-1 .procedure-detail__cards {
-  --dermato-pillar-expansion: clamp(0px, calc((100vw - 2.5rem - 100%) / 2), 6rem);
-  width: min(calc(100% + var(--dermato-pillar-expansion) + var(--dermato-pillar-expansion)), 78rem);
-  margin-inline: calc(0px - var(--dermato-pillar-expansion));
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  width: 100%;
+  margin-inline: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -2633,29 +2744,6 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   border: 0;
   border-radius: 1rem;
   box-shadow: 0 8px 18px rgb(74 34 48 / 6%);
-}
-
-.procedure-detail__dermato-photo-card {
-  position: relative;
-  align-self: stretch;
-  width: 100%;
-  min-height: 16.25rem;
-  min-width: 0;
-  margin: 0;
-  overflow: hidden;
-  border-radius: 1rem;
-  background: #e8d5d6;
-  box-shadow: 0 8px 18px rgb(74 34 48 / 6%);
-}
-
-.procedure-detail__dermato-photo-card img {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
 }
 
 .procedure-detail__dermato-icon {
@@ -2706,9 +2794,6 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .procedure-detail__dermato-photo-card {
-    min-height: 16.25rem;
-  }
 }
 
 @media (max-width: 520px) {
@@ -2724,9 +2809,6 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
     min-height: 14rem;
   }
 
-  .procedure-detail__dermato-photo-card {
-    min-height: 14rem;
-  }
 }
 
 .procedure-detail--dermato .procedure-detail__section--dermato-2 {
@@ -3214,6 +3296,40 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   grid-column: 1;
   grid-row: 1;
   align-self: stretch;
+  width: 100%;
+}
+
+.procedure-detail--maternity .procedure-detail__feature-row--maternity.is-text-only:has(.procedure-detail__maternity-inline-tags) {
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.procedure-detail--maternity .procedure-detail__feature-card--maternity .procedure-detail__maternity-inline-tags {
+  display: flex;
+  grid-column: 2 / -1;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.procedure-detail--maternity .procedure-detail__maternity-inline-tags li {
+  display: inline-flex;
+  min-height: 2.15rem;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.7rem;
+  color: #7f4757;
+  background: #fbe9ed;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.procedure-detail__maternity-inline-tags li svg {
+  flex: 0 0 auto;
+  color: #c99b55;
 }
 
 .procedure-detail--maternity .procedure-detail__feature-row--maternity.is-text-only .procedure-detail__maternity-visual-note {

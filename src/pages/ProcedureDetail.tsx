@@ -38,6 +38,10 @@ import maternityTaping480 from '../assets/gestantes/optimized/maternity-taping-4
 import maternityTaping960 from '../assets/gestantes/optimized/maternity-taping-960.webp'
 import fd2_480 from '../assets/fisio-dermato/optimized/fd_2-480.webp'
 import fd2_960 from '../assets/fisio-dermato/optimized/fd_2-960.webp'
+import rehabMobility1 from '../assets/pre-pos-operatorio/optimized/rehab-mobility-1.webp'
+import rehabMobility2 from '../assets/pre-pos-operatorio/optimized/rehab-mobility-2.webp'
+import rehabMobility3 from '../assets/pre-pos-operatorio/optimized/rehab-mobility-3.webp'
+import rehabMobility4 from '../assets/pre-pos-operatorio/optimized/rehab-mobility-4.webp'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import logo from '../assets/logo-comp-s-fundo.webp'
 import SectionBadge from '../components/SectionBadge'
@@ -49,6 +53,62 @@ import { procedureDetails } from '../data/procedureDetails'
 import { procedures } from '../data/procedures'
 import useScrollReveal from '../hooks/useScrollReveal'
 import './ProcedureDetail.css'
+
+const rehabMobilityPhotos = [
+  { src: rehabMobility1, alt: 'Atendimento fisioterapêutico no pós-operatório' },
+  { src: rehabMobility2, alt: 'Registro da evolução corporal no pós-operatório' },
+  { src: rehabMobility3, alt: 'Aplicação de recurso fisioterapêutico no pós-operatório' },
+  { src: rehabMobility4, alt: 'Taping terapêutico durante a recuperação pós-operatória' },
+]
+
+function PostRehabPhotoCarousel() {
+  const [activePhoto, setActivePhoto] = useState(0)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    if (paused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const timer = window.setInterval(() => {
+      setActivePhoto((current) => (current + 1) % rehabMobilityPhotos.length)
+    }, 4500)
+    return () => window.clearInterval(timer)
+  }, [paused])
+
+  const movePhoto = (direction: number) => {
+    setActivePhoto((current) => (current + direction + rehabMobilityPhotos.length) % rehabMobilityPhotos.length)
+  }
+
+  return (
+    <article
+      className="procedure-detail__card procedure-detail__card--rehab-photo"
+      data-reveal="up"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false)
+      }}
+      aria-label="Fotos da recuperação pós-operatória"
+    >
+      <div className="procedure-detail__rehab-photo-frame">
+        <img
+          key={rehabMobilityPhotos[activePhoto].src}
+          src={rehabMobilityPhotos[activePhoto].src}
+          alt={rehabMobilityPhotos[activePhoto].alt}
+          loading="lazy"
+          decoding="async"
+        />
+        <span className="procedure-detail__rehab-photo-count" aria-live="polite">{String(activePhoto + 1).padStart(2, '0')} / {String(rehabMobilityPhotos.length).padStart(2, '0')}</span>
+      </div>
+      <div className="procedure-detail__rehab-photo-controls" aria-label="Controles das fotos">
+        <button type="button" onClick={() => movePhoto(-1)} aria-label="Ver foto anterior">‹</button>
+        <div className="procedure-detail__rehab-photo-dots">
+          {rehabMobilityPhotos.map((photo, index) => <button key={photo.src} type="button" aria-label={`Ver foto ${index + 1}`} aria-current={activePhoto === index} onClick={() => setActivePhoto(index)} />)}
+        </div>
+        <button type="button" onClick={() => movePhoto(1)} aria-label="Ver próxima foto">›</button>
+      </div>
+    </article>
+  )
+}
 
 function renderIntroduction(paragraph: string) {
   return paragraph.split(/(__\*\*.*?\*\*__|\*\*.*?\*\*|__.*?__)/g).map((part, index) => {
@@ -233,7 +293,7 @@ function ProcedureDetail() {
                         : null
                     const hasMaternityVisualNote = isMaternity && (
                       (sectionIndex === 0 && (index === 1 || index === 2))
-                      || (sectionIndex === 1 && (index === 0 || index === 1 || index === 2))
+                      || (sectionIndex === 1 && (index === 0 || index === 2))
                     )
                     const isMaternityTextOnly = isMaternity && !maternityPhoto
 
@@ -253,7 +313,6 @@ function ProcedureDetail() {
                       </div>}
                       {isMaternity && sectionIndex === 0 && (index === 1 || index === 2) && item.note && <aside className="procedure-detail__maternity-visual-note">{index === 1 ? <FiMoon aria-hidden="true" /> : <BiCertification aria-hidden="true" />}<span>{item.note}</span></aside>}
                       {isMaternity && sectionIndex === 1 && index === 0 && item.note && <aside className="procedure-detail__maternity-visual-note is-quote"><span>{item.note}</span></aside>}
-                      {isMaternity && sectionIndex === 1 && index === 1 && item.tags && <aside className="procedure-detail__maternity-visual-note is-tags">{item.tags.map((tag, tagIndex) => <span key={tag}>{tagIndex === 0 ? <FiSun aria-hidden="true" /> : <FiActivity aria-hidden="true" />}{tag}</span>)}</aside>}
                       {isMaternity && sectionIndex === 1 && index === 2 && item.noteTitle && item.noteBody && <aside className="procedure-detail__maternity-visual-note is-focus"><strong>{item.noteTitle}</strong><span>{item.noteBody}</span></aside>}
                       <div className={`procedure-detail__feature-card${isMaternity ? ' procedure-detail__feature-card--maternity' : ''}${hasMaternityVisualNote ? ' has-external-note' : ''}`}>
                         {isMaternity && <span className="procedure-detail__maternity-icon" aria-hidden="true">{sectionIndex === 0 ? index === 0 ? <GiMeditation /> : index === 1 ? <PiDropBold /> : <PiDotsSixBold /> : index === 0 ? <LuLayers /> : index === 1 ? <CgGym /> : index === 2 ? <PiDotsSixBold /> : index === 3 ? <PiBandaidsFill /> : <PiDotsSixBold />}</span>}
@@ -261,6 +320,7 @@ function ProcedureDetail() {
                         <h3>{item.title}</h3>
                         <p>{item.body}</p>
                         {item.extraBody?.split('\n\n').map((paragraph) => <p className="procedure-detail__maternity-extra" key={paragraph}>{paragraph}</p>)}
+                        {isMaternity && sectionIndex === 1 && index === 1 && item.tags && <ul className="procedure-detail__maternity-inline-tags">{item.tags.map((tag, tagIndex) => <li key={tag}>{tagIndex === 0 ? <FiSun aria-hidden="true" /> : <FiActivity aria-hidden="true" />}{tag}</li>)}</ul>}
                         {item.note && !(isMaternity && ((sectionIndex === 0 && (index === 1 || index === 2)) || (sectionIndex === 1 && index === 0))) && <span className="procedure-detail__note">{item.note}</span>}
                       </div>
                     </article>
@@ -294,18 +354,6 @@ function ProcedureDetail() {
 
               {section.layout === 'cards' && !(isPain && sectionIndex === 0) && !(isLymphedema && sectionIndex === 1) && (
                 <div className={`procedure-detail__cards columns-${section.columns ?? 3}${isPrePost && sectionIndex === 0 ? ' procedure-detail__cards--preparation' : ''}${isPrePost && sectionIndex === 3 ? ' procedure-detail__cards--rehab' : ''}`}>
-                  {isDermato && sectionIndex === 0 && (
-                    <figure className="procedure-detail__dermato-photo-card" data-reveal="up">
-                      <img
-                        src={dermatoPortrait941}
-                        srcSet={`${dermatoPortrait480} 480w, ${dermatoPortrait941} 941w`}
-                        sizes="(max-width: 520px) 100vw, (max-width: 960px) 50vw, 20vw"
-                        alt="Dra. Juliana Rech em atendimento fisioterapêutico"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </figure>
-                  )}
                   {section.items.map((item, index) => (
                     <article className={`procedure-detail__card${isPain && sectionIndex > 0 ? ' procedure-detail__pain-card' : ''}${isDermato && sectionIndex === 0 ? ' procedure-detail__dermato-card' : ''}${isDermato && sectionIndex === 1 ? ' procedure-detail__dermato-specialty-card' : ''}${isDermato && sectionIndex === 3 ? ' procedure-detail__dermato-human-card' : ''}${isLymphedema && sectionIndex === 0 ? ' procedure-detail__lymphedema-difference-card' : ''}${isLymphedema && sectionIndex === 2 ? ' procedure-detail__lymphedema-care-card' : ''}${isPrePost && sectionIndex === 0 ? index === 0 ? ' procedure-detail__card--lead' : ' procedure-detail__card--supporting' : ''}${isPrePost && sectionIndex === 1 ? index === 0 ? ' procedure-detail__card--post-primary' : ' procedure-detail__card--post-arsenal' : ''}${isPrePost && sectionIndex === 2 ? ' procedure-detail__card--tissue' : ''}${isPrePost && sectionIndex === 3 ? ' procedure-detail__card--rehab' : ''}`} data-reveal="up" key={item.title}>
                       {isLymphedema && sectionIndex === 0 ? (
@@ -378,6 +426,7 @@ function ProcedureDetail() {
                       ) : <span className="procedure-detail__note">{item.note}</span>)}
                     </article>
                   ))}
+                  {isPrePost && sectionIndex === 3 && <PostRehabPhotoCarousel />}
                 </div>
               )}
 
