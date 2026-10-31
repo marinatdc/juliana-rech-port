@@ -33,7 +33,7 @@ import logo from '../assets/logo-comp-s-fundo.webp'
 import SectionBadge from '../components/SectionBadge'
 import ProcedureClosingSection from '../components/ProcedureClosingSection'
 import DermatofunctionalGallery from '../components/DermatofunctionalGallery'
-import PainVideoSection, { PainManualVideo, PainNeedlingVideo } from '../components/PainVideoSection'
+import PainVideoSection, { PainManualVideo, PainNeedlingVideo, PainTherapeuticVideo } from '../components/PainVideoSection'
 import SiteFooter from '../components/SiteFooter'
 import { procedureDetails } from '../data/procedureDetails'
 import { procedures } from '../data/procedures'
@@ -286,6 +286,7 @@ function ProcedureDetail() {
                       <h3>{item.title}</h3>
                       <p>{item.body}</p>
                       {isPain && sectionIndex === 1 && index === 0 && <PainManualVideo />}
+                      {isPain && sectionIndex === 1 && index === 1 && <PainTherapeuticVideo />}
                       {item.extraBody && <p className={`procedure-detail__post-extra-body${isPrePost && sectionIndex === 3 ? ' procedure-detail__rehab-extra' : ''}`}>{item.extraBody}</p>}
                       {isLymphedema && sectionIndex === 0 && item.features && <ul className="procedure-detail__lymphedema-difference-features">{item.features.map((feature, featureIndex) => {
                         const Icon = index === 0 ? featureIndex === 0 ? FiGitBranch : featureIndex === 1 ? FiDroplet : FiActivity : featureIndex === 0 ? FiMove : featureIndex === 1 ? FiHeart : FiShield

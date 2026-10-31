@@ -89,12 +89,12 @@
   width: 100%;
   margin: 0.2rem 0 0.25rem;
   border-radius: 1rem;
-  aspect-ratio: 2.18 / 1;
+  aspect-ratio: 1.42 / 1;
 }
 
 .pain-videos__player-wrap--explanatory video {
   transform: scale(1.02);
-  object-position: center 58%;
+  object-position: center 6%;
 }
 
 .pain-videos__player-wrap::after {
