@@ -33,7 +33,7 @@ import logo from '../assets/logo-comp-s-fundo.webp'
 import SectionBadge from '../components/SectionBadge'
 import ProcedureClosingSection from '../components/ProcedureClosingSection'
 import DermatofunctionalGallery from '../components/DermatofunctionalGallery'
-import PainVideoSection, { PainManualVideo, PainNeedlingVideo, PainTherapeuticVideo } from '../components/PainVideoSection'
+import { PainManualVideo, PainNeedlingVideo, PainTherapeuticVideo } from '../components/PainVideoSection'
 import SiteFooter from '../components/SiteFooter'
 import { procedureDetails } from '../data/procedureDetails'
 import { procedures } from '../data/procedures'
@@ -356,7 +356,6 @@ function ProcedureDetail() {
 
         {isDermato && <DermatofunctionalGallery />}
 
-        {isPain && <PainVideoSection />}
 
         <ProcedureClosingSection
           eyebrow={detail.closingEyebrow}

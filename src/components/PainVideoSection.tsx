@@ -26,10 +26,9 @@ interface PainVideoPlayerProps {
   item: TreatmentVideo
   featured?: boolean
   explanatory?: boolean
-  activity?: string
 }
 
-function PainVideoPlayer({ item, featured = false, explanatory = false, activity = 'Exercício & Ajuste' }: PainVideoPlayerProps) {
+function PainVideoPlayer({ item, featured = false, explanatory = false }: PainVideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
@@ -72,7 +71,6 @@ function PainVideoPlayer({ item, featured = false, explanatory = false, activity
         {!explanatory && <FiActivity aria-hidden="true" />}
         {explanatory ? 'Vídeo explicativo' : 'Demonstração prática'}
       </span>
-      {explanatory && <span className="pain-videos__activity">{activity}</span>}
       <span className={`pain-videos__duration${explanatory ? ' pain-videos__duration--lower' : ''}`} aria-label={'Duração: ' + item.duration}>{item.duration}</span>
       <button
         className="pain-videos__play"
@@ -121,7 +119,7 @@ export function PainTherapeuticVideo() {
   const item = treatmentVideos[1]
   if (!item) return null
 
-  return <PainVideoPlayer item={item} explanatory activity="Recurso terapêutico" />
+  return <PainVideoPlayer item={item} explanatory />
 }
 
 function PainVideoSection() {
