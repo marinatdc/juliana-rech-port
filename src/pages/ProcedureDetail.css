@@ -2405,6 +2405,11 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   line-height: 1.65;
 }
 
+.procedure-detail__pain-card > .pain-videos__player-wrap--explanatory {
+  width: 100%;
+  grid-column: 1 / -1;
+}
+
 .procedure-detail__pain-card .procedure-detail__note {
   grid-column: 1 / -1;
   align-self: end;
@@ -2480,6 +2485,10 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 @media (max-width: 760px) {
   .procedure-detail__pain-feature {
     min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .procedure-detail--pain .procedure-detail__section--pain-2 .procedure-detail__cards {
     grid-template-columns: 1fr;
   }
 
