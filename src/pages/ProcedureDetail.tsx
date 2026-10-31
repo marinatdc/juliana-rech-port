@@ -30,6 +30,8 @@ import { VscSettingsCompact } from 'react-icons/vsc'
 import { FaArrowTrendUp } from 'react-icons/fa6'
 import dermatoPortrait480 from '../assets/optimized/foto-dra-480.webp'
 import dermatoPortrait941 from '../assets/optimized/foto-dra-941.webp'
+import maternityAcupuncture480 from '../assets/gestantes/optimized/maternity-acupuncture-480.webp'
+import maternityAcupuncture960 from '../assets/gestantes/optimized/maternity-acupuncture-960.webp'
 import maternityTaping480 from '../assets/gestantes/optimized/maternity-taping-480.webp'
 import maternityTaping960 from '../assets/gestantes/optimized/maternity-taping-960.webp'
 import fd2_480 from '../assets/fisio-dermato/optimized/fd_2-480.webp'
@@ -201,15 +203,32 @@ function ProcedureDetail() {
 
               {section.layout === 'alternating' && (
                 <div className="procedure-detail__alternating">
-                  {section.items.map((item, index) => (
+                  {section.items.map((item, index) => {
+                    const isMaternityAcupuncturePhoto = isMaternity && sectionIndex === 0 && index === 0
+                    const isMaternityTapingPhoto = isMaternity && sectionIndex === 1 && index === 0
+                    const maternityPhoto = isMaternityAcupuncturePhoto
+                      ? {
+                          src: maternityAcupuncture960,
+                          srcSet: `${maternityAcupuncture480} 480w, ${maternityAcupuncture960} 960w`,
+                          alt: 'Agulhas de acupuntura aplicadas na região dorsal e lombar',
+                        }
+                      : isMaternityTapingPhoto
+                        ? {
+                            src: maternityTaping960,
+                            srcSet: `${maternityTaping480} 480w, ${maternityTaping960} 960w`,
+                            alt: 'Bandagem de taping aplicada na região abdominal no pós-parto',
+                          }
+                        : null
+
+                    return (
                     <article className={`procedure-detail__feature-row${index % 2 === 1 ? ' is-reversed' : ''}${isMaternity ? ' procedure-detail__feature-row--maternity' : ''}${isMaternity && ((sectionIndex === 0 && (index === 1 || index === 2)) || (sectionIndex === 1 && (index === 0 || index === 1 || index === 2))) ? ' has-visual-note' : ''}`} data-reveal="up" key={item.title}>
-                      <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${isMaternity && sectionIndex === 1 && index === 0 ? ' procedure-detail__visual--maternity-taping' : ''}`} aria-hidden={!(isMaternity && sectionIndex === 1 && index === 0)}>
-                        {isMaternity && sectionIndex === 1 && index === 0 ? (
+                      <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${maternityPhoto ? ' procedure-detail__visual--maternity-photo' : ''}${isMaternityAcupuncturePhoto ? ' procedure-detail__visual--maternity-acupuncture' : ''}${isMaternityTapingPhoto ? ' procedure-detail__visual--maternity-taping' : ''}`} aria-hidden={!maternityPhoto}>
+                        {maternityPhoto ? (
                           <img
-                            src={maternityTaping960}
-                            srcSet={`${maternityTaping480} 480w, ${maternityTaping960} 960w`}
+                            src={maternityPhoto.src}
+                            srcSet={maternityPhoto.srcSet}
                             sizes="(max-width: 520px) 100vw, (max-width: 760px) 48vw, 25vw"
-                            alt="Bandagem de taping aplicada na região abdominal no pós-parto"
+                            alt={maternityPhoto.alt}
                             loading="lazy"
                             decoding="async"
                           />
@@ -228,7 +247,8 @@ function ProcedureDetail() {
                         {item.note && !(isMaternity && ((sectionIndex === 0 && (index === 1 || index === 2)) || (sectionIndex === 1 && index === 0))) && <span className="procedure-detail__note">{item.note}</span>}
                       </div>
                     </article>
-                  ))}
+                    )
+                  })}
                 </div>
               )}
 

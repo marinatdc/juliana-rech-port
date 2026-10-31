@@ -3135,11 +3135,11 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   box-shadow: none;
 }
 
-.procedure-detail--maternity .procedure-detail__visual--maternity-taping {
+.procedure-detail--maternity .procedure-detail__visual--maternity-photo {
   background: #ead9dc;
 }
 
-.procedure-detail--maternity .procedure-detail__visual--maternity-taping img {
+.procedure-detail--maternity .procedure-detail__visual--maternity-photo img {
   position: absolute;
   inset: 0;
   display: block;
@@ -3147,6 +3147,10 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   height: 100%;
   object-fit: cover;
   object-position: center 48%;
+}
+
+.procedure-detail--maternity .procedure-detail__visual--maternity-acupuncture img {
+  object-position: center 56%;
 }
 
 .procedure-detail--maternity .procedure-detail__visual--maternity::before,
