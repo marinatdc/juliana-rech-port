@@ -3139,6 +3139,10 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   background: #ead9dc;
 }
 
+.procedure-detail--maternity .procedure-detail__feature-row--maternity:not(.has-visual-note) > .procedure-detail__visual--maternity-photo {
+  align-self: stretch;
+}
+
 .procedure-detail--maternity .procedure-detail__visual--maternity-photo img {
   position: absolute;
   inset: 0;
