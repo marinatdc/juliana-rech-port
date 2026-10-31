@@ -2152,7 +2152,7 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   width: min(100%, 90rem);
   margin-inline: auto;
   grid-template-columns: minmax(0, 70rem) minmax(17rem, 18rem);
-  align-items: center;
+  align-items: stretch;
   gap: clamp(1.5rem, 3vw, 2.6rem);
 }
 
@@ -2505,13 +2505,19 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .procedure-detail__pain-feature-layout {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .procedure-detail__pain-feature-video {
     justify-items: center;
+  }
+}
+
+@media (min-width: 1025px) {
+  .procedure-detail__pain-feature {
+    min-height: 32rem;
   }
 }
 

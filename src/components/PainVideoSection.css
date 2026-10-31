@@ -60,7 +60,7 @@
   overflow: hidden;
   isolation: isolate;
   border-radius: 0.85rem;
-  background: #2c2226;
+  background: transparent;
   aspect-ratio: 9 / 16;
 }
 
@@ -68,13 +68,21 @@
   display: block;
   width: 100%;
   height: 100%;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
   object-fit: cover;
-  background: #2c2226;
+  background: transparent;
   cursor: pointer;
 }
 
 .pain-videos__player-wrap--featured {
   width: min(100%, 18rem);
+}
+
+.pain-videos__player-wrap--featured video {
+  transform: scale(1.02);
 }
 
 .pain-videos__player-wrap::after {
