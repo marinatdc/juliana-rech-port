@@ -1124,6 +1124,7 @@
 .procedure-detail--pre-post .procedure-detail__section--pre-post-4 {
   background: #fbf5f6;
   padding-block: clamp(2.5rem, 5vw, 4rem);
+  padding-inline: clamp(1.25rem, 2.8vw, 2.75rem);
 }
 
 .procedure-detail--pre-post .procedure-detail__rehab-heading {
@@ -1151,6 +1152,7 @@
 
 .procedure-detail--pre-post .procedure-detail__card--rehab-photo {
   position: relative;
+  height: 32.5rem;
   min-height: 32.5rem;
   overflow: hidden;
   padding: 0.8rem;
@@ -1313,6 +1315,7 @@
 
   .procedure-detail--pre-post .procedure-detail__card--rehab-photo {
     grid-column: 1 / -1;
+    height: 25rem;
     min-height: 25rem;
   }
 }
@@ -1324,6 +1327,7 @@
 
   .procedure-detail--pre-post .procedure-detail__card--rehab-photo {
     grid-column: auto;
+    height: 28rem;
     min-height: 28rem;
   }
 }
