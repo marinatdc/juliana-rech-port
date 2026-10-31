@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { FiActivity, FiFilm, FiPause, FiPlay, FiVolumeX } from 'react-icons/fi'
+import { FiActivity, FiPause, FiPlay } from 'react-icons/fi'
 import './PainVideoSection.css'
 import video1 from '../assets/trat-dores/optimized/pain-treatment-1.mp4'
 import video2 from '../assets/trat-dores/optimized/pain-treatment-2.mp4'
@@ -8,22 +8,26 @@ import poster1 from '../assets/trat-dores/optimized/pain-treatment-1.webp'
 import poster2 from '../assets/trat-dores/optimized/pain-treatment-2.webp'
 import poster3 from '../assets/trat-dores/optimized/pain-treatment-3.webp'
 
-const treatmentVideos = [
+interface TreatmentVideo {
+  src: string
+  poster: string
+  title: string
+  duration: string
+  description: string
+}
+
+const treatmentVideos: TreatmentVideo[] = [
   { src: video1, poster: poster1, title: 'Técnica manual', duration: '0:12', description: 'Demonstração de técnica manual durante uma sessão de fisioterapia.' },
   { src: video2, poster: poster2, title: 'Recurso terapêutico', duration: '0:22', description: 'Aplicação de recurso fisioterapêutico com equipamento.' },
   { src: video3, poster: poster3, title: 'Agulhamento terapêutico', duration: '0:22', description: 'Demonstração de agulhamento terapêutico em sessão.' },
 ]
 
-interface PainVideoCardProps {
-  description: string
-  duration: string
-  index: number
-  poster: string
-  src: string
-  title: string
+interface PainVideoPlayerProps {
+  item: TreatmentVideo
+  featured?: boolean
 }
 
-function PainVideoCard({ description, duration, index, poster, src, title }: PainVideoCardProps) {
+function PainVideoPlayer({ item, featured = false }: PainVideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
@@ -40,50 +44,64 @@ function PainVideoCard({ description, duration, index, poster, src, title }: Pai
   }
 
   return (
+    <div className={`pain-videos__player-wrap${featured ? ' pain-videos__player-wrap--featured' : ''}${isPlaying ? ' is-playing' : ''}`}>
+      <video
+        ref={videoRef}
+        muted
+        controls={false}
+        playsInline
+        preload="none"
+        poster={item.poster}
+        width="480"
+        height="854"
+        aria-label={item.description}
+        disablePictureInPicture
+        disableRemotePlayback
+        onClick={togglePlayback}
+        onContextMenu={(event) => event.preventDefault()}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onEnded={() => setIsPlaying(false)}
+      >
+        <source src={item.src} type="video/mp4" />
+        Seu navegador não oferece reprodução de vídeo.
+      </video>
+      <span className="pain-videos__label"><FiActivity aria-hidden="true" />Demonstração prática</span>
+      <span className="pain-videos__duration" aria-label={'Duração: ' + item.duration}>{item.duration}</span>
+      <button
+        className="pain-videos__play"
+        type="button"
+        aria-label={`${isPlaying ? 'Pausar' : 'Reproduzir'} ${item.title.toLocaleLowerCase('pt-BR')}`}
+        onClick={togglePlayback}
+      >
+        {isPlaying ? <FiPause aria-hidden="true" /> : <FiPlay aria-hidden="true" />}
+      </button>
+    </div>
+  )
+}
+
+interface PainVideoCardProps {
+  index: number
+  item: TreatmentVideo
+}
+
+function PainVideoCard({ index, item }: PainVideoCardProps) {
+  return (
     <article className="pain-videos__card" data-reveal="up">
-      <div className={`pain-videos__player-wrap${isPlaying ? ' is-playing' : ''}`}>
-        <video
-          ref={videoRef}
-          muted
-          controls={false}
-          playsInline
-          preload="none"
-          poster={poster}
-          width="480"
-          height="854"
-          aria-label={description}
-          disablePictureInPicture
-          disableRemotePlayback
-          onClick={togglePlayback}
-          onContextMenu={(event) => event.preventDefault()}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-          onEnded={() => setIsPlaying(false)}
-        >
-          <source src={src} type="video/mp4" />
-          Seu navegador não oferece reprodução de vídeo.
-        </video>
-        <span className="pain-videos__label"><FiActivity aria-hidden="true" />Demonstração prática</span>
-        <span className="pain-videos__duration" aria-label={'Duração: ' + duration}>{duration}</span>
-        <button
-          className="pain-videos__play"
-          type="button"
-          aria-label={`${isPlaying ? 'Pausar' : 'Reproduzir'} ${title.toLocaleLowerCase('pt-BR')}`}
-          onClick={togglePlayback}
-        >
-          {isPlaying ? <FiPause aria-hidden="true" /> : <FiPlay aria-hidden="true" />}
-        </button>
-        <div className="pain-videos__meta" role="group" aria-label="Vídeo sem áudio, formato vertical">
-          <span><FiVolumeX aria-hidden="true" />Sem áudio</span>
-          <span><FiFilm aria-hidden="true" />Reels</span>
-        </div>
-      </div>
+      <PainVideoPlayer item={item} />
       <div className="pain-videos__caption">
         <span>{String(index + 1).padStart(2, '0')}</span>
-        <h3>{title}</h3>
+        <h3>{item.title}</h3>
       </div>
     </article>
   )
+}
+
+export function PainNeedlingVideo() {
+  const item = treatmentVideos[2]
+  if (!item) return null
+
+  return <PainVideoPlayer item={item} featured />
 }
 
 function PainVideoSection() {
@@ -96,8 +114,8 @@ function PainVideoSection() {
           <p>Conheça alguns recursos que podem fazer parte do tratamento, conforme a avaliação de cada pessoa.</p>
         </header>
         <div className="pain-videos__grid">
-          {treatmentVideos.map((item, index) => (
-            <PainVideoCard key={item.src} {...item} index={index} />
+          {treatmentVideos.slice(0, 2).map((item, index) => (
+            <PainVideoCard key={item.src} item={item} index={index} />
           ))}
         </div>
       </div>

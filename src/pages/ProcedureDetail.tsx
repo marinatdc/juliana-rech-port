@@ -33,7 +33,7 @@ import logo from '../assets/logo-comp-s-fundo.webp'
 import SectionBadge from '../components/SectionBadge'
 import ProcedureClosingSection from '../components/ProcedureClosingSection'
 import DermatofunctionalGallery from '../components/DermatofunctionalGallery'
-import PainVideoSection from '../components/PainVideoSection'
+import PainVideoSection, { PainNeedlingVideo } from '../components/PainVideoSection'
 import SiteFooter from '../components/SiteFooter'
 import { procedureDetails } from '../data/procedureDetails'
 import { procedures } from '../data/procedures'
@@ -177,6 +177,9 @@ function ProcedureDetail() {
                       <h3>{mainItem.title}</h3>
                       <p>{mainItem.body}</p>
                       {mainItem.tags && <ul className="procedure-detail__pain-pills">{mainItem.tags.map((tag) => <li key={tag}><FaRegCheckCircle aria-hidden="true" />{tag}</li>)}</ul>}
+                    </div>
+                    <div className="procedure-detail__pain-feature-video">
+                      <PainNeedlingVideo />
                     </div>
                     <div className="procedure-detail__pain-benefits">
                       {benefits.map((benefit, index) => <article className="procedure-detail__pain-benefit" key={benefit.title}>
