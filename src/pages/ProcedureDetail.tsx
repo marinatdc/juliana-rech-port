@@ -231,7 +231,7 @@ function ProcedureDetail() {
 
                     return (
                     <article className={`procedure-detail__feature-row${index % 2 === 1 ? ' is-reversed' : ''}${isMaternity ? ' procedure-detail__feature-row--maternity' : ''}${isMaternity && ((sectionIndex === 0 && (index === 1 || index === 2)) || (sectionIndex === 1 && (index === 0 || index === 1 || index === 2))) ? ' has-visual-note' : ''}`} data-reveal="up" key={item.title}>
-                      <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${maternityPhoto ? ' procedure-detail__visual--maternity-photo' : ''}${isMaternityAcupuncturePhoto ? ' procedure-detail__visual--maternity-acupuncture' : ''}${isMaternityLymphaticPhoto ? ' procedure-detail__visual--maternity-lymphatic' : ''}${isMaternityTapingPhoto ? ' procedure-detail__visual--maternity-taping' : ''}`} aria-hidden={!maternityPhoto}>
+                      <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${maternityPhoto ? ' procedure-detail__visual--maternity-photo' : ''}${isMaternityAcupuncturePhoto ? ' procedure-detail__visual--maternity-acupuncture' : ''}${isMaternityLymphaticPhoto ? ' procedure-detail__visual--maternity-lymphatic' : ''}${isMaternityTapingPhoto ? ' procedure-detail__visual--maternity-taping' : ''}`} style={isMaternityAcupuncturePhoto ? { backgroundImage: `url("${maternityAcupuncture480}")` } : undefined} aria-hidden={!maternityPhoto}>
                         {maternityPhoto ? (
                           <img
                             src={maternityPhoto.src}
