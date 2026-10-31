@@ -3153,6 +3153,10 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   object-position: center 56%;
 }
 
+.procedure-detail--maternity .procedure-detail__visual--maternity-lymphatic img {
+  object-position: center 56%;
+}
+
 .procedure-detail--maternity .procedure-detail__visual--maternity::before,
 .procedure-detail--maternity .procedure-detail__visual--maternity::after,
 .procedure-detail--maternity .procedure-detail__visual--maternity span {

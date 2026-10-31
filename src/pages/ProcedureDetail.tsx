@@ -32,6 +32,8 @@ import dermatoPortrait480 from '../assets/optimized/foto-dra-480.webp'
 import dermatoPortrait941 from '../assets/optimized/foto-dra-941.webp'
 import maternityAcupuncture480 from '../assets/gestantes/optimized/maternity-acupuncture-480.webp'
 import maternityAcupuncture960 from '../assets/gestantes/optimized/maternity-acupuncture-960.webp'
+import maternityLymphatic480 from '../assets/gestantes/optimized/maternity-lymphatic-480.webp'
+import maternityLymphatic960 from '../assets/gestantes/optimized/maternity-lymphatic-960.webp'
 import maternityTaping480 from '../assets/gestantes/optimized/maternity-taping-480.webp'
 import maternityTaping960 from '../assets/gestantes/optimized/maternity-taping-960.webp'
 import fd2_480 from '../assets/fisio-dermato/optimized/fd_2-480.webp'
@@ -205,6 +207,7 @@ function ProcedureDetail() {
                 <div className="procedure-detail__alternating">
                   {section.items.map((item, index) => {
                     const isMaternityAcupuncturePhoto = isMaternity && sectionIndex === 0 && index === 0
+                    const isMaternityLymphaticPhoto = isMaternity && sectionIndex === 0 && index === 1
                     const isMaternityTapingPhoto = isMaternity && sectionIndex === 1 && index === 0
                     const maternityPhoto = isMaternityAcupuncturePhoto
                       ? {
@@ -212,7 +215,13 @@ function ProcedureDetail() {
                           srcSet: `${maternityAcupuncture480} 480w, ${maternityAcupuncture960} 960w`,
                           alt: 'Agulhas de acupuntura aplicadas na região dorsal e lombar',
                         }
-                      : isMaternityTapingPhoto
+                      : isMaternityLymphaticPhoto
+                        ? {
+                            src: maternityLymphatic960,
+                            srcSet: `${maternityLymphatic480} 480w, ${maternityLymphatic960} 960w`,
+                            alt: 'Atendimento de drenagem linfática gestacional',
+                          }
+                        : isMaternityTapingPhoto
                         ? {
                             src: maternityTaping960,
                             srcSet: `${maternityTaping480} 480w, ${maternityTaping960} 960w`,
@@ -222,7 +231,7 @@ function ProcedureDetail() {
 
                     return (
                     <article className={`procedure-detail__feature-row${index % 2 === 1 ? ' is-reversed' : ''}${isMaternity ? ' procedure-detail__feature-row--maternity' : ''}${isMaternity && ((sectionIndex === 0 && (index === 1 || index === 2)) || (sectionIndex === 1 && (index === 0 || index === 1 || index === 2))) ? ' has-visual-note' : ''}`} data-reveal="up" key={item.title}>
-                      <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${maternityPhoto ? ' procedure-detail__visual--maternity-photo' : ''}${isMaternityAcupuncturePhoto ? ' procedure-detail__visual--maternity-acupuncture' : ''}${isMaternityTapingPhoto ? ' procedure-detail__visual--maternity-taping' : ''}`} aria-hidden={!maternityPhoto}>
+                      <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${maternityPhoto ? ' procedure-detail__visual--maternity-photo' : ''}${isMaternityAcupuncturePhoto ? ' procedure-detail__visual--maternity-acupuncture' : ''}${isMaternityLymphaticPhoto ? ' procedure-detail__visual--maternity-lymphatic' : ''}${isMaternityTapingPhoto ? ' procedure-detail__visual--maternity-taping' : ''}`} aria-hidden={!maternityPhoto}>
                         {maternityPhoto ? (
                           <img
                             src={maternityPhoto.src}
