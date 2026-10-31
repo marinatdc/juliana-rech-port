@@ -486,9 +486,9 @@ function ProcedureDetail() {
           title={detail.closingTitle}
           body={detail.closingBody}
           quote={detail.quote}
-          imageSrc={isDermato ? dermatoPortrait941 : undefined}
-          imageSrcSet={isDermato ? `${dermatoPortrait480} 480w, ${dermatoPortrait941} 941w` : undefined}
-          imageAlt={isDermato ? 'Dra. Juliana Rech realizando terapia manual em uma paciente' : undefined}
+          imageSrc={dermatoPortrait941}
+          imageSrcSet={`${dermatoPortrait480} 480w, ${dermatoPortrait941} 941w`}
+          imageAlt="Dra. Juliana Rech realizando atendimento fisioterapêutico em uma paciente"
         />
       </main>
       <SiteFooter />
