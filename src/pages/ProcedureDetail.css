@@ -2618,9 +2618,10 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 }
 
 .procedure-detail--dermato .procedure-detail__section--dermato-1 .procedure-detail__cards {
-  width: min(100%, 66rem);
-  margin-inline: auto;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  --dermato-pillar-expansion: clamp(0px, calc((100vw - 2.5rem - 100%) / 2), 6rem);
+  width: min(calc(100% + var(--dermato-pillar-expansion) + var(--dermato-pillar-expansion)), 78rem);
+  margin-inline: calc(0px - var(--dermato-pillar-expansion));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -2633,10 +2634,10 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 }
 
 .procedure-detail__dermato-photo-card {
-  grid-column: 1 / -1;
-  justify-self: center;
-  width: calc((100% - 3rem) / 4);
-  height: 17.5rem;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  min-height: 16.25rem;
   min-width: 0;
   margin: 0;
   overflow: hidden;
@@ -2646,11 +2647,13 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 }
 
 .procedure-detail__dermato-photo-card img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 62%;
+  object-position: center;
 }
 
 .procedure-detail__dermato-icon {
@@ -2694,14 +2697,15 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   line-height: 1.65;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .procedure-detail--dermato .procedure-detail__section--dermato-1 .procedure-detail__cards {
+    width: 100%;
+    margin-inline: auto;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .procedure-detail__dermato-photo-card {
-    width: calc((100% - 1rem) / 2);
-    height: 17rem;
+    min-height: 16.25rem;
   }
 }
 
@@ -2719,8 +2723,7 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   }
 
   .procedure-detail__dermato-photo-card {
-    width: 100%;
-    height: 14rem;
+    min-height: 14rem;
   }
 }
 
@@ -3132,6 +3135,20 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   box-shadow: none;
 }
 
+.procedure-detail--maternity .procedure-detail__visual--maternity-taping {
+  background: #ead9dc;
+}
+
+.procedure-detail--maternity .procedure-detail__visual--maternity-taping img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 48%;
+}
+
 .procedure-detail--maternity .procedure-detail__visual--maternity::before,
 .procedure-detail--maternity .procedure-detail__visual--maternity::after,
 .procedure-detail--maternity .procedure-detail__visual--maternity span {
@@ -3331,12 +3348,24 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   .procedure-detail--maternity .procedure-detail__feature-row.is-reversed {
     grid-template-columns: minmax(0, 1.45fr) minmax(7rem, 0.55fr);
   }
+
+  .procedure-detail--maternity .procedure-detail__closing-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .procedure-detail--maternity .procedure-detail__closing-art {
+    min-height: 18rem;
+  }
 }
 
 @media (max-width: 520px) {
   .procedure-detail--maternity .procedure-detail__feature-row,
   .procedure-detail--maternity .procedure-detail__feature-row.is-reversed {
     grid-template-columns: 1fr;
+  }
+
+  .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-visual-note.is-reversed {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .procedure-detail--maternity .procedure-detail__feature-row.is-reversed .procedure-detail__visual,
@@ -3352,8 +3381,19 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
     grid-row: auto;
   }
 
+  .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-visual-note.is-reversed .procedure-detail__visual,
+  .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-visual-note.is-reversed .procedure-detail__feature-card,
+  .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-visual-note.is-reversed .procedure-detail__maternity-visual-note {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
   .procedure-detail--maternity .procedure-detail__visual--maternity {
     min-height: 8rem;
+  }
+
+  .procedure-detail--maternity .procedure-detail__visual--maternity-taping {
+    min-height: 14rem;
   }
 
   .procedure-detail--maternity .procedure-detail__alternating {

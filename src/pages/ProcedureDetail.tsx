@@ -30,8 +30,8 @@ import { VscSettingsCompact } from 'react-icons/vsc'
 import { FaArrowTrendUp } from 'react-icons/fa6'
 import dermatoPortrait480 from '../assets/optimized/foto-dra-480.webp'
 import dermatoPortrait941 from '../assets/optimized/foto-dra-941.webp'
-import dermatoCare480 from '../assets/fisio-dermato/optimized/dermato-care-480.webp'
-import dermatoCare960 from '../assets/fisio-dermato/optimized/dermato-care-960.webp'
+import maternityTaping480 from '../assets/gestantes/optimized/maternity-taping-480.webp'
+import maternityTaping960 from '../assets/gestantes/optimized/maternity-taping-960.webp'
 import fd2_480 from '../assets/fisio-dermato/optimized/fd_2-480.webp'
 import fd2_960 from '../assets/fisio-dermato/optimized/fd_2-960.webp'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -203,7 +203,18 @@ function ProcedureDetail() {
                 <div className="procedure-detail__alternating">
                   {section.items.map((item, index) => (
                     <article className={`procedure-detail__feature-row${index % 2 === 1 ? ' is-reversed' : ''}${isMaternity ? ' procedure-detail__feature-row--maternity' : ''}${isMaternity && ((sectionIndex === 0 && (index === 1 || index === 2)) || (sectionIndex === 1 && (index === 0 || index === 1 || index === 2))) ? ' has-visual-note' : ''}`} data-reveal="up" key={item.title}>
-                      <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}`} aria-hidden="true"><span>{String(index + 1).padStart(2, '0')}</span></div>
+                      <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${isMaternity && sectionIndex === 1 && index === 0 ? ' procedure-detail__visual--maternity-taping' : ''}`} aria-hidden={!(isMaternity && sectionIndex === 1 && index === 0)}>
+                        {isMaternity && sectionIndex === 1 && index === 0 ? (
+                          <img
+                            src={maternityTaping960}
+                            srcSet={`${maternityTaping480} 480w, ${maternityTaping960} 960w`}
+                            sizes="(max-width: 520px) 100vw, (max-width: 760px) 48vw, 25vw"
+                            alt="Bandagem de taping aplicada na região abdominal no pós-parto"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        ) : <span>{String(index + 1).padStart(2, '0')}</span>}
+                      </div>
                       {isMaternity && sectionIndex === 0 && (index === 1 || index === 2) && item.note && <aside className="procedure-detail__maternity-visual-note">{index === 1 ? <FiMoon aria-hidden="true" /> : <BiCertification aria-hidden="true" />}<span>{item.note}</span></aside>}
                       {isMaternity && sectionIndex === 1 && index === 0 && item.note && <aside className="procedure-detail__maternity-visual-note is-quote"><span>{item.note}</span></aside>}
                       {isMaternity && sectionIndex === 1 && index === 1 && item.tags && <aside className="procedure-detail__maternity-visual-note is-tags">{item.tags.map((tag, tagIndex) => <span key={tag}>{tagIndex === 0 ? <FiSun aria-hidden="true" /> : <FiActivity aria-hidden="true" />}{tag}</span>)}</aside>}
@@ -246,6 +257,18 @@ function ProcedureDetail() {
 
               {section.layout === 'cards' && !(isPain && sectionIndex === 0) && !(isLymphedema && sectionIndex === 1) && (
                 <div className={`procedure-detail__cards columns-${section.columns ?? 3}${isPrePost && sectionIndex === 0 ? ' procedure-detail__cards--preparation' : ''}${isPrePost && sectionIndex === 3 ? ' procedure-detail__cards--rehab' : ''}`}>
+                  {isDermato && sectionIndex === 0 && (
+                    <figure className="procedure-detail__dermato-photo-card" data-reveal="up">
+                      <img
+                        src={dermatoPortrait941}
+                        srcSet={`${dermatoPortrait480} 480w, ${dermatoPortrait941} 941w`}
+                        sizes="(max-width: 520px) 100vw, (max-width: 960px) 50vw, 20vw"
+                        alt="Dra. Juliana Rech em atendimento fisioterapêutico"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </figure>
+                  )}
                   {section.items.map((item, index) => (
                     <article className={`procedure-detail__card${isPain && sectionIndex > 0 ? ' procedure-detail__pain-card' : ''}${isDermato && sectionIndex === 0 ? ' procedure-detail__dermato-card' : ''}${isDermato && sectionIndex === 1 ? ' procedure-detail__dermato-specialty-card' : ''}${isDermato && sectionIndex === 3 ? ' procedure-detail__dermato-human-card' : ''}${isLymphedema && sectionIndex === 0 ? ' procedure-detail__lymphedema-difference-card' : ''}${isLymphedema && sectionIndex === 2 ? ' procedure-detail__lymphedema-care-card' : ''}${isPrePost && sectionIndex === 0 ? index === 0 ? ' procedure-detail__card--lead' : ' procedure-detail__card--supporting' : ''}${isPrePost && sectionIndex === 1 ? index === 0 ? ' procedure-detail__card--post-primary' : ' procedure-detail__card--post-arsenal' : ''}${isPrePost && sectionIndex === 2 ? ' procedure-detail__card--tissue' : ''}${isPrePost && sectionIndex === 3 ? ' procedure-detail__card--rehab' : ''}`} data-reveal="up" key={item.title}>
                       {isLymphedema && sectionIndex === 0 ? (
@@ -318,18 +341,6 @@ function ProcedureDetail() {
                       ) : <span className="procedure-detail__note">{item.note}</span>)}
                     </article>
                   ))}
-                  {isDermato && sectionIndex === 0 && (
-                    <figure className="procedure-detail__dermato-photo-card" data-reveal="up">
-                      <img
-                        src={dermatoCare960}
-                        srcSet={`${dermatoCare480} 480w, ${dermatoCare960} 960w`}
-                        sizes="(max-width: 520px) 100vw, (max-width: 900px) 50vw, 25vw"
-                        alt="Paciente recebendo atendimento de fisioterapia dermatofuncional"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </figure>
-                  )}
                 </div>
               )}
 
