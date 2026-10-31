@@ -228,10 +228,15 @@ function ProcedureDetail() {
                             alt: 'Bandagem de taping aplicada na região abdominal no pós-parto',
                           }
                         : null
+                    const hasMaternityVisualNote = isMaternity && (
+                      (sectionIndex === 0 && (index === 1 || index === 2))
+                      || (sectionIndex === 1 && (index === 0 || index === 1 || index === 2))
+                    )
+                    const isMaternityTextOnly = isMaternity && !maternityPhoto
 
                     return (
-                    <article className={`procedure-detail__feature-row${index % 2 === 1 ? ' is-reversed' : ''}${isMaternity ? ' procedure-detail__feature-row--maternity' : ''}${isMaternity && ((sectionIndex === 0 && (index === 1 || index === 2)) || (sectionIndex === 1 && (index === 0 || index === 1 || index === 2))) ? ' has-visual-note' : ''}`} data-reveal="up" key={item.title}>
-                      <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${maternityPhoto ? ' procedure-detail__visual--maternity-photo' : ''}${isMaternityAcupuncturePhoto ? ' procedure-detail__visual--maternity-acupuncture' : ''}${isMaternityLymphaticPhoto ? ' procedure-detail__visual--maternity-lymphatic' : ''}${isMaternityTapingPhoto ? ' procedure-detail__visual--maternity-taping' : ''}`} style={isMaternityAcupuncturePhoto ? { backgroundImage: `url("${maternityAcupuncture480}")` } : undefined} aria-hidden={!maternityPhoto}>
+                    <article className={`procedure-detail__feature-row${index % 2 === 1 ? ' is-reversed' : ''}${isMaternity ? ' procedure-detail__feature-row--maternity' : ''}${hasMaternityVisualNote ? ' has-visual-note' : ''}${isMaternityTextOnly ? ' is-text-only' : ''}`} data-reveal="up" key={item.title}>
+                      {(!isMaternity || maternityPhoto) && <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${maternityPhoto ? ' procedure-detail__visual--maternity-photo' : ''}${isMaternityAcupuncturePhoto ? ' procedure-detail__visual--maternity-acupuncture' : ''}${isMaternityLymphaticPhoto ? ' procedure-detail__visual--maternity-lymphatic' : ''}${isMaternityTapingPhoto ? ' procedure-detail__visual--maternity-taping' : ''}`} style={isMaternityAcupuncturePhoto ? { backgroundImage: `url("${maternityAcupuncture480}")` } : undefined} aria-hidden={!maternityPhoto}>
                         {maternityPhoto ? (
                           <img
                             src={maternityPhoto.src}
@@ -242,12 +247,12 @@ function ProcedureDetail() {
                             decoding="async"
                           />
                         ) : <span>{String(index + 1).padStart(2, '0')}</span>}
-                      </div>
+                      </div>}
                       {isMaternity && sectionIndex === 0 && (index === 1 || index === 2) && item.note && <aside className="procedure-detail__maternity-visual-note">{index === 1 ? <FiMoon aria-hidden="true" /> : <BiCertification aria-hidden="true" />}<span>{item.note}</span></aside>}
                       {isMaternity && sectionIndex === 1 && index === 0 && item.note && <aside className="procedure-detail__maternity-visual-note is-quote"><span>{item.note}</span></aside>}
                       {isMaternity && sectionIndex === 1 && index === 1 && item.tags && <aside className="procedure-detail__maternity-visual-note is-tags">{item.tags.map((tag, tagIndex) => <span key={tag}>{tagIndex === 0 ? <FiSun aria-hidden="true" /> : <FiActivity aria-hidden="true" />}{tag}</span>)}</aside>}
                       {isMaternity && sectionIndex === 1 && index === 2 && item.noteTitle && item.noteBody && <aside className="procedure-detail__maternity-visual-note is-focus"><strong>{item.noteTitle}</strong><span>{item.noteBody}</span></aside>}
-                      <div className={`procedure-detail__feature-card${isMaternity ? ' procedure-detail__feature-card--maternity' : ''}${isMaternity && ((sectionIndex === 0 && (index === 1 || index === 2)) || (sectionIndex === 1 && (index === 0 || index === 1 || index === 2))) ? ' has-external-note' : ''}`}>
+                      <div className={`procedure-detail__feature-card${isMaternity ? ' procedure-detail__feature-card--maternity' : ''}${hasMaternityVisualNote ? ' has-external-note' : ''}`}>
                         {isMaternity && <span className="procedure-detail__maternity-icon" aria-hidden="true">{sectionIndex === 0 ? index === 0 ? <GiMeditation /> : index === 1 ? <PiDropBold /> : <PiDotsSixBold /> : index === 0 ? <LuLayers /> : index === 1 ? <CgGym /> : index === 2 ? <PiDotsSixBold /> : index === 3 ? <PiBandaidsFill /> : <PiDotsSixBold />}</span>}
                         {item.label && <span className={`procedure-detail__tag${isMaternity ? ' procedure-detail__maternity-tag' : ''}`}>{item.label}</span>}
                         <h3>{item.title}</h3>
