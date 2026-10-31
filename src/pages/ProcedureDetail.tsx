@@ -28,6 +28,8 @@ import { PiDropLight } from 'react-icons/pi'
 import { IoRadioOutline } from 'react-icons/io5'
 import { VscSettingsCompact } from 'react-icons/vsc'
 import { FaArrowTrendUp } from 'react-icons/fa6'
+import fd2_480 from '../assets/fisio-dermato/optimized/fd_2-480.webp'
+import fd2_960 from '../assets/fisio-dermato/optimized/fd_2-960.webp'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import logo from '../assets/logo-comp-s-fundo.webp'
 import SectionBadge from '../components/SectionBadge'
@@ -332,6 +334,17 @@ function ProcedureDetail() {
 
               {section.layout === 'feature' && section.items.map((item) => isDermato && sectionIndex === 2 ? (
                 <article className="procedure-detail__dermato-radio-card" data-reveal="up" key={item.title}>
+                  <img
+                    className="procedure-detail__dermato-radio-image"
+                    src={fd2_480}
+                    srcSet={`${fd2_480} 480w, ${fd2_960} 960w`}
+                    sizes="(max-width: 760px) calc(100vw - 3rem), 34vw"
+                    width="960"
+                    height="960"
+                    alt="Registro comparativo de acompanhamento corporal da região glútea, em vista lateral."
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <div className="procedure-detail__dermato-radio-content">
                     <span className="procedure-detail__dermato-radio-eyebrow"><IoRadioOutline aria-hidden="true" />{section.eyebrow}</span>
                     <h3>{section.title}</h3>

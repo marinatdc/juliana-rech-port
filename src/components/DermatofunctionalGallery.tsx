@@ -84,7 +84,7 @@ function DermatofunctionalGallery() {
   return (
     <section className="dermato-gallery" aria-label="Registros de acompanhamento dermatofuncional">
       <div className="dermato-gallery__inner">
-        <div className="dermato-gallery__controls" aria-label="Controles do carrossel">
+        <div className="dermato-gallery__carousel" role="group" aria-label="Controles do carrossel">
           <button
             className="dermato-gallery__arrow"
             type="button"
@@ -94,6 +94,43 @@ function DermatofunctionalGallery() {
           >
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
           </button>
+          <div
+            className="dermato-gallery__grid"
+            ref={carouselRef}
+            role="region"
+            aria-roledescription="carrossel"
+            aria-label="Fotos de acompanhamento dermatofuncional"
+            tabIndex={0}
+          >
+            {records.map((record, index) => (
+              <figure className="dermato-gallery__item" key={record.small}>
+                <button
+                  className="dermato-gallery__open"
+                  type="button"
+                  onClick={() => setSelectedRecord(record)}
+                  aria-label={'Ampliar foto ' + (index + 1) + ': ' + record.caption}
+                >
+                  <span className="dermato-gallery__photo-frame">
+                    <img
+                      src={record.small}
+                      srcSet={record.small + ' 480w, ' + record.large + ' 960w'}
+                      sizes="(max-width: 560px) min(78vw, 23rem), (max-width: 900px) 18rem, 22rem"
+                      width={record.width}
+                      height={record.height}
+                      alt={record.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                  <span className="dermato-gallery__zoom" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" /></svg>
+                    Ampliar
+                  </span>
+                </button>
+                <figcaption><span>{String(index + 1).padStart(2, '0')}</span>{record.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
           <button
             className="dermato-gallery__arrow"
             type="button"
@@ -103,44 +140,6 @@ function DermatofunctionalGallery() {
           >
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
           </button>
-        </div>
-
-        <div
-          className="dermato-gallery__grid"
-          ref={carouselRef}
-          role="region"
-          aria-roledescription="carrossel"
-          aria-label="Fotos de acompanhamento dermatofuncional"
-          tabIndex={0}
-        >
-          {records.map((record, index) => (
-            <figure className="dermato-gallery__item" key={record.small}>
-              <button
-                className="dermato-gallery__open"
-                type="button"
-                onClick={() => setSelectedRecord(record)}
-                aria-label={'Ampliar foto ' + (index + 1) + ': ' + record.caption}
-              >
-                <span className="dermato-gallery__photo-frame">
-                  <img
-                    src={record.small}
-                    srcSet={record.small + ' 480w, ' + record.large + ' 960w'}
-                    sizes="(max-width: 560px) min(78vw, 23rem), (max-width: 900px) 18rem, 22rem"
-                    width={record.width}
-                    height={record.height}
-                    alt={record.alt}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-                <span className="dermato-gallery__zoom" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" /></svg>
-                  Ampliar
-                </span>
-              </button>
-              <figcaption><span>{String(index + 1).padStart(2, '0')}</span>{record.caption}</figcaption>
-            </figure>
-          ))}
         </div>
       </div>
 
