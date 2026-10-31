@@ -33,7 +33,7 @@ import logo from '../assets/logo-comp-s-fundo.webp'
 import SectionBadge from '../components/SectionBadge'
 import ProcedureClosingSection from '../components/ProcedureClosingSection'
 import DermatofunctionalGallery from '../components/DermatofunctionalGallery'
-import PainVideoSection, { PainManualVideo, PainNeedlingVideo, PainTherapeuticVideo } from '../components/PainVideoSection'
+import PainVideoSection, { PainNeedlingVideo } from '../components/PainVideoSection'
 import SiteFooter from '../components/SiteFooter'
 import { procedureDetails } from '../data/procedureDetails'
 import { procedures } from '../data/procedures'
@@ -285,8 +285,6 @@ function ProcedureDetail() {
                       {item.label && isPrePost && sectionIndex === 3 ? <span className="procedure-detail__rehab-label">{index === 0 ? <GiMeditation aria-hidden="true" /> : <LuMicroscope aria-hidden="true" />}{item.label}</span> : item.label && !(isPain) && !(isDermato && sectionIndex === 0) && !(isLymphedema && (sectionIndex === 0 || sectionIndex === 2)) && !(isPrePost && sectionIndex === 1 && index === 0) && !(isIntercorrencias && sectionIndex === 0) && <span className={`procedure-detail__tag${isPrePost && sectionIndex === 1 ? ' procedure-detail__post-tag' : ''}${isIntercorrencias && sectionIndex === 1 ? ' procedure-detail__therapy-label' : ''}`}>{item.label}</span>}
                       <h3>{item.title}</h3>
                       <p>{item.body}</p>
-                      {isPain && sectionIndex === 1 && index === 0 && <PainManualVideo />}
-                      {isPain && sectionIndex === 1 && index === 1 && <PainTherapeuticVideo />}
                       {item.extraBody && <p className={`procedure-detail__post-extra-body${isPrePost && sectionIndex === 3 ? ' procedure-detail__rehab-extra' : ''}`}>{item.extraBody}</p>}
                       {isLymphedema && sectionIndex === 0 && item.features && <ul className="procedure-detail__lymphedema-difference-features">{item.features.map((feature, featureIndex) => {
                         const Icon = index === 0 ? featureIndex === 0 ? FiGitBranch : featureIndex === 1 ? FiDroplet : FiActivity : featureIndex === 0 ? FiMove : featureIndex === 1 ? FiHeart : FiShield
