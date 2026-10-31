@@ -171,23 +171,25 @@ function ProcedureDetail() {
                 const [mainItem, ...benefits] = section.items
                 if (!mainItem) return null
                 return (
-                  <article className="procedure-detail__pain-feature" data-reveal="up">
-                    <div className="procedure-detail__pain-feature-main">
-                      {mainItem.label && <span className="procedure-detail__pain-feature-label"><FaRegDotCircle aria-hidden="true" />{mainItem.label}</span>}
-                      <h3>{mainItem.title}</h3>
-                      <p>{mainItem.body}</p>
-                      {mainItem.tags && <ul className="procedure-detail__pain-pills">{mainItem.tags.map((tag) => <li key={tag}><FaRegCheckCircle aria-hidden="true" />{tag}</li>)}</ul>}
-                    </div>
+                  <div className="procedure-detail__pain-feature-layout" data-reveal="up">
+                    <article className="procedure-detail__pain-feature">
+                      <div className="procedure-detail__pain-feature-main">
+                        {mainItem.label && <span className="procedure-detail__pain-feature-label"><FaRegDotCircle aria-hidden="true" />{mainItem.label}</span>}
+                        <h3>{mainItem.title}</h3>
+                        <p>{mainItem.body}</p>
+                        {mainItem.tags && <ul className="procedure-detail__pain-pills">{mainItem.tags.map((tag) => <li key={tag}><FaRegCheckCircle aria-hidden="true" />{tag}</li>)}</ul>}
+                      </div>
+                      <div className="procedure-detail__pain-benefits">
+                        {benefits.map((benefit, index) => <article className="procedure-detail__pain-benefit" key={benefit.title}>
+                          <span aria-hidden="true">{index === 0 ? <FiTarget /> : index === 1 ? <MdOutlineMedication /> : <GiMeditation />}</span>
+                          <div><h4>{benefit.title}</h4><p>{benefit.body}</p></div>
+                        </article>)}
+                      </div>
+                    </article>
                     <div className="procedure-detail__pain-feature-video">
                       <PainNeedlingVideo />
                     </div>
-                    <div className="procedure-detail__pain-benefits">
-                      {benefits.map((benefit, index) => <article className="procedure-detail__pain-benefit" key={benefit.title}>
-                        <span aria-hidden="true">{index === 0 ? <FiTarget /> : index === 1 ? <MdOutlineMedication /> : <GiMeditation />}</span>
-                        <div><h4>{benefit.title}</h4><p>{benefit.body}</p></div>
-                      </article>)}
-                    </div>
-                  </article>
+                  </div>
                 )
               })()}
 
