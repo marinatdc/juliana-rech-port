@@ -38,10 +38,9 @@ import maternityTaping480 from '../assets/gestantes/optimized/maternity-taping-4
 import maternityTaping960 from '../assets/gestantes/optimized/maternity-taping-960.webp'
 import fd2_480 from '../assets/fisio-dermato/optimized/fd_2-480.webp'
 import fd2_960 from '../assets/fisio-dermato/optimized/fd_2-960.webp'
-import rehabMobility1 from '../assets/pre-pos-operatorio/optimized/rehab-mobility-1.webp'
-import rehabMobility2 from '../assets/pre-pos-operatorio/optimized/rehab-mobility-2.webp'
-import rehabMobility3 from '../assets/pre-pos-operatorio/optimized/rehab-mobility-3.webp'
-import rehabMobility4 from '../assets/pre-pos-operatorio/optimized/rehab-mobility-4.webp'
+import rehabPosPre1 from '../assets/pos-pre/optimized/rehab-pos-pre-1.webp'
+import rehabPosPre2 from '../assets/pos-pre/optimized/rehab-pos-pre-2.webp'
+import rehabPosPre3 from '../assets/pos-pre/optimized/rehab-pos-pre-3.webp'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import logo from '../assets/logo-comp-s-fundo.webp'
 import SectionBadge from '../components/SectionBadge'
@@ -55,10 +54,9 @@ import useScrollReveal from '../hooks/useScrollReveal'
 import './ProcedureDetail.css'
 
 const rehabMobilityPhotos = [
-  { src: rehabMobility1, alt: 'Atendimento fisioterapêutico no pós-operatório' },
-  { src: rehabMobility2, alt: 'Registro da evolução corporal no pós-operatório' },
-  { src: rehabMobility3, alt: 'Aplicação de recurso fisioterapêutico no pós-operatório' },
-  { src: rehabMobility4, alt: 'Taping terapêutico durante a recuperação pós-operatória' },
+  { src: rehabPosPre1, alt: 'Atendimento fisioterapêutico com recurso de laser no rosto' },
+  { src: rehabPosPre2, alt: 'Registro da região abdominal durante o acompanhamento pós-operatório' },
+  { src: rehabPosPre3, alt: 'Bandagem terapêutica aplicada na região do pescoço' },
 ]
 
 function PostRehabPhotoCarousel() {
