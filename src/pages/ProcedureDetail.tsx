@@ -30,7 +30,6 @@ import { VscSettingsCompact } from 'react-icons/vsc'
 import { FaArrowTrendUp } from 'react-icons/fa6'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import logo from '../assets/logo-comp-s-fundo.webp'
-import mandala from '../assets/logo-mandala-recortada.webp'
 import SectionBadge from '../components/SectionBadge'
 import ProcedureClosingSection from '../components/ProcedureClosingSection'
 import DermatofunctionalGallery from '../components/DermatofunctionalGallery'
@@ -138,7 +137,7 @@ function ProcedureDetail() {
 
       <main className={`procedure-detail${isPrePost ? ' procedure-detail--pre-post' : ''}${isIntercorrencias ? ' procedure-detail--intercorrencias' : ''}${isMaternity ? ' procedure-detail--maternity' : ''}${isPain ? ' procedure-detail--pain' : ''}${isDermato ? ' procedure-detail--dermato' : ''}${isLymphedema ? ' procedure-detail--lymphedema' : ''}`}>
         <section className="procedure-detail__hero">
-          <img className="procedure-detail__mandala" src={mandala} alt="" aria-hidden="true" />
+          <img className="procedure-detail__cover" src={procedure.image} alt="" aria-hidden="true" fetchPriority="high" />
           <div className="procedure-detail__hero-inner">
             <button className="procedure-detail__back" type="button" onClick={goBack}>← Voltar</button>
             <div data-reveal="up"><SectionBadge>Acolhimento clínico especializado</SectionBadge></div>

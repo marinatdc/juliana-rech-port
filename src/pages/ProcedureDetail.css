@@ -142,6 +142,7 @@
 
 .procedure-detail__hero {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
   padding: 9rem var(--page-gutter) 4rem;
   background:
@@ -176,12 +177,18 @@
   text-decoration: underline;
 }
 
-.procedure-detail__mandala {
+.procedure-detail__cover {
   position: absolute;
   top: 0;
-  right: -6rem;
-  width: min(44vw, 34rem);
-  opacity: 0.12;
+  right: 0;
+  z-index: 0;
+  width: min(62%, 58rem);
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.32;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 24%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 24%);
   pointer-events: none;
 }
 
@@ -1367,10 +1374,11 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
     padding-top: 7rem;
   }
 
-  .procedure-detail__mandala {
-    top: 1rem;
-    right: -7rem;
-    width: 24rem;
+  .procedure-detail__cover {
+    width: 72%;
+    opacity: 0.26;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 38%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 38%);
   }
 
   .procedure-detail__feature-row,
@@ -1402,6 +1410,13 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   .procedure-detail__section,
   .procedure-detail__closing {
     padding-inline: var(--page-gutter);
+  }
+
+  .procedure-detail__cover {
+    width: 100%;
+    opacity: 0.2;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 48%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 48%);
   }
 
   .procedure-detail__cards.columns-2,
@@ -2059,6 +2074,10 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 .procedure-detail--pain .procedure-detail__hero {
   padding: clamp(5rem, 8vw, 7rem) var(--page-gutter) clamp(4.5rem, 6vw, 5.5rem);
   background: #fdf8f9;
+}
+
+.procedure-detail--pain .procedure-detail__cover {
+  object-position: center 46%;
 }
 
 .procedure-detail--pain .procedure-detail__hero-inner {
