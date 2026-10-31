@@ -19,7 +19,7 @@ const locations: Location[] = [
     addressDetails: 'Sala 603 · Tristeza\nPorto Alegre - RS · CEP 91920-134',
     parking: 'Estacionamento conveniente',
     parkingDetails: 'Vagas rotativas no complexo empresarial para pacientes.',
-    mapUrl: 'https://www.google.com/maps?q=-30.1122799,-51.2549916&z=16&output=embed',
+    mapUrl: 'https://www.google.com/maps?q=Av.%20Wenceslau%20Escobar%2C%202800%2C%20Sala%20603%2C%20Tristeza%2C%20Porto%20Alegre%20-%20RS%2C%20CEP%2091920-134&output=embed',
   },
   {
     title: 'Ed. Comendador Luigi Gerace',
@@ -34,12 +34,13 @@ function LocationsSection({ compact = false }: { compact?: boolean }) {
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null)
   const [mapStates, setMapStates] = useState<Record<string, 'loading' | 'loaded' | 'error'>>({})
 
+  const formatAddress = (location: Location) => [location.address, location.addressDetails]
+    .flatMap((part) => part ? part.split(/\n| · /) : [])
+    .map((part) => part.trim())
+    .join(', ')
+
   const copyAddress = async (location: Location) => {
-    const fullAddress = [location.address, location.addressDetails]
-      .filter(Boolean)
-      .join(', ')
-      .replace(/ · /g, ', ')
-      .replace(/\n/g, ', ')
+    const fullAddress = formatAddress(location)
 
     try {
       await navigator.clipboard.writeText(fullAddress)
@@ -78,7 +79,7 @@ function LocationsSection({ compact = false }: { compact?: boolean }) {
                       <div className="location-card__map-error" role="status">
                         <span>Não foi possível carregar o mapa.</span>
                         <a
-                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.address}, ${location.district}, Porto Alegre - RS`)}`}
+                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formatAddress(location))}`}
                           target="_blank"
                           rel="noreferrer"
                         >
