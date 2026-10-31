@@ -28,6 +28,8 @@ import { PiDropLight } from 'react-icons/pi'
 import { IoRadioOutline } from 'react-icons/io5'
 import { VscSettingsCompact } from 'react-icons/vsc'
 import { FaArrowTrendUp } from 'react-icons/fa6'
+import dermatoPortrait480 from '../assets/optimized/foto-dra-480.webp'
+import dermatoPortrait941 from '../assets/optimized/foto-dra-941.webp'
 import fd2_480 from '../assets/fisio-dermato/optimized/fd_2-480.webp'
 import fd2_960 from '../assets/fisio-dermato/optimized/fd_2-960.webp'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -375,6 +377,9 @@ function ProcedureDetail() {
           title={detail.closingTitle}
           body={detail.closingBody}
           quote={detail.quote}
+          imageSrc={isDermato ? dermatoPortrait941 : undefined}
+          imageSrcSet={isDermato ? `${dermatoPortrait480} 480w, ${dermatoPortrait941} 941w` : undefined}
+          imageAlt={isDermato ? 'Dra. Juliana Rech realizando terapia manual em uma paciente' : undefined}
         />
       </main>
       <SiteFooter />

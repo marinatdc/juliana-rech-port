@@ -5,6 +5,9 @@ interface ProcedureClosingSectionProps {
   title: string
   body: string
   quote: string
+  imageSrc?: string
+  imageSrcSet?: string
+  imageAlt?: string
 }
 
 function ProcedureClosingSection({
@@ -12,12 +15,22 @@ function ProcedureClosingSection({
   title,
   body,
   quote,
+  imageSrc,
+  imageSrcSet,
+  imageAlt = 'Retrato profissional da Dra. Juliana Rech',
 }: ProcedureClosingSectionProps) {
   return (
     <section className="procedure-detail__closing">
       <div className="procedure-detail__closing-inner">
         <div className="procedure-detail__closing-art">
-          <img src={portrait} alt="Retrato profissional da Dra. Juliana Rech" loading="lazy" decoding="async" />
+          <img
+            src={imageSrc ?? portrait}
+            srcSet={imageSrcSet}
+            sizes={imageSrcSet ? '(max-width: 760px) 100vw, 392px' : undefined}
+            alt={imageAlt}
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div className="procedure-detail__closing-copy" data-reveal="up">
           <p className="procedure-detail__eyebrow">{eyebrow}</p>
