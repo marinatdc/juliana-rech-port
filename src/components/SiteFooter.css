@@ -137,6 +137,8 @@
 }
 
 .global-footer__hours {
+  align-items: flex-start;
+  flex-direction: column;
   margin-bottom: 0.75rem !important;
 }
 
