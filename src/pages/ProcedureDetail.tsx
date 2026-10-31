@@ -30,6 +30,8 @@ import { VscSettingsCompact } from 'react-icons/vsc'
 import { FaArrowTrendUp } from 'react-icons/fa6'
 import dermatoPortrait480 from '../assets/optimized/foto-dra-480.webp'
 import dermatoPortrait941 from '../assets/optimized/foto-dra-941.webp'
+import dermatoCare480 from '../assets/fisio-dermato/optimized/dermato-care-480.webp'
+import dermatoCare960 from '../assets/fisio-dermato/optimized/dermato-care-960.webp'
 import fd2_480 from '../assets/fisio-dermato/optimized/fd_2-480.webp'
 import fd2_960 from '../assets/fisio-dermato/optimized/fd_2-960.webp'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -316,6 +318,18 @@ function ProcedureDetail() {
                       ) : <span className="procedure-detail__note">{item.note}</span>)}
                     </article>
                   ))}
+                  {isDermato && sectionIndex === 0 && (
+                    <figure className="procedure-detail__dermato-photo-card" data-reveal="up">
+                      <img
+                        src={dermatoCare960}
+                        srcSet={`${dermatoCare480} 480w, ${dermatoCare960} 960w`}
+                        sizes="(max-width: 520px) 100vw, (max-width: 900px) 50vw, 25vw"
+                        alt="Paciente recebendo atendimento de fisioterapia dermatofuncional"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </figure>
+                  )}
                 </div>
               )}
 
