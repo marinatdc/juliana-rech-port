@@ -3168,31 +3168,14 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 }
 
 .procedure-detail--maternity .procedure-detail__visual--maternity-acupuncture {
-  isolation: isolate;
-  background-color: #ead9dc;
   background-position: center 56%;
   background-size: cover;
-}
-
-.procedure-detail--maternity .procedure-detail__visual--maternity-acupuncture::before {
-  position: absolute;
-  inset: -0.75rem;
-  display: block;
-  content: '';
-  z-index: 0;
-  background-image: inherit;
-  background-position: center 56%;
-  background-size: cover;
-  filter: blur(0.85rem);
-  opacity: 0.55;
-  transform: scale(1.05);
 }
 
 .procedure-detail--maternity .procedure-detail__visual--maternity-acupuncture img {
-  z-index: 1;
-  object-fit: contain;
-  object-position: center;
-  transform: scale(1.12);
+  object-fit: cover;
+  object-position: center 56%;
+  transform: scale(1.04);
 }
 
 .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-visual-note {
@@ -3282,10 +3265,12 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 }
 
 .procedure-detail__maternity-visual-note.is-tags {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   gap: 0.45rem;
   min-height: 0;
+  width: 100%;
   padding: 0;
   background: transparent;
 }
