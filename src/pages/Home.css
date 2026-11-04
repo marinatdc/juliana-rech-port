@@ -253,7 +253,7 @@
   aspect-ratio: 1;
   object-fit: contain;
   filter: blur(3px);
-  opacity: 0.05;
+  opacity: 0.15;
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -266,6 +266,7 @@
   max-width: 100%;
   object-fit: contain;
   object-position: center bottom;
+  filter: saturate(0.82);
   user-select: none;
   -webkit-user-drag: none;
 }

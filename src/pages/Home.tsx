@@ -1,4 +1,5 @@
-import { useEffect, useState, type MouseEvent } from 'react'
+import { useEffect, useLayoutEffect, useState, type MouseEvent } from 'react'
+import { Link } from 'react-router-dom'
 import fotoJuliana from '../assets/foto-juliana-heading-recortada.webp'
 import logo from '../assets/logo-comp-s-fundo.webp'
 import mandala from '../assets/logo-mandala-recortada.webp'
@@ -57,6 +58,9 @@ function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isProceduresOpen, setIsProceduresOpen] = useState(false)
   const [isReviewsStarSpinning, setIsReviewsStarSpinning] = useState(false)
+  useLayoutEffect(() => {
+    if (!window.location.hash) window.scrollTo(0, 0)
+  }, [])
   useScrollReveal()
 
   function closeMenu() {
@@ -147,9 +151,9 @@ function Home() {
             <div className="site-nav__submenu" id="home-procedures-menu" hidden={!isProceduresOpen}>
               <a href="#tratamentos" onClick={handleSectionNavigation}>Todos os procedimentos</a>
               {procedures.map((procedure) => (
-                <a href={`${import.meta.env.BASE_URL}tratamentos/${procedure.slug}`} key={procedure.slug} onClick={closeMenu}>
+                <Link to={`/tratamentos/${procedure.slug}`} key={procedure.slug} onClick={closeMenu}>
                   {procedure.title}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -161,7 +165,7 @@ function Home() {
         </nav>
       </header>
 
-      <main>
+      <main className="page-enter">
         <section className="hero-section" id="inicio">
           <div className="hero-section__content" data-reveal="up">
             <p className="eyebrow">FISIOTERAPEUTA - CREFITO 5/46886-F</p>

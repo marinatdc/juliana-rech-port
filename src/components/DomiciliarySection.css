@@ -360,6 +360,10 @@
   .domiciliary-process {
     grid-column: auto;
   }
+
+  .domiciliary-section__cta {
+    margin-top: 20px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

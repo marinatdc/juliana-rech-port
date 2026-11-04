@@ -334,6 +334,16 @@
     gap: 2rem;
   }
 
+  .global-footer__hours {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .global-footer__hours > span {
+    align-self: stretch;
+    text-align: left;
+  }
+
   .global-footer__brand img {
     width: 6.5rem;
     height: 4rem;

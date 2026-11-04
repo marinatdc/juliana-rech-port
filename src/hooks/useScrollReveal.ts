@@ -2,13 +2,21 @@ import { useLayoutEffect } from 'react'
 
 const revealSelector = '[data-reveal]'
 
-function useScrollReveal() {
+function useScrollReveal(routeKey?: string) {
   useLayoutEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduceMotion) return
 
     const targets = Array.from(document.querySelectorAll<HTMLElement>(revealSelector))
     if (!targets.length) return
+
+    const viewportHeight = window.innerHeight
+    targets.forEach((target) => {
+      const bounds = target.getBoundingClientRect()
+      if (bounds.top < viewportHeight && bounds.bottom > 0) {
+        target.classList.add('is-revealed')
+      }
+    })
 
     document.documentElement.classList.add('scroll-reveal-ready')
 
@@ -32,7 +40,7 @@ function useScrollReveal() {
       observer.disconnect()
       document.documentElement.classList.remove('scroll-reveal-ready')
     }
-  }, [])
+  }, [routeKey])
 }
 
 export default useScrollReveal

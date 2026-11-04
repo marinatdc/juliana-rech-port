@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useLayoutEffect, useState } from 'react'
 import { CgGym, CgImport } from 'react-icons/cg'
 import { FaBalanceScale, FaRegCheckCircle, FaRegDotCircle, FaRegSmile } from 'react-icons/fa'
 import { FaShieldHeart } from 'react-icons/fa6'
@@ -34,19 +34,23 @@ import maternityAcupuncture480 from '../assets/gestantes/optimized/maternity-acu
 import maternityAcupuncture960 from '../assets/gestantes/optimized/maternity-acupuncture-960.webp'
 import maternityLymphatic480 from '../assets/gestantes/optimized/maternity-lymphatic-480.webp'
 import maternityLymphatic960 from '../assets/gestantes/optimized/maternity-lymphatic-960.webp'
-import maternityTaping480 from '../assets/gestantes/optimized/maternity-taping-480.webp'
-import maternityTaping960 from '../assets/gestantes/optimized/maternity-taping-960.webp'
 import fd2_480 from '../assets/fisio-dermato/optimized/fd_2-480.webp'
 import fd2_960 from '../assets/fisio-dermato/optimized/fd_2-960.webp'
 import rehabPosPre1 from '../assets/pos-pre/optimized/rehab-pos-pre-1.webp'
 import rehabPosPre2 from '../assets/pos-pre/optimized/rehab-pos-pre-2.webp'
 import rehabPosPre3 from '../assets/pos-pre/optimized/rehab-pos-pre-3.webp'
+import interAntes1 from '../assets/intercorrencias/inter-antes-1.jpeg'
+import interAntes2 from '../assets/intercorrencias/inter-antes-2.jpeg'
+import interDepois1 from '../assets/intercorrencias/inter-depos-1.jpeg'
+import interDepois2 from '../assets/intercorrencias/inter-depos-2.jpeg'
+import atmAcupunctureBlurred from '../assets/trat-dores/atm-acupuncture-blurred.png'
+import lymphedemaCareVideo from '../assets/trat-dores/20260512_172744_1.mp4'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import logo from '../assets/logo-comp-s-fundo.webp'
 import SectionBadge from '../components/SectionBadge'
 import ProcedureClosingSection from '../components/ProcedureClosingSection'
 import DermatofunctionalGallery from '../components/DermatofunctionalGallery'
-import { PainManualVideo, PainNeedlingVideo, PainTherapeuticVideo } from '../components/PainVideoSection'
+import { PainNeedlingVideo, PainTherapeuticVideo } from '../components/PainVideoSection'
 import SiteFooter from '../components/SiteFooter'
 import { procedureDetails } from '../data/procedureDetails'
 import { procedures } from '../data/procedures'
@@ -57,6 +61,13 @@ const rehabMobilityPhotos = [
   { src: rehabPosPre1, alt: 'Atendimento fisioterapêutico com recurso de laser no rosto' },
   { src: rehabPosPre2, alt: 'Registro da região abdominal durante o acompanhamento pós-operatório' },
   { src: rehabPosPre3, alt: 'Bandagem terapêutica aplicada na região do pescoço' },
+]
+
+const intercorrenciasResultPhotos = [
+  { src: interAntes1, alt: 'Registro clínico inicial da região abdominal, vista lateral.', phase: 'Antes', caption: 'Registro clínico inicial' },
+  { src: interDepois2, alt: 'Registro clínico da região abdominal após o procedimento, vista lateral.', phase: 'Depois', caption: 'Registro após o procedimento' },
+  { src: interAntes2, alt: 'Registro clínico inicial da região abdominal, vista frontal.', phase: 'Antes', caption: 'Registro clínico inicial' },
+  { src: interDepois1, alt: 'Registro clínico da região abdominal após o procedimento, vista frontal.', phase: 'Depois', caption: 'Registro após o procedimento' },
 ]
 
 function PostRehabPhotoCarousel() {
@@ -118,8 +129,11 @@ function renderIntroduction(paragraph: string) {
 }
 
 function ProcedureDetail() {
-  useScrollReveal()
   const { slug } = useParams()
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  }, [slug])
+  useScrollReveal(slug)
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [proceduresOpen, setProceduresOpen] = useState(false)
@@ -131,10 +145,6 @@ function ProcedureDetail() {
   const isLymphedema = slug === 'linfedema-e-lipedema'
   const procedure = procedures.find((item) => item.slug === slug)
   const detail = slug ? procedureDetails[slug] : undefined
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [slug])
 
   const goBack = () => {
     const historyIndex = window.history.state?.idx
@@ -151,7 +161,7 @@ function ProcedureDetail() {
   }
 
   if (!procedure || !detail) {
-    return <><main className="procedure-detail__not-found">
+    return <><main className="procedure-detail__not-found page-enter">
       <Link to="/#tratamentos">← Voltar aos tratamentos</Link>
       <h1>Procedimento não encontrado</h1>
     </main><SiteFooter /></>
@@ -174,9 +184,9 @@ function ProcedureDetail() {
           <span /><span /><span />
         </button>
         <nav className={`procedure-header__nav${menuOpen ? ' is-open' : ''}`} id="procedure-navigation" aria-label="Navegação principal">
-          <a href={`${import.meta.env.BASE_URL}#sobre`} onClick={closeMenu}>Quem sou</a>
-          <a href={`${import.meta.env.BASE_URL}#para-quem`} onClick={closeMenu}>Para quem</a>
-          <a href={`${import.meta.env.BASE_URL}#como-funciona`} onClick={closeMenu}>Como funciona</a>
+          <Link to="/#sobre" onClick={closeMenu}>Quem sou</Link>
+          <Link to="/#para-quem" onClick={closeMenu}>Para quem</Link>
+          <Link to="/#como-funciona" onClick={closeMenu}>Como funciona</Link>
           <div className={`procedure-header__dropdown${proceduresOpen ? ' is-open' : ''}`}>
             <button
               className="procedure-header__trigger"
@@ -189,21 +199,21 @@ function ProcedureDetail() {
               <svg viewBox="0 0 12 12" aria-hidden="true"><path d="m2.5 4.5 3.5 3 3.5-3" /></svg>
             </button>
             <div className="procedure-header__submenu" id="detail-procedures-menu" hidden={!proceduresOpen}>
-              <a href={`${import.meta.env.BASE_URL}#tratamentos`} onClick={closeMenu}>Todos os procedimentos</a>
+              <Link to="/#tratamentos" onClick={closeMenu}>Todos os procedimentos</Link>
               {procedures.map((item) => (
-                <a href={`${import.meta.env.BASE_URL}tratamentos/${item.slug}`} key={item.slug} onClick={closeMenu}>{item.title}</a>
+                <Link to={`/tratamentos/${item.slug}`} key={item.slug} onClick={closeMenu}>{item.title}</Link>
               ))}
             </div>
           </div>
-          <a href={`${import.meta.env.BASE_URL}#avaliacoes`} onClick={closeMenu}>Avaliações</a>
-          <a href={`${import.meta.env.BASE_URL}#atendimento-domiciliar`} onClick={closeMenu}>Atendimento domiciliar</a>
-          <a className="procedure-header__cta" href={`${import.meta.env.BASE_URL}#contato`} onClick={closeMenu}>
+          <Link to="/#avaliacoes" onClick={closeMenu}>Avaliações</Link>
+          <Link to="/#atendimento-domiciliar" onClick={closeMenu}>Atendimento domiciliar</Link>
+          <Link className="procedure-header__cta" to="/#contato" onClick={closeMenu}>
             Agendar avaliação <span aria-hidden="true">→</span>
-          </a>
+          </Link>
         </nav>
       </header>
 
-      <main className={`procedure-detail${isPrePost ? ' procedure-detail--pre-post' : ''}${isIntercorrencias ? ' procedure-detail--intercorrencias' : ''}${isMaternity ? ' procedure-detail--maternity' : ''}${isPain ? ' procedure-detail--pain' : ''}${isDermato ? ' procedure-detail--dermato' : ''}${isLymphedema ? ' procedure-detail--lymphedema' : ''}`}>
+      <main className={`procedure-detail page-enter${isPrePost ? ' procedure-detail--pre-post' : ''}${isIntercorrencias ? ' procedure-detail--intercorrencias' : ''}${isMaternity ? ' procedure-detail--maternity' : ''}${isPain ? ' procedure-detail--pain' : ''}${isDermato ? ' procedure-detail--dermato' : ''}${isLymphedema ? ' procedure-detail--lymphedema' : ''}`}>
         <section className="procedure-detail__hero">
           <img className="procedure-detail__cover" src={procedure.image} alt="" aria-hidden="true" fetchPriority="high" />
           <div className="procedure-detail__hero-inner">
@@ -222,6 +232,7 @@ function ProcedureDetail() {
         {detail.sections.map((section, sectionIndex) => {
           if (isIntercorrencias && sectionIndex === 2) return null
           return (
+          <Fragment key={section.title}>
           <section
             className={`procedure-detail__section${sectionIndex % 2 === 0 ? ' is-soft' : ''}${isPrePost ? ` procedure-detail__section--pre-post-${sectionIndex + 1}` : ''}${isIntercorrencias ? ` procedure-detail__section--intercorrencias-${sectionIndex + 1}` : ''}${isMaternity ? ` procedure-detail__section--maternity-${sectionIndex + 1}` : ''}${isPain ? ` procedure-detail__section--pain-${sectionIndex + 1}` : ''}${isDermato ? ` procedure-detail__section--dermato-${sectionIndex + 1}` : ''}${isLymphedema ? ` procedure-detail__section--${sectionIndex + 1}` : ''}`}
             style={isPrePost && sectionIndex === 1 ? {
@@ -269,7 +280,6 @@ function ProcedureDetail() {
                   {section.items.map((item, index) => {
                     const isMaternityAcupuncturePhoto = isMaternity && sectionIndex === 0 && index === 0
                     const isMaternityLymphaticPhoto = isMaternity && sectionIndex === 0 && index === 1
-                    const isMaternityTapingPhoto = isMaternity && sectionIndex === 1 && index === 0
                     const maternityPhoto = isMaternityAcupuncturePhoto
                       ? {
                           src: maternityAcupuncture960,
@@ -282,12 +292,6 @@ function ProcedureDetail() {
                             srcSet: `${maternityLymphatic480} 480w, ${maternityLymphatic960} 960w`,
                             alt: 'Atendimento de drenagem linfática gestacional',
                           }
-                        : isMaternityTapingPhoto
-                        ? {
-                            src: maternityTaping960,
-                            srcSet: `${maternityTaping480} 480w, ${maternityTaping960} 960w`,
-                            alt: 'Bandagem de taping aplicada na região abdominal no pós-parto',
-                          }
                         : null
                     const hasMaternityVisualNote = isMaternity && (
                       (sectionIndex === 0 && (index === 1 || index === 2))
@@ -297,7 +301,7 @@ function ProcedureDetail() {
 
                     return (
                     <article className={`procedure-detail__feature-row${index % 2 === 1 ? ' is-reversed' : ''}${isMaternity ? ' procedure-detail__feature-row--maternity' : ''}${hasMaternityVisualNote ? ' has-visual-note' : ''}${isMaternityTextOnly ? ' is-text-only' : ''}`} data-reveal="up" key={item.title}>
-                      {(!isMaternity || maternityPhoto) && <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${maternityPhoto ? ' procedure-detail__visual--maternity-photo' : ''}${isMaternityAcupuncturePhoto ? ' procedure-detail__visual--maternity-acupuncture' : ''}${isMaternityLymphaticPhoto ? ' procedure-detail__visual--maternity-lymphatic' : ''}${isMaternityTapingPhoto ? ' procedure-detail__visual--maternity-taping' : ''}`} aria-hidden={!maternityPhoto}>
+                      {(!isMaternity || maternityPhoto) && <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${maternityPhoto ? ' procedure-detail__visual--maternity-photo' : ''}${isMaternityAcupuncturePhoto ? ' procedure-detail__visual--maternity-acupuncture' : ''}${isMaternityLymphaticPhoto ? ' procedure-detail__visual--maternity-lymphatic' : ''}`} aria-hidden={!maternityPhoto}>
                         {maternityPhoto ? (
                           <img
                             src={maternityPhoto.src}
@@ -397,7 +401,15 @@ function ProcedureDetail() {
                       {item.label && isPrePost && sectionIndex === 3 ? <span className="procedure-detail__rehab-label">{index === 0 ? <GiMeditation aria-hidden="true" /> : <LuMicroscope aria-hidden="true" />}{item.label}</span> : item.label && !(isPain) && !(isDermato && sectionIndex === 0) && !(isLymphedema && (sectionIndex === 0 || sectionIndex === 2)) && !(isPrePost && sectionIndex === 1 && index === 0) && !(isIntercorrencias && sectionIndex === 0) && <span className={`procedure-detail__tag${isPrePost && sectionIndex === 1 ? ' procedure-detail__post-tag' : ''}${isIntercorrencias && sectionIndex === 1 ? ' procedure-detail__therapy-label' : ''}`}>{item.label}</span>}
                       <h3>{item.title}</h3>
                       <p>{item.body}</p>
-                      {isPain && sectionIndex === 1 && index === 0 && <PainManualVideo />}
+                      {isPain && sectionIndex === 1 && item.title === 'Dor na ATM e musculatura da face' && (
+                        <img
+                          className="procedure-detail__pain-card-image"
+                          src={atmAcupunctureBlurred}
+                          alt="Agulhamento terapêutico na região da mandíbula e da face; olhos e boca desfocados para preservar a identidade da paciente."
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
                       {isPain && sectionIndex === 1 && index === 1 && <PainTherapeuticVideo />}
                       {item.extraBody && <p className={`procedure-detail__post-extra-body${isPrePost && sectionIndex === 3 ? ' procedure-detail__rehab-extra' : ''}`}>{item.extraBody}</p>}
                       {isLymphedema && sectionIndex === 0 && item.features && <ul className="procedure-detail__lymphedema-difference-features">{item.features.map((feature, featureIndex) => {
@@ -424,6 +436,14 @@ function ProcedureDetail() {
                       ) : <span className="procedure-detail__note">{item.note}</span>)}
                     </article>
                   ))}
+                  {isLymphedema && sectionIndex === 0 && (
+                    <article className="procedure-detail__lymphedema-video-card" data-reveal="up">
+                      <video controls playsInline preload="metadata" aria-label="Vídeo de atendimento fisioterapêutico">
+                        <source src={lymphedemaCareVideo} type="video/mp4" />
+                        Seu navegador não oferece reprodução de vídeo.
+                      </video>
+                    </article>
+                  )}
                   {isPrePost && sectionIndex === 3 && <PostRehabPhotoCarousel />}
                 </div>
               )}
@@ -476,10 +496,23 @@ function ProcedureDetail() {
               ))}
             </div>
           </section>
+          {isIntercorrencias && sectionIndex === 0 && (
+            <section className="procedure-detail__intercorrencias-results">
+              <div className="procedure-detail__intercorrencias-results-grid">
+                {intercorrenciasResultPhotos.map((photo) => (
+                  <article className={`procedure-detail__intercorrencias-result is-${photo.phase.toLowerCase()}`} key={photo.src}>
+                    <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+                    <span className="procedure-detail__intercorrencias-result-phase">{photo.phase}</span>
+                    <p>{photo.caption}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
+          </Fragment>
         )})}
 
         {isDermato && <DermatofunctionalGallery />}
-
 
         <ProcedureClosingSection
           eyebrow={detail.closingEyebrow}
