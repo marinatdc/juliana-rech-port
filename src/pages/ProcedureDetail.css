@@ -2255,6 +2255,7 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 
 .procedure-detail--pain .procedure-detail__cover {
   object-position: center 46%;
+  opacity: 0.2;
 }
 
 .procedure-detail--pain .procedure-detail__hero-inner {
@@ -4083,6 +4084,10 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+.procedure-detail__intercorrencias-result.is-depois img {
+  transform: scale(1.12);
 }
 
 .procedure-detail__intercorrencias-result-phase {
