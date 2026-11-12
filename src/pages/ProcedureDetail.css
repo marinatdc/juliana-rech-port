@@ -512,6 +512,16 @@
   box-shadow: 0 8px 18px rgb(74 34 48 / 12%);
 }
 
+.procedure-detail--dermato .procedure-detail__closing-art.is-video {
+  height: clamp(28rem, 35vw, 30rem);
+  min-height: 0;
+  align-self: center;
+}
+
+.procedure-detail--dermato .procedure-detail__closing-art.is-video + .procedure-detail__closing-copy {
+  align-self: center;
+}
+
 .procedure-detail__closing-art::after {
   position: absolute;
   z-index: 1;
@@ -522,7 +532,8 @@
   pointer-events: none;
 }
 
-.procedure-detail__closing-art img {
+.procedure-detail__closing-art img,
+.procedure-detail__closing-art video {
   position: absolute;
   inset: 0;
   display: block;
@@ -1522,6 +1533,16 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   .procedure-detail__closing-art {
     min-height: 14rem;
   }
+
+  .procedure-detail--dermato .procedure-detail__closing-art.is-video {
+    width: min(100%, 24.5rem);
+    height: clamp(24rem, 88vw, 29rem);
+    justify-self: center;
+  }
+
+  .procedure-detail--dermato .procedure-detail__closing-art.is-video + .procedure-detail__closing-copy {
+    align-self: stretch;
+  }
 }
 
 @media (max-width: 520px) {
@@ -1533,7 +1554,7 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 
   .procedure-detail__cover {
     width: 100%;
-    opacity: 0.2;
+    opacity: 0.12;
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 48%);
     mask-image: linear-gradient(90deg, transparent 0%, #000 48%);
   }
@@ -2141,17 +2162,28 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 }
 
 .procedure-detail--dermato .procedure-detail__dermato-human-heading {
-  max-width: 58rem;
-  margin: 0 auto 2.8rem;
-  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.92fr);
+  grid-template-areas:
+    'eyebrow photo'
+    'title photo'
+    'intro photo'
+    'emphasis photo';
+  align-items: center;
+  column-gap: clamp(1rem, 2.5vw, 2rem);
+  row-gap: 0;
+  max-width: none;
+  margin: 0 auto 2.75rem;
+  text-align: left;
 }
 
 .procedure-detail--dermato .procedure-detail__dermato-human-eyebrow {
+  grid-area: eyebrow;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.45rem;
-  margin: 0 auto;
+  margin: 0;
   color: #c99b55;
   font-size: 0.68rem;
   font-weight: 700;
@@ -2165,28 +2197,67 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 }
 
 .procedure-detail--dermato .procedure-detail__dermato-human-heading h2 {
-  max-width: 58rem;
-  margin: 1.2rem auto 0;
+  grid-area: title;
+  max-width: 22ch;
+  margin: 0.75rem 0 0;
   color: #372b27;
   font-size: clamp(2rem, 3vw, 2.45rem);
   line-height: 1.18;
 }
 
-.procedure-detail--dermato .procedure-detail__dermato-human-heading > p:not(.procedure-detail__eyebrow) {
+.procedure-detail--dermato .procedure-detail__dermato-human-intro {
+  grid-area: intro;
   max-width: none;
-  margin: 0.65rem auto 0;
+  margin: 0.85rem 0 0;
   color: #403530;
   font-size: clamp(0.92rem, 1.25vw, 1.05rem);
   line-height: 1.7;
 }
 
 .procedure-detail--dermato .procedure-detail__dermato-human-heading .procedure-detail__section-emphasis {
-  max-width: 58rem;
-  margin-top: 0.15rem;
+  grid-area: emphasis;
+  max-width: none;
+  margin: 1rem 0 0;
+  padding-left: 1rem;
+  border-left: 2px solid #c99b55;
+  color: #511a30;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.procedure-detail__dermato-human-photo {
+  position: relative;
+  grid-area: photo;
+  width: min(100%, 27rem);
+  aspect-ratio: 0.94;
+  justify-self: end;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 2.5rem;
+  background: #ead6d1;
+  box-shadow: 0 12px 28px rgb(74 34 48 / 12%);
+}
+
+.procedure-detail__dermato-human-photo::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  border: 1px solid rgb(255 255 255 / 52%);
+  border-radius: inherit;
+  content: '';
+  pointer-events: none;
+}
+
+.procedure-detail__dermato-human-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
 }
 
 .procedure-detail--dermato .procedure-detail__section--dermato-4 .procedure-detail__cards {
-  width: min(100%, 66rem);
+  width: 100%;
   margin-inline: auto;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
@@ -2234,8 +2305,40 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 }
 
 @media (max-width: 760px) {
+  .procedure-detail--dermato .procedure-detail__dermato-human-heading {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'eyebrow' 'title' 'intro' 'emphasis' 'photo';
+    justify-items: center;
+    row-gap: 0;
+    text-align: center;
+  }
+
+  .procedure-detail--dermato .procedure-detail__dermato-human-eyebrow {
+    justify-content: center;
+  }
+
   .procedure-detail--dermato .procedure-detail__dermato-human-heading h2 {
+    max-width: 24ch;
+    margin-top: 0.6rem;
     font-size: 1.9rem;
+  }
+
+  .procedure-detail--dermato .procedure-detail__dermato-human-intro {
+    margin-top: 0.7rem;
+    text-align: center;
+  }
+
+  .procedure-detail--dermato .procedure-detail__dermato-human-heading .procedure-detail__section-emphasis {
+    margin-top: 0.8rem;
+    text-align: left;
+  }
+
+  .procedure-detail__dermato-human-photo {
+    width: min(100%, 27rem);
+    margin-top: 1.5rem;
+    aspect-ratio: 1 / 1.05;
+    justify-self: center;
+    border-radius: 2rem;
   }
 
   .procedure-detail--dermato .procedure-detail__section--dermato-4 .procedure-detail__cards {
@@ -2757,6 +2860,7 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 .procedure-detail--dermato .procedure-detail__section--dermato-1 {
   background: #fff8f8;
   padding-block: clamp(4.5rem, 7vw, 6.5rem);
+  padding-bottom: 1.25rem;
 }
 
 .procedure-detail--dermato .procedure-detail__section--dermato-1 .procedure-detail__section-inner {
@@ -2887,6 +2991,7 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 
 .procedure-detail--dermato .procedure-detail__section--dermato-2 {
   background: #f8eeef;
+  padding-bottom: 0;
 }
 
 .procedure-detail--dermato .procedure-detail__section--dermato-2 .procedure-detail__dermato-specialties-heading {
@@ -3046,7 +3151,7 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 .procedure-detail__dermato-radio-card {
   display: grid;
   grid-template-columns: minmax(14rem, 0.9fr) minmax(0, 1.65fr);
-  align-items: center;
+  align-items: stretch;
   gap: clamp(1.25rem, 3.5vw, 3rem);
   padding: clamp(1.25rem, 3vw, 2rem);
   border: 1px solid rgb(217 189 197 / 45%);
@@ -3055,17 +3160,86 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   box-shadow: 0 5px 10px rgb(74 34 48 / 9%);
 }
 
-.procedure-detail__dermato-radio-image {
+.procedure-detail__dermato-radio-video-frame {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  align-self: stretch;
+  border-radius: 1rem;
+  background: #321a25;
+}
+
+.procedure-detail__dermato-radio-video {
   display: block;
   width: 100%;
-  aspect-ratio: 1;
+  height: auto;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: 1rem;
+  object-position: center;
+  border-radius: inherit;
+  background: #321a25;
+}
+
+.procedure-detail__dermato-radio-controls {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.procedure-detail__dermato-radio-controls button {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 64%);
+  border-radius: 50%;
+  color: #fff;
+  background: rgb(50 26 37 / 74%);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.procedure-detail__dermato-radio-controls button:hover {
+  background: #6c1c37;
+  transform: scale(1.05);
+}
+
+.procedure-detail__dermato-radio-controls button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.procedure-detail__dermato-radio-controls svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.procedure-detail__dermato-radio-video-frame:fullscreen {
+  display: grid;
+  place-items: center;
+  border-radius: 0;
+  background: #160d11;
+}
+
+.procedure-detail__dermato-radio-video-frame:fullscreen .procedure-detail__dermato-radio-video {
+  width: auto;
+  max-width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
 }
 
 .procedure-detail__dermato-radio-content {
   width: 100%;
   min-width: 0;
+  align-self: center;
 }
 
 .procedure-detail__dermato-radio-eyebrow {
@@ -3125,6 +3299,11 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 @media (max-width: 760px) {
   .procedure-detail__dermato-radio-card {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .procedure-detail__dermato-radio-video-frame {
+    max-width: 28rem;
+    justify-self: center;
   }
 
   .procedure-detail__dermato-radio-content {
@@ -3286,6 +3465,11 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   grid-template-columns: minmax(0, 1.65fr) minmax(10.5rem, 0.55fr);
 }
 
+.procedure-detail--maternity .procedure-detail__feature-row--maternity.has-taping-video {
+  grid-template-columns: minmax(10.5rem, 0.55fr) minmax(0, 1.65fr);
+  align-items: stretch;
+}
+
 .procedure-detail--maternity .procedure-detail__visual--maternity {
   min-height: 14rem;
   border-radius: 1rem;
@@ -3295,6 +3479,24 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 
 .procedure-detail--maternity .procedure-detail__visual--maternity-photo {
   background: #ead9dc;
+}
+
+.procedure-detail--maternity .procedure-detail__visual--maternity-taping-video {
+  height: clamp(14rem, 20vw, 18rem);
+  min-height: 14rem;
+  align-self: stretch;
+  background: #321a25;
+}
+
+.procedure-detail--maternity .procedure-detail__visual--maternity-taping-video video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  object-position: center;
 }
 
 .procedure-detail--maternity .procedure-detail__feature-row--maternity:not(.has-visual-note) > .procedure-detail__visual--maternity-photo {
@@ -3435,6 +3637,12 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   background: #f2dce1;
   font-size: 0.72rem;
   font-style: italic;
+}
+
+.procedure-detail--maternity .procedure-detail__feature-row--maternity.has-taping-video > .procedure-detail__maternity-visual-note.is-quote {
+  align-self: start;
+  height: fit-content;
+  min-height: 0;
 }
 
 .procedure-detail__maternity-visual-note.is-focus {
@@ -3583,6 +3791,17 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
     grid-template-columns: minmax(0, 1.45fr) minmax(7rem, 0.55fr);
   }
 
+  .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-taping-video {
+    grid-template-columns: minmax(7rem, 0.55fr) minmax(0, 1.45fr);
+  }
+
+  .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-taping-video > .procedure-detail__visual--maternity-taping-video {
+    width: 100%;
+    height: clamp(14rem, 36vw, 18rem);
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+
   .procedure-detail--maternity .procedure-detail__closing-inner {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -3596,6 +3815,17 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
   .procedure-detail--maternity .procedure-detail__feature-row,
   .procedure-detail--maternity .procedure-detail__feature-row.is-reversed {
     grid-template-columns: 1fr;
+  }
+
+  .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-taping-video {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-taping-video > .procedure-detail__visual--maternity-taping-video {
+    width: min(100%, 22rem);
+    min-height: 0;
+    aspect-ratio: 9 / 16;
+    justify-self: center;
   }
 
   .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-visual-note.is-reversed {
@@ -4087,7 +4317,15 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 }
 
 .procedure-detail__intercorrencias-result.is-depois img {
-  transform: scale(1.12);
+  transform: scale(1.2);
+}
+
+.procedure-detail__intercorrencias-result.is-depois.is-lateral img {
+  object-position: center top;
+}
+
+.procedure-detail__intercorrencias-result.is-depois.is-frontal img {
+  object-position: center bottom;
 }
 
 .procedure-detail__intercorrencias-result-phase {
@@ -4183,4 +4421,20 @@ html.scroll-reveal-ready .procedure-detail .procedure-detail__cards .procedure-d
 }
 .procedure-detail__cover {
   opacity: 0.7;
+}
+
+@media (max-width: 520px) {
+  .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-taping-video > .procedure-detail__visual--maternity-taping-video {
+    width: 100%;
+    max-width: none;
+    aspect-ratio: 4 / 3;
+  }
+
+  .procedure-detail--maternity .procedure-detail__feature-row--maternity.has-taping-video > .procedure-detail__maternity-visual-note.is-quote {
+    min-height: 0;
+    align-items: flex-start;
+    padding: 0.45rem 0.65rem;
+    font-size: 0.62rem;
+    line-height: 1.35;
+  }
 }

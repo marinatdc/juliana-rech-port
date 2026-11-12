@@ -21,9 +21,16 @@
 }
 
 .booking-section__locations {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   min-width: 0;
   width: 100%;
-  align-self: center;
+  align-self: start;
+}
+
+.booking-section__locations > .booking-section__hours {
+  margin-top: 0;
 }
 
 .booking-section__content > .eyebrow {
@@ -81,11 +88,16 @@
   transform: translateY(-2px);
 }
 
-.booking-action--phone:hover {
+.booking-action--phone:hover,
+.booking-action--instagram:hover {
   border-color: #a96f76;
   background: #fffafb;
   box-shadow: 0 6px 16px rgb(74 34 48 / 9%);
   transform: translateY(-2px);
+}
+
+.booking-action--instagram .booking-action__icon {
+  color: var(--color-primary);
 }
 
 .booking-action:focus-visible {

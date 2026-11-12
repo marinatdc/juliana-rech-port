@@ -1,0 +1,49 @@
+.back-to-top-float {
+  position: fixed;
+  right: clamp(4.5rem, 8vw, 7rem);
+  bottom: calc(clamp(3rem, 7vh, 4.5rem) + 5.5rem);
+  z-index: 31;
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 50%);
+  border-radius: 50%;
+  color: var(--color-primary-soft);
+  background: var(--color-primary);
+  box-shadow: 0 0 0 0.34rem rgb(110 38 63 / 11%), 0 10px 28px rgb(74 34 48 / 17%);
+  cursor: pointer;
+  transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.back-to-top-float:hover {
+  background: var(--color-primary-hover);
+  box-shadow: 0 0 0 0.5rem rgb(110 38 63 / 14%), 0 14px 34px rgb(74 34 48 / 22%);
+  transform: translateY(-2px);
+}
+
+.back-to-top-float:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.back-to-top-float svg {
+  width: 1.55rem;
+  height: 1.55rem;
+  stroke-width: 2.5;
+}
+
+@media (max-width: 560px) {
+  .back-to-top-float {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 4.9rem);
+    width: 3.35rem;
+    height: 3.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top-float {
+    transition: none;
+  }
+}

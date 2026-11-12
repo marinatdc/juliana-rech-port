@@ -1,5 +1,5 @@
 import { useState, type MouseEvent } from 'react'
-import { BsWhatsapp } from 'react-icons/bs'
+import { BsInstagram, BsWhatsapp } from 'react-icons/bs'
 import LocationsSection from './LocationsSection'
 import './BookingSection.css'
 
@@ -87,12 +87,31 @@ function BookingSection() {
               </span>
               <span className="booking-action__arrow" aria-hidden="true">→</span>
             </a>
+
+            <a
+              className="booking-action booking-action--instagram"
+              href="https://www.instagram.com/fisiojulianarech/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="booking-action__icon" aria-hidden="true">
+                <BsInstagram />
+              </span>
+              <span className="booking-action__label">
+                <span>Acompanhe no Instagram</span>
+                <strong>@fisiojulianarech</strong>
+              </span>
+              <span className="booking-action__arrow" aria-hidden="true">→</span>
+            </a>
           </div>
 
           <p className="booking-section__copy-notice" role="status" aria-live="polite" data-visible={Boolean(copyNotice)}>
             {copyNotice}
           </p>
 
+        </div>
+
+        <div className="booking-section__locations" data-reveal="right">
           <div className="booking-section__hours">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="12" cy="12" r="8.5" />
@@ -104,9 +123,6 @@ function BookingSection() {
               <span className="booking-section__hours-row"><span>Sábado</span><time>08:00 às 12:00</time></span>
             </div>
           </div>
-        </div>
-
-        <div className="booking-section__locations" data-reveal="right">
           <LocationsSection compact />
         </div>
       </div>

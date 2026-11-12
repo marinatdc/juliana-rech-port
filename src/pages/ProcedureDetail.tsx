@@ -1,10 +1,10 @@
-import { Fragment, useEffect, useLayoutEffect, useState } from 'react'
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { CgGym, CgImport } from 'react-icons/cg'
 import { FaBalanceScale, FaRegCheckCircle, FaRegDotCircle, FaRegSmile } from 'react-icons/fa'
 import { FaShieldHeart } from 'react-icons/fa6'
 import { FaWandMagicSparkles } from 'react-icons/fa6'
 import { BiCertification } from 'react-icons/bi'
-import { FiActivity, FiCheckCircle, FiDroplet, FiEye, FiGitBranch, FiInfo, FiKey, FiMenu, FiMoon, FiMove, FiShield, FiSliders, FiSun, FiTool } from 'react-icons/fi'
+import { FiActivity, FiCheckCircle, FiDroplet, FiEye, FiGitBranch, FiInfo, FiKey, FiMaximize2, FiMenu, FiMoon, FiMove, FiPause, FiPlay, FiShield, FiSliders, FiSun, FiTool } from 'react-icons/fi'
 import { GiMeditation } from 'react-icons/gi'
 import { LuWaves } from 'react-icons/lu'
 import { LuLayers } from 'react-icons/lu'
@@ -34,8 +34,10 @@ import maternityAcupuncture480 from '../assets/gestantes/optimized/maternity-acu
 import maternityAcupuncture960 from '../assets/gestantes/optimized/maternity-acupuncture-960.webp'
 import maternityLymphatic480 from '../assets/gestantes/optimized/maternity-lymphatic-480.webp'
 import maternityLymphatic960 from '../assets/gestantes/optimized/maternity-lymphatic-960.webp'
-import fd2_480 from '../assets/fisio-dermato/optimized/fd_2-480.webp'
-import fd2_960 from '../assets/fisio-dermato/optimized/fd_2-960.webp'
+import postpartumTapingVideo from '../assets/gestantes/pos-parto.mp4'
+import dermatoRadioVideo from '../assets/fisio-dermato/media/dermato-funcional-2.mp4'
+import dermatoClosingVideo from '../assets/fisio-dermato/media/dermato-funcional-1.mp4'
+import dermatoFaceTreatmentPhoto from '../assets/fisio-dermato/media/fisio-dermato.jpeg'
 import rehabPosPre1 from '../assets/pos-pre/optimized/rehab-pos-pre-1.webp'
 import rehabPosPre2 from '../assets/pos-pre/optimized/rehab-pos-pre-2.webp'
 import rehabPosPre3 from '../assets/pos-pre/optimized/rehab-pos-pre-3.webp'
@@ -64,11 +66,148 @@ const rehabMobilityPhotos = [
 ]
 
 const intercorrenciasResultPhotos = [
-  { src: interAntes1, alt: 'Registro clínico inicial da região abdominal, vista lateral.', phase: 'Antes', caption: 'Registro clínico inicial' },
-  { src: interDepois2, alt: 'Registro clínico da região abdominal após o procedimento, vista lateral.', phase: 'Depois', caption: 'Registro após o procedimento' },
-  { src: interAntes2, alt: 'Registro clínico inicial da região abdominal, vista frontal.', phase: 'Antes', caption: 'Registro clínico inicial' },
-  { src: interDepois1, alt: 'Registro clínico da região abdominal após o procedimento, vista frontal.', phase: 'Depois', caption: 'Registro após o procedimento' },
+  { src: interAntes1, alt: 'Registro clínico inicial da região abdominal, vista lateral.', phase: 'Antes', angle: 'lateral', caption: 'Registro clínico inicial' },
+  { src: interDepois2, alt: 'Registro clínico da região abdominal após o procedimento, vista lateral.', phase: 'Depois', angle: 'lateral', caption: 'Registro após o procedimento' },
+  { src: interAntes2, alt: 'Registro clínico inicial da região abdominal, vista frontal.', phase: 'Antes', angle: 'frontal', caption: 'Registro clínico inicial' },
+  { src: interDepois1, alt: 'Registro clínico da região abdominal após o procedimento, vista frontal.', phase: 'Depois', angle: 'frontal', caption: 'Registro após o procedimento' },
 ]
+
+function DermatofunctionalRadioVideo({ src }: { src: string }) {
+  const frameRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const userPausedRef = useRef(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  useEffect(() => {
+    const frame = frameRef.current
+    const video = videoRef.current
+    if (!frame || !video) return
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        if (entry.intersectionRatio < 0.2) return
+        if (!userPausedRef.current) {
+          void video.play().catch(() => setIsPlaying(false))
+        }
+      } else {
+        video.pause()
+        userPausedRef.current = false
+      }
+    }, { threshold: [0, 0.2, 0.6] })
+
+    observer.observe(frame)
+    return () => {
+      observer.disconnect()
+      video.pause()
+    }
+  }, [])
+
+  const togglePlayback = () => {
+    const video = videoRef.current
+    if (!video) return
+
+    if (video.paused) {
+      userPausedRef.current = false
+      void video.play().catch(() => setIsPlaying(false))
+    } else {
+      userPausedRef.current = true
+      video.pause()
+    }
+  }
+
+  const expandVideo = async () => {
+    const frame = frameRef.current
+    const video = videoRef.current
+    if (!frame || !video) return
+
+    if (document.fullscreenElement === frame) {
+      await document.exitFullscreen?.()
+      return
+    }
+
+    if (frame.requestFullscreen) {
+      try {
+        await frame.requestFullscreen()
+        return
+      } catch {
+        // Fall back to the native video fullscreen mode where supported.
+      }
+    }
+
+    const mobileFullscreenVideo = video as HTMLVideoElement & { webkitEnterFullscreen?: () => void }
+    mobileFullscreenVideo.webkitEnterFullscreen?.()
+  }
+
+  return (
+    <div className="procedure-detail__dermato-radio-video-frame" ref={frameRef}>
+      <video
+        ref={videoRef}
+        className="procedure-detail__dermato-radio-video"
+        src={src}
+        muted
+        playsInline
+        preload="metadata"
+        aria-label="Vídeo de radiofrequência dermatofuncional, sem áudio"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onEnded={() => setIsPlaying(false)}
+      >
+        Seu navegador não oferece reprodução de vídeo.
+      </video>
+      <div className="procedure-detail__dermato-radio-controls">
+        <button type="button" onClick={togglePlayback} aria-label={isPlaying ? 'Pausar vídeo' : 'Reproduzir vídeo'}>
+          {isPlaying ? <FiPause aria-hidden="true" /> : <FiPlay aria-hidden="true" />}
+        </button>
+        <button type="button" onClick={() => void expandVideo()} aria-label="Expandir vídeo">
+          <FiMaximize2 aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function PostpartumTapingVideo() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    video.muted = true
+    video.defaultMuted = true
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+        void video.play().catch(() => undefined)
+      } else {
+        video.pause()
+      }
+    }, { threshold: [0, 0.35] })
+
+    observer.observe(video)
+    return () => {
+      observer.disconnect()
+      video.pause()
+    }
+  }, [])
+
+  return (
+    <video
+      ref={videoRef}
+      controls
+      muted
+      playsInline
+      preload="metadata"
+      aria-label="Vídeo do taping pós-parto, sem áudio"
+      onVolumeChange={(event) => {
+        if (!event.currentTarget.muted) event.currentTarget.muted = true
+      }}
+    >
+      <source src={postpartumTapingVideo} type="video/mp4" />
+      Seu navegador não oferece reprodução de vídeo.
+    </video>
+  )
+}
 
 function PostRehabPhotoCarousel() {
   const [activePhoto, setActivePhoto] = useState(0)
@@ -244,9 +383,17 @@ function ProcedureDetail() {
             <header className={`procedure-detail__section-heading${isPrePost && sectionIndex === 3 ? ' procedure-detail__rehab-heading' : ''}${isPain && sectionIndex === 1 ? ' procedure-detail__pain-heading' : ''}${isDermato && sectionIndex === 0 ? ' procedure-detail__dermato-heading' : ''}${isDermato && sectionIndex === 1 ? ' procedure-detail__dermato-specialties-heading' : ''}${isDermato && sectionIndex === 2 ? ' procedure-detail__dermato-radio-heading' : ''}${isDermato && sectionIndex === 3 ? ' procedure-detail__dermato-human-heading' : ''}${isLymphedema ? ` procedure-detail__lymphedema-heading--${sectionIndex + 1}` : ''}`} data-reveal="up">
                 <p className={`procedure-detail__eyebrow${isPain && sectionIndex === 1 ? ' procedure-detail__pain-eyebrow' : ''}${isDermato && sectionIndex === 0 ? ' procedure-detail__dermato-eyebrow' : ''}${isDermato && sectionIndex === 1 ? ' procedure-detail__dermato-specialties-eyebrow' : ''}${isDermato && sectionIndex === 3 ? ' procedure-detail__dermato-human-eyebrow' : ''}${isLymphedema && sectionIndex === 0 ? ' procedure-detail__lymphedema-difference-eyebrow' : ''}${isLymphedema && sectionIndex === 2 ? ' procedure-detail__lymphedema-care-eyebrow' : ''}`}>{isPain && sectionIndex === 2 && <FiHeart aria-hidden="true" />}{isDermato && sectionIndex === 0 && <LuMicroscope aria-hidden="true" />}{isDermato && sectionIndex === 1 && <span aria-hidden="true">•</span>}{isDermato && sectionIndex === 3 && <FiHeart aria-hidden="true" />}{isLymphedema && sectionIndex === 2 && <FiEye aria-hidden="true" />}{section.eyebrow}</p>
                 <h2 className={`${isPain && sectionIndex === 1 ? 'procedure-detail__pain-heading-title' : ''}${isDermato && sectionIndex === 1 ? ' procedure-detail__dermato-specialties-title' : ''}`}>{isDermato && sectionIndex === 1 ? <>Abordagens Especializadas para a<br /><u>Tua Pele</u> e o <u>Teu Corpo</u></> : section.title}</h2>
-                {section.intro && <p className={`${isPain && sectionIndex === 1 ? 'procedure-detail__pain-heading-intro' : ''}${isDermato && sectionIndex === 1 ? ' procedure-detail__dermato-specialties-intro' : ''}`}>{renderIntroduction(section.intro)}</p>}
+                {section.intro && <p className={`${isPain && sectionIndex === 1 ? 'procedure-detail__pain-heading-intro' : ''}${isDermato && sectionIndex === 1 ? ' procedure-detail__dermato-specialties-intro' : ''}${isDermato && sectionIndex === 3 ? ' procedure-detail__dermato-human-intro' : ''}`}>{renderIntroduction(section.intro)}</p>}
                 {section.introSecondary && <p className="procedure-detail__section-secondary-intro">{renderIntroduction(section.introSecondary)}</p>}
                 {section.introEmphasis && <p className="procedure-detail__section-emphasis">{renderIntroduction(section.introEmphasis)}</p>}
+                {isDermato && sectionIndex === 3 && <figure className="procedure-detail__dermato-human-photo">
+                  <img
+                    src={dermatoFaceTreatmentPhoto}
+                    alt="Atendimento dermatofuncional facial com máscara cosmética"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>}
               </header>
 
               {isPain && sectionIndex === 0 && (() => {
@@ -280,6 +427,7 @@ function ProcedureDetail() {
                   {section.items.map((item, index) => {
                     const isMaternityAcupuncturePhoto = isMaternity && sectionIndex === 0 && index === 0
                     const isMaternityLymphaticPhoto = isMaternity && sectionIndex === 0 && index === 1
+                    const isMaternityTapingVideo = isMaternity && sectionIndex === 1 && index === 0
                     const maternityPhoto = isMaternityAcupuncturePhoto
                       ? {
                           src: maternityAcupuncture960,
@@ -297,11 +445,11 @@ function ProcedureDetail() {
                       (sectionIndex === 0 && (index === 1 || index === 2))
                       || (sectionIndex === 1 && (index === 0 || index === 2))
                     )
-                    const isMaternityTextOnly = isMaternity && !maternityPhoto
+                    const isMaternityTextOnly = isMaternity && !maternityPhoto && !isMaternityTapingVideo
 
                     return (
-                    <article className={`procedure-detail__feature-row${index % 2 === 1 ? ' is-reversed' : ''}${isMaternity ? ' procedure-detail__feature-row--maternity' : ''}${hasMaternityVisualNote ? ' has-visual-note' : ''}${isMaternityTextOnly ? ' is-text-only' : ''}`} data-reveal="up" key={item.title}>
-                      {(!isMaternity || maternityPhoto) && <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${maternityPhoto ? ' procedure-detail__visual--maternity-photo' : ''}${isMaternityAcupuncturePhoto ? ' procedure-detail__visual--maternity-acupuncture' : ''}${isMaternityLymphaticPhoto ? ' procedure-detail__visual--maternity-lymphatic' : ''}`} aria-hidden={!maternityPhoto}>
+                    <article className={`procedure-detail__feature-row${index % 2 === 1 ? ' is-reversed' : ''}${isMaternity ? ' procedure-detail__feature-row--maternity' : ''}${hasMaternityVisualNote ? ' has-visual-note' : ''}${isMaternityTapingVideo ? ' has-taping-video' : ''}${isMaternityTextOnly ? ' is-text-only' : ''}`} data-reveal="up" key={item.title}>
+                      {(!isMaternity || maternityPhoto || isMaternityTapingVideo) && <div className={`procedure-detail__visual${isMaternity ? ' procedure-detail__visual--maternity' : ''}${maternityPhoto ? ' procedure-detail__visual--maternity-photo' : ''}${isMaternityAcupuncturePhoto ? ' procedure-detail__visual--maternity-acupuncture' : ''}${isMaternityLymphaticPhoto ? ' procedure-detail__visual--maternity-lymphatic' : ''}${isMaternityTapingVideo ? ' procedure-detail__visual--maternity-taping-video' : ''}`} aria-hidden={!maternityPhoto && !isMaternityTapingVideo}>
                         {maternityPhoto ? (
                           <img
                             src={maternityPhoto.src}
@@ -311,6 +459,8 @@ function ProcedureDetail() {
                             loading="lazy"
                             decoding="async"
                           />
+                        ) : isMaternityTapingVideo ? (
+                          <PostpartumTapingVideo />
                         ) : <span>{String(index + 1).padStart(2, '0')}</span>}
                       </div>}
                       {isMaternity && sectionIndex === 0 && (index === 1 || index === 2) && item.note && <aside className="procedure-detail__maternity-visual-note">{index === 1 ? <FiMoon aria-hidden="true" /> : <BiCertification aria-hidden="true" />}<span>{item.note}</span></aside>}
@@ -465,17 +615,7 @@ function ProcedureDetail() {
 
               {section.layout === 'feature' && section.items.map((item) => isDermato && sectionIndex === 2 ? (
                 <article className="procedure-detail__dermato-radio-card" data-reveal="up" key={item.title}>
-                  <img
-                    className="procedure-detail__dermato-radio-image"
-                    src={fd2_480}
-                    srcSet={`${fd2_480} 480w, ${fd2_960} 960w`}
-                    sizes="(max-width: 760px) calc(100vw - 3rem), 34vw"
-                    width="960"
-                    height="960"
-                    alt="Registro comparativo de acompanhamento corporal da região glútea, em vista lateral."
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <DermatofunctionalRadioVideo src={dermatoRadioVideo} />
                   <div className="procedure-detail__dermato-radio-content">
                     <span className="procedure-detail__dermato-radio-eyebrow"><IoRadioOutline aria-hidden="true" />{section.eyebrow}</span>
                     <h3>{section.title}</h3>
@@ -496,11 +636,12 @@ function ProcedureDetail() {
               ))}
             </div>
           </section>
+          {isDermato && sectionIndex === 0 && <DermatofunctionalGallery placement="assessment" />}
           {isIntercorrencias && sectionIndex === 0 && (
             <section className="procedure-detail__intercorrencias-results">
               <div className="procedure-detail__intercorrencias-results-grid">
                 {intercorrenciasResultPhotos.map((photo) => (
-                  <article className={`procedure-detail__intercorrencias-result is-${photo.phase.toLowerCase()}`} key={photo.src}>
+                  <article className={`procedure-detail__intercorrencias-result is-${photo.phase.toLowerCase()} is-${photo.angle}`} key={photo.src}>
                     <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
                     <span className="procedure-detail__intercorrencias-result-phase">{photo.phase}</span>
                     <p>{photo.caption}</p>
@@ -522,6 +663,7 @@ function ProcedureDetail() {
           imageSrc={dermatoPortrait941}
           imageSrcSet={`${dermatoPortrait480} 480w, ${dermatoPortrait941} 941w`}
           imageAlt="Dra. Juliana Rech realizando atendimento fisioterapêutico em uma paciente"
+          videoSrc={isDermato ? dermatoClosingVideo : undefined}
         />
       </main>
       <SiteFooter />

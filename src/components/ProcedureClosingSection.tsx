@@ -8,6 +8,7 @@ interface ProcedureClosingSectionProps {
   imageSrc?: string
   imageSrcSet?: string
   imageAlt?: string
+  videoSrc?: string
 }
 
 function ProcedureClosingSection({
@@ -18,19 +19,27 @@ function ProcedureClosingSection({
   imageSrc,
   imageSrcSet,
   imageAlt = 'Retrato profissional da Dra. Juliana Rech',
+  videoSrc,
 }: ProcedureClosingSectionProps) {
   return (
     <section className="procedure-detail__closing">
       <div className="procedure-detail__closing-inner">
-        <div className="procedure-detail__closing-art">
-          <img
-            src={imageSrc ?? portrait}
-            srcSet={imageSrcSet}
-            sizes={imageSrcSet ? '(max-width: 760px) 100vw, 392px' : undefined}
-            alt={imageAlt}
-            loading="lazy"
-            decoding="async"
-          />
+        <div className={`procedure-detail__closing-art${videoSrc ? ' is-video' : ''}`}>
+          {videoSrc ? (
+            <video className="procedure-detail__closing-video" autoPlay muted loop playsInline preload="metadata" aria-label="Vídeo de atendimento dermatofuncional">
+              <source src={videoSrc} type="video/mp4" />
+              Seu navegador não oferece reprodução de vídeo.
+            </video>
+          ) : (
+            <img
+              src={imageSrc ?? portrait}
+              srcSet={imageSrcSet}
+              sizes={imageSrcSet ? '(max-width: 760px) 100vw, 392px' : undefined}
+              alt={imageAlt}
+              loading="lazy"
+              decoding="async"
+            />
+          )}
         </div>
         <div className="procedure-detail__closing-copy" data-reveal="up">
           <p className="procedure-detail__eyebrow">{eyebrow}</p>
