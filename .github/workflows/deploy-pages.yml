@@ -36,7 +36,9 @@ jobs:
         run: npm ci
 
       - name: Gerar build para GitHub Pages
-        run: npm run build -- --base=/juliana-rech-port/
+        run: npm run build
+        env:
+          VITE_BASE_PATH: /juliana-rech-port/
 
       - name: Configurar Pages
         uses: actions/configure-pages@v5
