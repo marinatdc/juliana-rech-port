@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import portrait from '../assets/photo-juliana-about-section.webp'
 
 interface ProcedureClosingSectionProps {
@@ -21,12 +22,33 @@ function ProcedureClosingSection({
   imageAlt = 'Retrato profissional da Dra. Juliana Rech',
   videoSrc,
 }: ProcedureClosingSectionProps) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        void video.play().catch(() => undefined)
+      } else {
+        video.pause()
+      }
+    }, { threshold: 0.15 })
+
+    observer.observe(video)
+    return () => {
+      observer.disconnect()
+      video.pause()
+    }
+  }, [])
+
   return (
     <section className="procedure-detail__closing">
       <div className="procedure-detail__closing-inner">
         <div className={`procedure-detail__closing-art${videoSrc ? ' is-video' : ''}`}>
           {videoSrc ? (
-            <video className="procedure-detail__closing-video" autoPlay muted loop playsInline preload="metadata" aria-label="Vídeo de atendimento dermatofuncional">
+            <video ref={videoRef} className="procedure-detail__closing-video" muted loop playsInline preload="none" aria-label="Vídeo de atendimento dermatofuncional">
               <source src={videoSrc} type="video/mp4" />
               Seu navegador não oferece reprodução de vídeo.
             </video>

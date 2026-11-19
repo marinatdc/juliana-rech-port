@@ -1,0 +1,114 @@
+.privacy-page__header {
+  display: flex;
+  min-height: 5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem max(5vw, calc((100vw - 80rem) / 2));
+  background: var(--color-surface);
+}
+
+.privacy-page__header img {
+  display: block;
+  width: 8.5rem;
+  height: auto;
+}
+
+.privacy-page__back {
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.privacy-page__back:hover,
+.privacy-page a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.privacy-page {
+  min-height: 65vh;
+  padding: clamp(3rem, 7vw, 6rem) 1.25rem;
+  background: var(--color-background, #fff8f7);
+}
+
+.privacy-page__inner {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  border: 1px solid rgb(234 217 221 / 75%);
+  border-radius: 1.5rem;
+  background: var(--color-surface, #fff);
+  box-shadow: 0 14px 36px rgb(74 34 48 / 6%);
+}
+
+.privacy-page__inner > .eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--color-accent, #b47738);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.privacy-page h1,
+.privacy-page h2 {
+  color: var(--color-text-strong, #4d162c);
+  font-family: var(--font-heading, Georgia, serif);
+  font-weight: 600;
+}
+
+.privacy-page h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15;
+}
+
+.privacy-page h2 {
+  margin: 2rem 0 0.6rem;
+  font-size: 1.35rem;
+  line-height: 1.3;
+}
+
+.privacy-page p {
+  color: var(--color-text, #563f46);
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+.privacy-page__intro {
+  margin: 1rem 0 1.75rem;
+  font-size: 1.08rem !important;
+}
+
+.privacy-page a:not(.privacy-page__back) {
+  color: var(--color-primary, #7d2944);
+  font-weight: 600;
+}
+
+.privacy-page__updated {
+  margin: 2rem 0 0;
+  color: #806d73 !important;
+  font-size: 0.8rem !important;
+}
+
+@media (max-width: 560px) {
+  .privacy-page__header {
+    min-height: 4.5rem;
+    padding-inline: 1.2rem;
+  }
+
+  .privacy-page__header img {
+    width: 7.2rem;
+  }
+
+  .privacy-page {
+    padding: 1.5rem 0.75rem 3rem;
+  }
+
+  .privacy-page__inner {
+    padding: 1.35rem;
+    border-radius: 1.15rem;
+  }
+}

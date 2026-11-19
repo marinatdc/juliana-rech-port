@@ -28,7 +28,9 @@ function ReviewCard({ review }: ReviewCardProps) {
   return (
     <article className="review-card" data-expanded={expanded || undefined} data-reveal="up">
       <div className="review-card__meta">
-        <span className="review-card__stars" role="img" aria-label="5 de 5 estrelas">★★★★★</span>
+        <span className="review-card__stars" role="img" aria-label={`Avaliação de ${review.rating} de 5 estrelas no Google`}>
+          {'★'.repeat(review.rating)}
+        </span>
       </div>
       <blockquote ref={quoteRef} className={!expanded ? 'is-collapsed' : ''}>{review.text}</blockquote>
       {canExpand && (

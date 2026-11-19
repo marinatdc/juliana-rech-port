@@ -211,7 +211,7 @@ function DermatofunctionalGallery({ placement = 'gallery' }: { placement?: 'asse
                   </button>
                 ) : (
                   <span className="dermato-gallery__photo-frame dermato-gallery__video-frame">
-                    <video controls playsInline preload="metadata" aria-label={record.alt}>
+                    <video controls playsInline preload="none" aria-label={record.alt}>
                       <source src={record.src} type="video/mp4" />
                       Seu navegador não oferece reprodução de vídeo.
                     </video>

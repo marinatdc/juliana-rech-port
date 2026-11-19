@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs'
 import { readFile, readdir } from 'node:fs/promises'
 
 const routes = await readdir('dist/tratamentos', { withFileTypes: true })
-const files = ['dist/index.html', ...routes.filter((entry) => entry.isDirectory()).map((entry) => `dist/tratamentos/${entry.name}/index.html`)]
+const files = ['dist/index.html', 'dist/privacidade/index.html', ...routes.filter((entry) => entry.isDirectory()).map((entry) => `dist/tratamentos/${entry.name}/index.html`)]
 const basePath = process.env.VITE_BASE_PATH || '/'
 const basePrefix = basePath.endsWith('/') ? basePath : `${basePath}/`
 const assetPrefix = `${basePrefix}assets/`
@@ -23,7 +23,9 @@ for (const file of files) {
   descriptions.add(description[0][1])
   assert.match(html, /<h1\b/, `${file}: conteúdo principal deve existir sem JavaScript`)
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1, `${file}: deve haver um único H1`)
-  assert.ok(html.includes(`href="${basePrefix}tratamentos/`), `${file}: links rastreáveis para tratamentos`)
+  if (!file.includes('/privacidade/')) {
+    assert.ok(html.includes(`href="${basePrefix}tratamentos/`), `${file}: links rastreáveis para tratamentos`)
+  }
   for (const [, json] of html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)) {
     assert.equal(JSON.parse(json)['@context'], 'https://schema.org')
   }

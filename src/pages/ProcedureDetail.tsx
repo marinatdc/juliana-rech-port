@@ -146,7 +146,7 @@ function DermatofunctionalRadioVideo({ src }: { src: string }) {
         src={src}
         muted
         playsInline
-        preload="metadata"
+        preload="none"
         aria-label="Vídeo de radiofrequência dermatofuncional, sem áudio"
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
@@ -197,7 +197,7 @@ function PostpartumTapingVideo() {
       controls
       muted
       playsInline
-      preload="metadata"
+      preload="none"
       aria-label="Vídeo do taping pós-parto, sem áudio"
       onVolumeChange={(event) => {
         if (!event.currentTarget.muted) event.currentTarget.muted = true
@@ -588,7 +588,7 @@ function ProcedureDetail() {
                   ))}
                   {isLymphedema && sectionIndex === 0 && (
                     <article className="procedure-detail__lymphedema-video-card" data-reveal="up">
-                      <video controls playsInline preload="metadata" aria-label="Vídeo de atendimento fisioterapêutico">
+                      <video controls playsInline preload="none" aria-label="Vídeo de atendimento fisioterapêutico">
                         <source src={lymphedemaCareVideo} type="video/mp4" />
                         Seu navegador não oferece reprodução de vídeo.
                       </video>

@@ -1,5 +1,6 @@
 import logo from '../assets/logo-comp-s-fundo.webp'
 import { BsBuilding, BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs'
+import { Link } from 'react-router-dom'
 import './SiteFooter.css'
 
 const navigation = [
@@ -18,12 +19,12 @@ function SiteFooter() {
       <div className="global-footer__content">
         <section className="global-footer__about" data-reveal="up" aria-label="Sobre a Dra. Juliana Rech">
           <a className="global-footer__brand" href={`${import.meta.env.BASE_URL}#inicio`} aria-label="Dra. Juliana Rech, início">
-            <img src={logo} alt="Dra. Juliana Rech" />
+            <img src={logo} alt="Dra. Juliana Rech" loading="lazy" decoding="async" />
             <span><strong>Dra. Juliana Rech</strong><small>CREFITO 5/46886-F</small></span>
           </a>
           <p>Fisioterapia Dermatofuncional com mais de 25 anos de dedicação à saúde, recuperação cirúrgica, reabilitação tecidual e cuidado individualizado de alta precisão.</p>
           <nav className="global-footer__social" aria-label="Redes sociais">
-            <a className="global-footer__social-instagram" href="https://www.instagram.com/fisiojulianarech?cplk=c2Y5d2R0bnR0MHFy" target="_blank" rel="noreferrer" aria-label="Instagram">
+            <a className="global-footer__social-instagram" href="https://www.instagram.com/fisiojulianarech/" target="_blank" rel="noreferrer" aria-label="Instagram">
               <BsInstagram aria-hidden="true" />
             </a>
             <a className="global-footer__social-facebook" href="https://www.facebook.com/JulianaRechFisioterapiaDermatofuncional/" target="_blank" rel="noreferrer" aria-label="Facebook">
@@ -43,7 +44,7 @@ function SiteFooter() {
         <section className="global-footer__offices" data-reveal="up" aria-label="Consultórios e horários">
           <h2>Onde atendo</h2>
           <h3><BsBuilding aria-hidden="true" />Ed. Business</h3>
-          <p>Av. Wenceslau Escobar, 2800<br />Sala 603 - Tristeza<br />Porto Alegre - RS<br />CEP 91900-000</p>
+          <p>Av. Wenceslau Escobar, 2800<br />Sala 603 - Tristeza<br />Porto Alegre - RS<br />CEP 91920-134</p>
           <h3><BsBuilding aria-hidden="true" />Ed. Comendador Luigi Gerace</h3>
           <p>R. José de Alencar, 386<br />Sala 801 - Menino Deus<br />Porto Alegre - RS<br />CEP 90880-480</p>
         </section>
@@ -67,7 +68,7 @@ function SiteFooter() {
 
       <div className="global-footer__legal">
         <p>© {new Date().getFullYear()} Dra. Juliana Rech Fisioterapia. Todos os direitos reservados. CREFITO 5/46886-F.</p>
-        <div><a href={`${import.meta.env.BASE_URL}#contato`}>Privacidade &amp; Termos</a><span aria-hidden="true">•</span><a href={`${import.meta.env.BASE_URL}#contato`}>Ética Médica</a></div>
+        <div><Link to="/privacidade/">Política de privacidade</Link></div>
       </div>
     </footer>
   )

@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import socialImage from '../assets/logo-comp-s-fundo.png'
+import favicon from '../assets/favicon.png'
 import { procedures } from '../data/procedures'
 
 import { siteBasePath, siteRootUrl, siteUrl } from './site'
@@ -13,6 +14,33 @@ const descriptions: Record<string, string> = {
   'linfedema-e-lipedema': 'Fisioterapia para linfedema e lipedema em Porto Alegre. Drenagem linfática e cuidado individualizado para edema, mobilidade e conforto com Juliana Rech.',
 }
 
+const privacyDescription = 'Saiba quais informações podem ser processadas ao visitar o site de Juliana Rech, quais serviços externos são usados e como entrar em contato sobre privacidade.'
+
+const clinicLocations = [
+  {
+    id: 'unidade-tristeza',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Av. Wenceslau Escobar, 2800, Sala 603',
+      addressLocality: 'Porto Alegre',
+      addressRegion: 'RS',
+      postalCode: '91920-134',
+      addressCountry: 'BR',
+    },
+  },
+  {
+    id: 'unidade-menino-deus',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'R. José de Alencar, 386, Sala 801',
+      addressLocality: 'Porto Alegre',
+      addressRegion: 'RS',
+      postalCode: '90880-480',
+      addressCountry: 'BR',
+    },
+  },
+]
+
 export default function Seo() {
   const { pathname } = useLocation()
   const basePrefix = siteBasePath === '/' ? '' : siteBasePath.replace(/\/$/, '')
@@ -22,29 +50,54 @@ export default function Seo() {
   const path = routePath.replace(/\/$/, '') || '/'
   const procedure = procedures.find((item) => path === `/tratamentos/${item.slug}`)
   const home = path === '/'
-  const found = home || !!procedure
+  const privacy = path === '/privacidade'
+  const found = home || privacy || !!procedure
   const title = home ? 'Juliana Rech | Fisioterapia em Porto Alegre' : procedure
-    ? `${procedure.title} em Porto Alegre | Juliana Rech` : 'Página não encontrada | Juliana Rech'
-  const description = procedure ? descriptions[procedure.slug] : 'Fisioterapeuta Juliana Rech em Porto Alegre: dermatofuncional, pré e pós-operatório, linfedema, lipedema e tratamento da dor. Consultórios na Tristeza e Menino Deus.'
-  const url = siteUrl ? `${siteRootUrl}${path === '/' ? '' : path.slice(1)}` : undefined
+    ? `${procedure.title} em Porto Alegre | Juliana Rech`
+    : privacy ? 'Política de Privacidade | Juliana Rech' : 'Página não encontrada | Juliana Rech'
+  const description = procedure ? descriptions[procedure.slug] : privacy ? privacyDescription : 'Fisioterapeuta Juliana Rech em Porto Alegre: dermatofuncional, pré e pós-operatório, linfedema, lipedema e tratamento da dor. Consultórios na Tristeza e Menino Deus.'
+  const url = siteUrl ? `${siteRootUrl}${path === '/' ? '' : `${path.slice(1)}/`}` : undefined
   const imageUrl = siteUrl ? `${siteUrl}${socialImage}` : undefined
+  const organizationId = `${siteRootUrl}#organizacao`
   const provider = {
-    '@type': 'MedicalBusiness',
+    '@type': 'Organization',
     name: 'Juliana Rech — Fisioterapia',
-    ...(siteUrl ? { '@id': `${siteRootUrl}#consultorio`, url: siteRootUrl } : {}),
+    ...(siteUrl ? { '@id': organizationId, url: siteRootUrl } : {}),
     telephone: '+5551985107415',
     ...(imageUrl ? { image: imageUrl, logo: imageUrl } : {}),
-    areaServed: { '@type': 'City', name: 'Porto Alegre' },
-    address: [
-      { '@type': 'PostalAddress', streetAddress: 'Av. Wenceslau Escobar, 2800, Sala 603, Tristeza', addressLocality: 'Porto Alegre', addressRegion: 'RS', addressCountry: 'BR' },
-      { '@type': 'PostalAddress', streetAddress: 'R. José de Alencar, 386, Sala 801, Menino Deus', addressLocality: 'Porto Alegre', addressRegion: 'RS', addressCountry: 'BR' },
-    ],
     sameAs: ['https://www.instagram.com/fisiojulianarech/', 'https://www.facebook.com/JulianaRechFisioterapiaDermatofuncional/'],
   }
   const graph: object[] = [provider]
-  if (url) graph.push({ '@type': 'WebPage', '@id': `${url}#pagina`, url, name: title, description, inLanguage: 'pt-BR', ...(imageUrl ? { primaryImageOfPage: imageUrl } : {}) })
+  if (siteUrl) {
+    graph.push(
+      {
+        '@type': 'WebSite',
+        '@id': `${siteRootUrl}#website`,
+        url: siteRootUrl,
+        name: 'Juliana Rech | Fisioterapia',
+        inLanguage: 'pt-BR',
+        publisher: { '@id': organizationId },
+      },
+      ...clinicLocations.map((location) => ({
+        '@type': 'MedicalBusiness',
+        '@id': `${siteRootUrl}#${location.id}`,
+        name: 'Juliana Rech — Fisioterapia',
+        url: siteRootUrl,
+        telephone: '+5551985107415',
+        address: location.address,
+        areaServed: { '@type': 'City', name: 'Porto Alegre' },
+        parentOrganization: { '@id': organizationId },
+        openingHoursSpecification: [
+          { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '20:00' },
+          { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '08:00', closes: '12:00' },
+        ],
+        ...(imageUrl ? { image: imageUrl } : {}),
+      })),
+    )
+  }
+  if (url) graph.push({ '@type': 'WebPage', '@id': `${url}#pagina`, url, name: title, description, inLanguage: 'pt-BR', isPartOf: siteUrl ? { '@id': `${siteRootUrl}#website` } : undefined, ...(imageUrl ? { primaryImageOfPage: imageUrl } : {}) })
   if (procedure && url) graph.push(
-    { '@type': 'Service', name: procedure.title, description, areaServed: 'Porto Alegre', provider: { '@id': `${siteRootUrl}#consultorio` }, url },
+    { '@type': 'Service', name: procedure.title, description, areaServed: 'Porto Alegre', ...(siteUrl ? { provider: { '@id': organizationId } } : {}), url },
     { '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Início', item: siteRootUrl },
       { '@type': 'ListItem', position: 2, name: procedure.title, item: url },
@@ -54,13 +107,14 @@ export default function Seo() {
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content={found ? 'index, follow, max-image-preview:large' : 'noindex, follow'} />
+    <link rel="icon" type="image/png" href={favicon} sizes="32x32" />
     {url && found && <link rel="canonical" href={url} />}
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:site_name" content="Juliana Rech | Fisioterapia" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    {url && <meta property="og:url" content={url} />}
+    {url && found && <meta property="og:url" content={url} />}
     {imageUrl && <>
       <meta property="og:image" content={imageUrl} />
       <meta property="og:image:alt" content="Identidade visual de Juliana Rech, fisioterapeuta" />

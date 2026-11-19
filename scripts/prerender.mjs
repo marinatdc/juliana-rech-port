@@ -22,7 +22,7 @@ for (const path of [...paths, '/404']) {
 }
 if (siteUrl) {
   const escape = (value) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;')
-  const pageUrl = (path) => `${siteUrl}${siteBasePath}${path === '/' ? '' : path.slice(1)}`
+  const pageUrl = (path) => `${siteUrl}${siteBasePath}${path === '/' ? '' : `${path.slice(1)}/`}`
   await writeFile('dist/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${paths.map((path) => `<url><loc>${escape(pageUrl(path))}</loc></url>`).join('')}</urlset>\n`)
 }
 await writeFile('dist/robots.txt', `User-agent: *\nAllow: /\n${siteUrl ? `\nSitemap: ${siteUrl}${siteBasePath}sitemap.xml\n` : ''}`)

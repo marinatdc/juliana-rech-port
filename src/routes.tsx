@@ -4,6 +4,7 @@ import WhatsAppFloat from './components/WhatsAppFloat'
 import BackToTopFloat from './components/BackToTopFloat'
 import Home from './pages/Home'
 import ProcedureDetail from './pages/ProcedureDetail'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 
 export function SiteRoutes() {
   return (
@@ -11,6 +12,7 @@ export function SiteRoutes() {
       <Seo />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/privacidade" element={<PrivacyPolicy />} />
         <Route path="/tratamentos/:slug" element={<ProcedureDetail />} />
         <Route path="*" element={<main className="procedure-detail__not-found"><h1>Página não encontrada</h1><Link to="/">Voltar ao início</Link></main>} />
       </Routes>
